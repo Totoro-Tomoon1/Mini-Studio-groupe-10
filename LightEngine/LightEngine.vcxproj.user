@@ -5,8 +5,8 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerEnvironment>PATH=%PATH%;$(ProjectDir)..\SFML-2.5.1\bin</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>
+    </LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
-
