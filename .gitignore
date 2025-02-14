@@ -372,3 +372,6 @@ FodyWeavers.xsd
 /SFML-2.5.1/bin/sfml-system-d-2.dll
 /SFML-2.5.1/bin/sfml-window-2.dll
 /SFML-2.5.1/bin/sfml-window-d-2.dll
+/ide/vs/LightEngine/LightEngine.vcxproj
+/ide/vs/LightEngine/LightEngine.vcxproj.filters
+/ide/vs/LightEngine.sln
