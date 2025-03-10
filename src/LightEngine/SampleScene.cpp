@@ -6,13 +6,13 @@
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<DummyEntity>(100, sf::Color::Red);
+	pEntity1 = CreateRectangleEntity<DummyEntity>(sf::Vector2f(200,200), sf::Color::Red);
 	pEntity1->SetPosition(100, 100);
 	pEntity1->SetRigidBody(true);
 
-	pEntity2 = CreateEntity<DummyEntity>(50, sf::Color::Green);
-	pEntity2->SetPosition(500, 500);
-	pEntity2->SetRigidBody(true);
+	pEntity2 = CreateRectangleEntity<DummyEntity>(sf::Vector2f(300, 200), sf::Color::Green);
+	pEntity2->SetPosition(110, 100);
+	pEntity2->SetRigidBody(false);
 
 	pEntitySelected = nullptr;
 }

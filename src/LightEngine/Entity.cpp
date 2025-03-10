@@ -71,7 +71,7 @@ void Entity::Repulse(Entity* other)
 
 bool Entity::IsColliding(Entity* other) const
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
+	/*sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
 
 	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
 
@@ -80,19 +80,37 @@ bool Entity::IsColliding(Entity* other) const
 
 	float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
 
-	return sqrLength < sqrRadius;
+	return sqrLength < sqrRadius;*/
+
+	sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x - GetSize().x / 2, GetPosition().y - GetSize().y / 2);
+	sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x / 2, GetPosition().y + GetSize().y / 2);
+	sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x - other->GetSize().x / 2, other->GetPosition().y - other->GetSize().y / 2);
+	sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x / 2, other->GetPosition().y + other->GetSize().y / 2);
+
+	if (posMax1.x <= posMin2.x || posMin1.x >= posMax2.x || posMin1.y >= posMax2.y || posMax1.y <= posMin2.y)
+		return false;
+
+	return true;
 }
 
 bool Entity::IsInside(float x, float y) const
 {
-	sf::Vector2f position = GetPosition(0.5f, 0.5f);
+	/*sf::Vector2f position = GetPosition(0.5f, 0.5f);
 
 	float dx = x - position.x;
 	float dy = y - position.y;
 
 	float radius = mShape.getRadius();
 
-	return (dx * dx + dy * dy) < (radius * radius);
+	return (dx * dx + dy * dy) < (radius * radius);*/
+
+	sf::Vector2f posMin = sf::Vector2f(GetPosition().x - GetSize().x / 2, GetPosition().y - GetSize().y / 2);
+	sf::Vector2f posMax = sf::Vector2f(GetPosition().x + GetSize().x / 2, GetPosition().y + GetSize().y / 2);
+
+	if (x >= posMin.x && x <= posMax.x && y >= posMax.y && y <= posMax.y)
+		return true;
+
+	return false;
 }
 
 void Entity::Destroy()
@@ -104,10 +122,11 @@ void Entity::Destroy()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	float size = mShape.getRadius() * 2;
+	//float size = mShape.getRadius() * 2;
+	sf::Vector2f size = mShape.getSize();
 
-	x -= size * ratioX;
-	y -= size * ratioY;
+	x -= size.x * ratioX;
+	y -= size.y * ratioY;
 
 	mShape.setPosition(x, y);
 

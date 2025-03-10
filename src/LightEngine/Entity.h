@@ -58,8 +58,11 @@ public:
     Scene* GetScene() const;
 	float GetDeltaTime() const;
 
-    template<typename T>
-    T* CreateEntity(float radius, const sf::Color& color);
+    /*template<typename T>
+    T* CreateEntity(float radius, const sf::Color& color);*/
+
+	template<typename T>
+	T* CreateEntity(sf::Vector2f size, const sf::Color& color);
 
 protected:
     Entity() = default;
