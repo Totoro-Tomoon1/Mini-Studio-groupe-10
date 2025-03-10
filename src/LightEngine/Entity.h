@@ -1,7 +1,8 @@
 #pragma once
 
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
+//#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 namespace sf 
 {
@@ -21,7 +22,7 @@ class Entity
     };
 
 protected:
-    sf::CircleShape mShape;
+	sf::RectangleShape mShape;
     sf::Vector2f mDirection;
 	Target mTarget;
     float mSpeed = 0.f;
@@ -36,7 +37,8 @@ public:
 	void SetDirection(float x, float y, float speed = -1.f);
 	void SetSpeed(float speed) { mSpeed = speed; }
 	void SetTag(int tag) { mTag = tag; }
-	float GetRadius() const { return mShape.getRadius(); }
+	//float GetRadius() const { return mShape.getRadius(); }
+	sf::Vector2f GetSize() const { return mShape.getSize(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
 
@@ -70,7 +72,8 @@ protected:
 	
 private:
     void Update();
-	void Initialize(float radius, const sf::Color& color);
+	//void Initialize(float radius, const sf::Color& color);
+	void Initialize(sf::Vector2f size, const sf::Color& color);
 	void Repulse(Entity* other);
 
     friend class GameManager;

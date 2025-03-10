@@ -7,34 +7,60 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
-void Entity::Initialize(float radius, const sf::Color& color)
+#include <algorithm>
+
+//void Entity::Initialize(float radius, const sf::Color& color)
+//{
+//	mDirection = sf::Vector2f(0.0f, 0.0f);
+//
+//	mShape.setOrigin(0.f, 0.f);
+//	mShape.setRadius(radius);
+//	mShape.setFillColor(color);
+//	
+//	mTarget.isSet = false;
+//
+//	OnInitialize();
+//}
+
+void Entity::Initialize(sf::Vector2f size, const sf::Color& color)
 {
 	mDirection = sf::Vector2f(0.0f, 0.0f);
 
 	mShape.setOrigin(0.f, 0.f);
-	mShape.setRadius(radius);
+	mShape.setSize(size);
 	mShape.setFillColor(color);
-	
+
 	mTarget.isSet = false;
 
 	OnInitialize();
 }
 
-void Entity::Repulse(Entity* other) 
+void Entity::Repulse(Entity* other)
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
+	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f); //stocker les positions
 	
 	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
 	float length = std::sqrt(sqrLength);
 
-	float radius1 = mShape.getRadius();
+	/*float radius1 = mShape.getRadius();
 	float radius2 = other->mShape.getRadius();
 
-	float overlap = (length - (radius1 + radius2)) * 0.5f;
+	float overlap = (length - (radius1 + radius2)) * 0.5f;*/
+	sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x - GetSize().x / 2, GetPosition().y - GetSize().y / 2);
+	sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x / 2, GetPosition().y + GetSize().y / 2);
+	sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x - other->GetSize().x / 2, other->GetPosition().y - other->GetSize().y / 2);
+	sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x / 2, other->GetPosition().y + other->GetSize().y / 2);
+
+	int left = std::max(posMin1.x, posMin2.x);
+	int right = std::min(posMax2.x, posMax2.x);
+	int top = std::max(posMin1.y, posMin2.y);
+	int bottom = std::min(posMax1.y, posMax2.y);
+
+	sf::Vector2f overlap = sf::Vector2f(right - left, bottom - top);
 
 	sf::Vector2f normal = distance / length;
 
-	sf::Vector2f translation = overlap * normal;
+	sf::Vector2f translation = sf::Vector2f(overlap.x * normal.x, overlap.y * normal.y);
 
 	sf::Vector2f position1 = GetPosition(0.5f, 0.5f) - translation;
 	sf::Vector2f position2 = other->GetPosition(0.5f, 0.5f) + translation;
@@ -97,11 +123,13 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	float size = mShape.getRadius() * 2;
+	//float size = mShape.getRadius() * 2;
+	float sizeX = mShape.getSize().x * 2;
+	float sizeY = mShape.getSize().y * 2;
 	sf::Vector2f position = mShape.getPosition();
 
-	position.x += size * ratioX;
-	position.y += size * ratioY;
+	position.x += sizeX * ratioX;
+	position.y += sizeY * ratioY;
 
 	return position;
 }
