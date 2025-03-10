@@ -64,12 +64,14 @@ protected:
     ~Entity() = default;
 
     virtual void OnUpdate() {};
+	virtual void OnFixedUpdate(float deltaTime) {};
     virtual void OnCollision(Entity* collidedWith) {};
 	virtual void OnInitialize() {};
 	virtual void OnDestroy() {};
 	
 private:
     void Update();
+	void FixedUpdate(float deltaTime);
 	void Initialize(float radius, const sf::Color& color);
 	void Repulse(Entity* other);
 
