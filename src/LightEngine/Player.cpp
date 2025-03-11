@@ -9,8 +9,8 @@ Player::Player() : mStateMachine(this, State::Count)
 
 void Player::OnInitialize()
 {
-	SetPosition(0.f, 400.f);
 	mPlayerPosition = GetPosition();
+	SetGravity(true);
 }
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)

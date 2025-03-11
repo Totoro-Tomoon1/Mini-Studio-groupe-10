@@ -15,7 +15,7 @@ void PlatFormerScene::OnInitialize()
 	pGround->SetRigidBody(true);
 
 	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::Red);
-	pPlayer->SetPosition(100, 400);
+	pPlayer->SetPosition(0, 0);
 	pPlayer->SetRigidBody(true);
 }
 
