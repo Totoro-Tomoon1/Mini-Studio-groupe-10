@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 
 #include <iostream>
+#include "Camera.h"
 
 GameManager::GameManager()
 {
@@ -46,6 +47,11 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mWindowHeight = height;
 
 	mClearColor = clearColor;
+}
+
+void GameManager::SetCamera(Camera& camera)
+{
+	mpWindow->setView(camera.GetView());
 }
 
 void GameManager::Run()
@@ -132,7 +138,7 @@ void GameManager::Update()
 	mEntitiesToAdd.clear();
 }
 
-void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physique (déplacements etc...)
+void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physique (dï¿½placements etc...)
 {
 	//Physic update 
 	for (Entity* entity : mEntities)

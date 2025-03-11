@@ -21,8 +21,11 @@ protected:
 	virtual void OnUpdate() = 0;
 
 public:
+	/*template<typename T>
+	T* CreateEntity(float radius, const sf::Color& color);*/
+
 	template<typename T>
-	T* CreateEntity(float radius, const sf::Color& color);
+	T* CreateRectangleEntity(sf::Vector2f size, const sf::Color& color);
 
 	float GetDeltaTime() const;
 
