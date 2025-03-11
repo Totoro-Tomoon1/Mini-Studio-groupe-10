@@ -203,12 +203,18 @@ void Entity::SetDirection(float x, float y, float speed)
 
 void Entity::Update()
 {
+
+	OnUpdate();
+}
+
+void Entity::FixedUpdate(float deltaTime)
+{
 	float dt = GetDeltaTime();
 	float distance = dt * mSpeed;
 	sf::Vector2f translation = distance * mDirection;
 	mShape.move(translation);
 
-	if (mTarget.isSet) 
+	if (mTarget.isSet)
 	{
 		float x1 = GetPosition(0.5f, 0.5f).x;
 		float y1 = GetPosition(0.5f, 0.5f).y;
@@ -230,7 +236,7 @@ void Entity::Update()
 		}
 	}
 
-	OnUpdate();
+	OnFixedUpdate(deltaTime);
 }
 
 Scene* Entity::GetScene() const

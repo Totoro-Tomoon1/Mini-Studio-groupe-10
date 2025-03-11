@@ -77,6 +77,7 @@ protected:
     ~Entity() = default;
 
     virtual void OnUpdate() {};
+	virtual void OnFixedUpdate(float deltaTime) {};
     virtual void OnCollision(Entity* collidedWith) {};
 	virtual void OnInitialize() {};
 	virtual void OnDestroy() {};
@@ -85,6 +86,7 @@ private:
     void Update();
 	//void Initialize(float radius, const sf::Color& color);
 	void Initialize(sf::Vector2f size, const sf::Color& color);
+	void FixedUpdate(float deltaTime);
 	void Repulse(Entity* other);
 
     friend class GameManager;
