@@ -45,6 +45,7 @@ void Player::MoveRight(float deltaTime)
 
 void Player::MoveLeft(float deltaTime)
 {
+	
 	mSpeed += mAcceleration * deltaTime;
 	if (mSpeed > mMaxSpeed)
 		mSpeed = mMaxSpeed;
