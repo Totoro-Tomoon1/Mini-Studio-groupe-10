@@ -25,8 +25,7 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 
 void Player::Fall(float deltaTime)
 {
-	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime;
-	
+	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime;	
 }
 
 void Player::Jump(float deltaTime)
