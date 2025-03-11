@@ -1,6 +1,7 @@
 #include "PlatFormerScene.h"
 
 #include "Player.h"
+#include "DummyEntity.h"
 #include "Debug.h"
 
 #include <iostream>
@@ -8,15 +9,14 @@
 
 void PlatFormerScene::OnInitialize()
 {
-	int width = GetWindowWidth();
-	int height = GetWindowHeight();
 
-	float playerRadius = height * 0.075f;
+	pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(640, 200), sf::Color::Red);
+	pGround->SetPosition(0, 600);
+	pGround->SetRigidBody(true);
 
-	Player* pPlayer;
-
-	pPlayer = CreateEntity<Player>(playerRadius, sf::Color::Red);
-	pPlayer->SetPosition(100, 100, 0.f, 0.5f);
+	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::Red);
+	pPlayer->SetPosition(100, 400);
+	pPlayer->SetRigidBody(true);
 }
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
@@ -31,15 +31,6 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 
 void PlatFormerScene::OnUpdate()
 {
-	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-	bool A = sf::Joystick::isButtonPressed(0, 0);
-
-	//if (stickX < 0)
-	  //  pPlayer->GoToPosition(pPlayer->GetPosition().x - 5, pPlayer->GetPosition().y);
-
-	//if (stickX > 0)
-		//pPlayer->GoToPosition(pPlayer->GetPosition().x + 5, pPlayer->GetPosition().y);
+	
 
 }
