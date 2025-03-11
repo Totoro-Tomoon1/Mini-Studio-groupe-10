@@ -52,11 +52,13 @@ public:
 	sf::Shape* GetShape() { return &mShape; }
 
 	bool IsTag(int tag) const { return mTag == tag; }
-    bool IsColliding(Entity* other) const;
-	bool IsInside(float x, float y) const;
+    bool IsColliding(Entity* other);
+	bool IsInside(float x, float y);
 
     void Destroy();
 	bool ToDestroy() const { return mToDestroy; }
+
+	AABBCollider GetAABBCollider();
 	
 	template<typename T>
 	T* GetScene() const;

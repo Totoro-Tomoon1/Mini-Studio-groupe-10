@@ -46,15 +46,18 @@ void Entity::Repulse(Entity* other)
 	float radius2 = other->mShape.getRadius();
 
 	float overlap = (length - (radius1 + radius2)) * 0.5f;*/
-	sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x, GetPosition().y);
-	sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y);
-	sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x, other->GetPosition().y);
-	sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x, other->GetPosition().y + other->GetSize().y);
+	//sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x, GetPosition().y);
+	//sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y);
+	//sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x, other->GetPosition().y);
+	//sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x, other->GetPosition().y + other->GetSize().y);
 
-	int left = std::max(posMin1.x, posMin2.x);
-	int right = std::min(posMax2.x, posMax2.x);
-	int top = std::max(posMin1.y, posMin2.y);
-	int bottom = std::min(posMax1.y, posMax2.y);
+	AABBCollider col1 = GetAABBCollider();
+	AABBCollider col2 = other->GetAABBCollider();
+
+	int left = std::max(col1.xMin, col2.xMin);
+	int right = std::min(col1.xMax, col2.xMax);
+	int top = std::max(col1.yMin, col2.yMin);
+	int bottom = std::min(col1.yMax, col2.yMax);
 
 	sf::Vector2f overlap = sf::Vector2f(right - left, bottom - top);
 
@@ -69,7 +72,7 @@ void Entity::Repulse(Entity* other)
 	other->SetPosition(position2.x, position2.y, 0.5f, 0.5f);
 }
 
-bool Entity::IsColliding(Entity* other) const
+bool Entity::IsColliding(Entity* other)
 {
 	/*sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
 
@@ -82,18 +85,16 @@ bool Entity::IsColliding(Entity* other) const
 
 	return sqrLength < sqrRadius;*/
 
-	sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x - GetSize().x / 2, GetPosition().y - GetSize().y / 2);
-	sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x / 2, GetPosition().y + GetSize().y / 2);
-	sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x - other->GetSize().x / 2, other->GetPosition().y - other->GetSize().y / 2);
-	sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x / 2, other->GetPosition().y + other->GetSize().y / 2);
+	AABBCollider c1 = GetAABBCollider();
+	AABBCollider c2 = other->GetAABBCollider();
 
-	if (posMax1.x <= posMin2.x || posMin1.x >= posMax2.x || posMin1.y >= posMax2.y || posMax1.y <= posMin2.y)
+	if (c1.xMax <= c2.xMin || c1.xMin >= c2.xMax || c1.yMin >= c2.yMax || c1.yMax <= c2.yMin)
 		return false;
 
 	return true;
 }
 
-bool Entity::IsInside(float x, float y) const
+bool Entity::IsInside(float x, float y)
 {
 	/*sf::Vector2f position = GetPosition(0.5f, 0.5f);
 
@@ -104,10 +105,9 @@ bool Entity::IsInside(float x, float y) const
 
 	return (dx * dx + dy * dy) < (radius * radius);*/
 
-	sf::Vector2f posMin = sf::Vector2f(GetPosition().x - GetSize().x / 2, GetPosition().y - GetSize().y / 2);
-	sf::Vector2f posMax = sf::Vector2f(GetPosition().x + GetSize().x / 2, GetPosition().y + GetSize().y / 2);
+	AABBCollider c = GetAABBCollider();
 
-	if (x >= posMin.x && x <= posMax.x && y >= posMax.y && y <= posMax.y)
+	if (x >= c.xMin && x <= c.xMax && y >= c.yMin && y <= c.yMax)
 		return true;
 
 	return false;
@@ -118,6 +118,17 @@ void Entity::Destroy()
 	mToDestroy = true;
 
 	OnDestroy();
+}
+
+AABBCollider Entity::GetAABBCollider()
+{
+	AABBCollider collider;
+	collider.xMin = GetPosition().x;
+	collider.xMax = GetPosition().x + GetSize().x;
+	collider.yMin = GetPosition().y;
+	collider.yMax = GetPosition().y + GetSize().y;
+
+	return collider;
 }
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
