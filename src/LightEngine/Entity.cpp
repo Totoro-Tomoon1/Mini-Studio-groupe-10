@@ -46,10 +46,10 @@ void Entity::Repulse(Entity* other)
 	float radius2 = other->mShape.getRadius();
 
 	float overlap = (length - (radius1 + radius2)) * 0.5f;*/
-	sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x - GetSize().x / 2, GetPosition().y - GetSize().y / 2);
-	sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x / 2, GetPosition().y + GetSize().y / 2);
-	sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x - other->GetSize().x / 2, other->GetPosition().y - other->GetSize().y / 2);
-	sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x / 2, other->GetPosition().y + other->GetSize().y / 2);
+	sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x, GetPosition().y);
+	sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y);
+	sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x, other->GetPosition().y);
+	sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x, other->GetPosition().y + other->GetSize().y);
 
 	int left = std::max(posMin1.x, posMin2.x);
 	int right = std::min(posMax2.x, posMax2.x);
@@ -123,10 +123,10 @@ void Entity::Destroy()
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
 	//float size = mShape.getRadius() * 2;
-	sf::Vector2f size = mShape.getSize();
+	/*sf::Vector2f size = mShape.getSize();
 
 	x -= size.x * ratioX;
-	y -= size.y * ratioY;
+	y -= size.y * ratioY;*/
 
 	mShape.setPosition(x, y);
 
@@ -143,12 +143,12 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
 	//float size = mShape.getRadius() * 2;
-	float sizeX = mShape.getSize().x * 2;
-	float sizeY = mShape.getSize().y * 2;
+	/*float sizeX = mShape.getSize().x * 2;
+	float sizeY = mShape.getSize().y * 2;*/
 	sf::Vector2f position = mShape.getPosition();
 
-	position.x += sizeX * ratioX;
-	position.y += sizeY * ratioY;
+	/*position.x += sizeX * ratioX;
+	position.y += sizeY * ratioY;*/
 
 	return position;
 }

@@ -4,6 +4,12 @@
 //#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
+struct AABBCollider
+{
+	float xMin, yMin;
+	float xMax, yMax;
+};
+
 namespace sf 
 {
 	class Shape;

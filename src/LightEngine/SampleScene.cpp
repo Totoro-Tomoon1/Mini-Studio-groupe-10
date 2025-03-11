@@ -11,8 +11,8 @@ void SampleScene::OnInitialize()
 	pEntity1->SetRigidBody(true);
 
 	pEntity2 = CreateRectangleEntity<DummyEntity>(sf::Vector2f(300, 200), sf::Color::Green);
-	pEntity2->SetPosition(110, 100);
-	pEntity2->SetRigidBody(false);
+	pEntity2->SetPosition(290, 100);
+	pEntity2->SetRigidBody(true);
 
 	pEntitySelected = nullptr;
 }
