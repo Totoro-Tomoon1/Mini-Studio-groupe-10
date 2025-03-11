@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <crtdbg.h>
 
-int main() 
+int main()
 {
     GameManager* pInstance = GameManager::Get();
 

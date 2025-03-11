@@ -7,10 +7,12 @@
 
 #define FIXED_DT 0.01667f
 #define GRAVITY_ACCELERATION 9.81f
+#define PLAYER_PATH "../../../res/test.png"
 
 class Entity;
 class Scene;
 class Debug;
+class AssetManager;
 
 namespace sf 
 {
@@ -36,6 +38,8 @@ class GameManager
 	int mWindowHeight;
 
 	sf::Color mClearColor;
+
+	AssetManager* mAssetManager;
 
 private:
 	GameManager();
@@ -63,6 +67,7 @@ public:
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
+	AssetManager* GetAssetManager() { return mAssetManager; };
 
 	friend Debug;
 	friend Scene;
