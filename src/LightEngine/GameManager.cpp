@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 
 #include <iostream>
+#include "Camera.h"
 
 GameManager::GameManager()
 {
@@ -46,6 +47,11 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 	mWindowHeight = height;
 
 	mClearColor = clearColor;
+}
+
+void GameManager::SetCamera(Camera& camera)
+{
+	mpWindow->setView(camera.GetView());
 }
 
 void GameManager::Run()
