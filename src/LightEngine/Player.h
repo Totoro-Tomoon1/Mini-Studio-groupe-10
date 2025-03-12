@@ -1,17 +1,7 @@
 #pragma once
 
-#include "PlayerCondition.h"
-#include "PlayerAction.h"
 #include "PhysicalEntity.h"
 #include "StateMachine.h"
-
-struct PlayerParameter
-{
-	float mMinSpeed = 50.f;
-	float mMaxSpeed = 100.f;
-	float mAcceleration = 25.f;
-	float mDeceleration = 75.f;
-};
 
 class Player : public PhysicalEntity
 {
@@ -32,8 +22,8 @@ public:
 private:
 
 	float mAcceleration = 50.f;
-	float mSpeed = 50.f;
-	float mMaxSpeed = 500.f;
+	float mSpeed = 200.f;
+	float mMaxSpeed = 800.f;
 	
 	float mDeceleration;
 

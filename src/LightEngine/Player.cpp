@@ -1,5 +1,7 @@
 #include "Player.h"
-#include "Scene.h"
+#include "PlatFormerScene.h"
+#include "PlayerAction.h"
+#include "PlayerCondition.h"
 #include "Debug.h"
 
 Player::Player() : mStateMachine(this, (int)State::Count)
@@ -92,6 +94,12 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 void Player::OnCollision(Entity* pCollideWith)
 {
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+	{
+		SetGravity(false);
+	}
+
+	SetPosition(GetPosition().x, 400.f);
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -108,16 +116,19 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		MoveLeft(deltaTime);
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		OnJump(deltaTime);
+
 	/*if (stickX < 0)
 		MoveLeft(deltaTime);
 
 	if (stickX > 0)
 		MoveRight(deltaTime);*/
 
-	if (A == true)
+	/*if (A == true)
 	{
 		OnJump(deltaTime);
-	}
+	}*/
 
 	if (IsGravityOn()) //C'est un test du fall
 	{
@@ -151,11 +162,12 @@ void Player::MoveLeft(float deltaTime)
 
 void Player::OnFall(float deltaTime)
 {
-	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime;
+	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime * 100.f;
 	
 }
 
 void Player::OnJump(float deltaTime)
 {
-	mGravitySpeed -= 10.f;
+	mGravitySpeed -= 100.f;
+	SetGravity(true);
 }
