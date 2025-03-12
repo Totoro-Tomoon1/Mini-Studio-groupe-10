@@ -1,5 +1,9 @@
 #pragma once
-class PlantCondition
+#include "Condition.h"
+#include "Player.h"
+
+class PlayerCondition_
 {
+
 };
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "PlayerCondition.h"
+#include "PlayerAction.h"
 #include "PhysicalEntity.h"
 #include "StateMachine.h"
 
@@ -10,23 +12,28 @@ struct PlayerParameter
 	float mAcceleration = 25.f;
 	float mDeceleration = 75.f;
 };
+
 class Player : public PhysicalEntity
 {
+public:
 
 	StateMachine<Player> mStateMachine;
 
 	enum State
 	{
 		Idle,
+		Moving,
 		Jump,
 		Fall,
 
 		Count
 	};
 
-	float mAcceleration;
-	float mSpeed;
-	float mMaxSpeed;
+private:
+
+	float mAcceleration = 50.f;
+	float mSpeed = 50.f;
+	float mMaxSpeed = 500.f;
 	
 	float mDeceleration;
 
@@ -54,5 +61,9 @@ protected:
 	void OnFall(float deltaTime);
 	void OnJump(float deltaTime);
 
+	friend class PlayerAction_Idle;
+	friend class PlayerAction_Moving;
+	friend class PlayerAction_Jump;
+	friend class PlayerAction_Fall;
 };
 
