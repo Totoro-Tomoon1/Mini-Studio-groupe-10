@@ -81,8 +81,11 @@ void Entity::Repulse(Entity* other)
 	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x + changeX, mShape.getPosition().y + changeY);
 	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x - changeX, other->GetPosition().y - changeY);
 
-	mShape.setPosition(position1.x, position1.y);
-	other->SetPosition(position2.x, position2.y);
+	if (!mIsStatic)
+		mShape.setPosition(position1.x, position1.y);
+
+	if (!other->mIsStatic)
+		other->SetPosition(position2.x, position2.y);
 }
 
 bool Entity::IsColliding(Entity* other)
