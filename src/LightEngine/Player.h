@@ -3,6 +3,14 @@
 #include "PhysicalEntity.h"
 #include "StateMachine.h"
 
+struct PlayerParameter
+{
+	float mMinSpeed = 800.f;
+	float mMaxSpeed = 200.f;
+	float mAcceleration = 200.f;
+	float mDeceleration = 200.f;
+};
+
 class Player : public PhysicalEntity
 {
 public:
@@ -21,12 +29,7 @@ public:
 
 private:
 
-	//float mAcceleration = 50.f;
-	//float mSpeed = 200.f;
-	//float mMaxSpeed = 800.f;
-
-	float mSpeed = 800.f;
-
+	PlayerParameter mPlayerParameters;
 	bool mIsMoving = false;
 
 	sf::Vector2f mPlayerPosition;

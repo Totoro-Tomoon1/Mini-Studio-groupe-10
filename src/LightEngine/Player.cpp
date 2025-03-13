@@ -101,7 +101,7 @@ void Player::OnInitialize()
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
 	mStateMachine.Update();
-	Debug::DrawText(0, 0, std::to_string(mSpeed), sf::Color::White);
+	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
 }
 
@@ -175,7 +175,7 @@ void Player::MoveRight(float deltaTime)
 	if (mSpeed > mMaxSpeed)
 		mSpeed = mMaxSpeed;*/
 
-	mPlayerPosition.x += mSpeed * deltaTime;
+	mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
 }
 
 void Player::MoveLeft(float deltaTime)
@@ -185,7 +185,7 @@ void Player::MoveLeft(float deltaTime)
 	if (mSpeed > mMaxSpeed)
 		mSpeed = mMaxSpeed;*/
 
-	mPlayerPosition.x -= mSpeed * deltaTime;
+	mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
 }
 
 void Player::OnFall(float deltaTime)
