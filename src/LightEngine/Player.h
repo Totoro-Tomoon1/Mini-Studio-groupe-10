@@ -41,15 +41,16 @@ public:
 	void SetAreaIndex(int index) { mAreaIndex = index; }
 	const char* GetStateName(State state) const;
 
+	void MoveRight(float deltaTime);
+	void MoveLeft(float deltaTime);
+	void OnFall(float deltaTime);
+	void OnJump();
+
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
-	void MoveRight(float deltaTime);
-	void MoveLeft(float deltaTime);
-	void OnFall(float deltaTime);
-	void OnJump(float deltaTime);
 
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Moving;

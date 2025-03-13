@@ -3,6 +3,8 @@
 #include "PlayerAction.h"
 #include "PlayerCondition.h"
 #include "Debug.h"
+#include <SFML/Graphics.hpp>
+#include <iostream>
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
@@ -21,7 +23,7 @@ void Player::OnInitialize()
 
 		//-> Moving
 		{
-			auto transition = pIdle->CreateTransition(State::Moving);
+			//auto transition = pIdle->CreateTransition(State::Moving);
 
 			//ici ajouter la condition
 		}
@@ -30,7 +32,7 @@ void Player::OnInitialize()
 		{
 			auto transition = pIdle->CreateTransition(State::Jump);
 
-			//Ici add condition
+			transition->AddCondition<PlayerCondition_IsJumping>();
 		}
 	}
 
@@ -74,7 +76,7 @@ void Player::OnInitialize()
 
 	//Fall
 	{
-		PlayerAction_Fall* pFalling = mStateMachine.CreateAction<PlayerAction_Fall>(State::Jump);
+		PlayerAction_Fall* pFalling = mStateMachine.CreateAction<PlayerAction_Fall>(State::Fall);
 
 		//-> Idle
 		{
@@ -89,7 +91,23 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mSpeed), sf::Color::White);
+	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
+	std::cout << GetStateName((Player::State)mStateMachine.GetCurrentState()) << std::endl;
+}
+
+//Pour l'affichage debug
+const char* Player::GetStateName(State state) const
+{
+	switch (state)
+	{
+	case Idle: return "Idle";
+	case Moving: return "Moving";
+	case Jump: return "Jump";
+	case Fall: return "Fall";
+	default: return "Unknown";
+	}
 }
 
 void Player::OnCollision(Entity* pCollideWith)
@@ -115,9 +133,6 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		MoveLeft(deltaTime);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		OnJump(deltaTime);
 
 	/*if (stickX < 0)
 		MoveLeft(deltaTime);
@@ -166,7 +181,7 @@ void Player::OnFall(float deltaTime)
 	
 }
 
-void Player::OnJump(float deltaTime)
+void Player::OnJump()
 {
 	mGravitySpeed -= 100.f;
 	SetGravity(true);
