@@ -3,13 +3,6 @@
 #include "Animations.h"
 #include "StateMachine.h"
 
-struct PlayerParameter
-{
-	float mMinSpeed = 50.f;
-	float mMaxSpeed = 100.f;
-	float mAcceleration = 25.f;
-	float mDeceleration = 75.f;
-};
 class Player : public PhysicalEntity
 {
 
@@ -24,9 +17,9 @@ class Player : public PhysicalEntity
 		Count
 	};
 
-	float mAcceleration;
-	float mSpeed;
-	float mMaxSpeed;
+	float mAcceleration = 50.f;
+	float mSpeed = 200.f;
+	float mMaxSpeed = 800.f;
 	
 	float mDeceleration;
 
@@ -46,7 +39,7 @@ public:
 	
 	void SetAreaIndex(int index) { mAreaIndex = index; }
 	const char* GetStateName(State state) const;
-	void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
+	//void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
 
 protected:
 	void OnInitialize() override;

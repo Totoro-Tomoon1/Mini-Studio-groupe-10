@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/View.hpp>
 
 #define FIXED_DT 0.01667f
 #define GRAVITY_ACCELERATION 9.81f
@@ -41,6 +42,8 @@ class GameManager
 	sf::Color mClearColor;
 
 	AssetManager* mAssetManager;
+
+	Camera* cam;
 
 private:
 	GameManager();

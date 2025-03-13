@@ -15,9 +15,12 @@ void PlatFormerScene::OnInitialize()
 	pGround->SetRigidBody(true);
 	pGround->SetStatic(true);
 
-	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::Red);
+	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::White);
 	pPlayer->SetPosition(0, 0);
 	pPlayer->SetRigidBody(true);
+
+	mCamera.SetPosition(pPlayer->GetPosition());
+	GameManager::Get()->SetCamera(mCamera);
 }
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
@@ -30,8 +33,8 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 
 }
 
-void PlatFormerScene::OnUpdate()
+void PlatFormerScene::OnLateUpdate()
 {
-	
-
+	std::cout << pPlayer->GetPosition().y << "\t";
+	mCamera.GetView().setCenter(pPlayer->GetPosition());
 }

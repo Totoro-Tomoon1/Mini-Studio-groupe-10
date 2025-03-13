@@ -78,8 +78,8 @@ void Entity::Repulse(Entity* other)
 	}
 
 	// Appliquer le changement de position à c1 et c2
-	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x + changeX, mShape.getPosition().y + changeY);
-	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x - changeX, other->GetPosition().y - changeY);
+	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x + changeX, mShape.getPosition().y + changeY) * 1.1f;
+	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x - changeX, other->GetPosition().y - changeY) * 1.1f;
 
 	if (!mIsStatic)
 		mShape.setPosition(position1.x, position1.y);

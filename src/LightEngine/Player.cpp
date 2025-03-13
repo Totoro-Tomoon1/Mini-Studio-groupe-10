@@ -8,12 +8,12 @@ Player::Player() : mStateMachine(this, State::Count)
 }
 
 
-void Player::SetPosition(float x, float y, float ratioX, float ratioY)
-{
-	Entity::SetPosition(x, y, ratioX, ratioY);
-	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
-	mShape->setTexture(mCurrentTexture);
-}
+//void Player::SetPosition(float x, float y, float ratioX, float ratioY)
+//{
+//	Entity::SetPosition(x, y, ratioX, ratioY);
+//	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
+//	mShape->setTexture(mCurrentTexture);
+//}
 
 void Player::OnInitialize()
 {
@@ -21,20 +21,21 @@ void Player::OnInitialize()
 	mShape = GetShape();
 	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 32, 32, 32), 6); //� modifier
 	mPlayerAnimation->SetStartSize(0, 32*7, 32, 32);
-	SetPosition(500.f, 500.f);
+	//SetPosition(500.f, 500.f);
 	mPlayerPosition = GetPosition();	
-	
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
+	mShape->setTexture(mCurrentTexture);
 }
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
-
+	mPlayerAnimation->Update(GetDeltaTime());
+	mShape->setTextureRect(*mPlayerAnimation->GetTextureRect());
 }
 
 void Player::OnCollision(Entity* pCollideWith)
 {
-	mPlayerAnimation->Update(GetDeltaTime());
-	mShape->setTextureRect(*mPlayerAnimation->GetTextureRect());
+	
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -89,7 +90,7 @@ void Player::MoveLeft(float deltaTime)
 
 void Player::OnFall(float deltaTime)
 {
-	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime;	
+	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime * 100.f;
 }
 
 void Player::OnJump(float deltaTime)
