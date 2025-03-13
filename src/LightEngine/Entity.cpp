@@ -37,39 +37,55 @@ void Entity::Initialize(sf::Vector2f size, const sf::Color& color)
 
 void Entity::Repulse(Entity* other)
 {
-	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f); //stocker les positions
-	
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-	float length = std::sqrt(sqrLength);
+	AABBCollider c1 = GetAABBCollider();
+	AABBCollider c2 = other->GetAABBCollider();
 
-	/*float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
+	float overlapX = std::min(c1.xMax, c2.xMax) - std::max(c1.xMin, c2.xMin);
+	float overlapY = std::min(c1.yMax, c2.yMax) - std::max(c1.yMin, c2.yMin);
+	float changeX = 0;
+	float changeY = 0;
 
-	float overlap = (length - (radius1 + radius2)) * 0.5f;*/
-	//sf::Vector2f posMin1 = sf::Vector2f(GetPosition().x, GetPosition().y);
-	//sf::Vector2f posMax1 = sf::Vector2f(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y);
-	//sf::Vector2f posMin2 = sf::Vector2f(other->GetPosition().x, other->GetPosition().y);
-	//sf::Vector2f posMax2 = sf::Vector2f(other->GetPosition().x + other->GetSize().x, other->GetPosition().y + other->GetSize().y);
+	// Si il y a un overlap sur l'axe X
+	if (overlapX > 0) {
+		// Si l'overlap sur X est plus important que sur Y, on déplace selon l'axe X
+		if (overlapX >= overlapY) {
+			// Calculer le déplacement nécessaire sur l'axe Y
+			if (c2.xMax > c1.xMin) {
+				// Pousser c1 à gauche
+				changeY = overlapY;
+			}
+			else {
+				// Pousser c1 à droite
+				changeY = -overlapY;
+			}
+		}
+	}
 
-	AABBCollider col1 = GetAABBCollider();
-	AABBCollider col2 = other->GetAABBCollider();
+	// Si il y a un overlap sur l'axe Y
+	if (overlapY > 0) {
+		// Si l'overlap sur Y est plus important que sur X, on déplace selon l'axe Y
+		if (overlapY > overlapX) {
+			// Calculer le déplacement nécessaire sur l'axe Y
+			if (c2.yMax > c1.yMin) {
+				// Pousser c1 vers le bas
+				changeX = overlapX;
+			}
+			else {
+				// Pousser c1 vers le haut
+				changeX = -overlapX;
+			}
+		}
+	}
 
-	int left = std::max(col1.xMin, col2.xMin);
-	int right = std::min(col1.xMax, col2.xMax);
-	int top = std::max(col1.yMin, col2.yMin);
-	int bottom = std::min(col1.yMax, col2.yMax);
+	// Appliquer le changement de position à c1 et c2
+	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x + changeX, mShape.getPosition().y + changeY);
+	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x - changeX, other->GetPosition().y - changeY);
 
-	sf::Vector2f overlap = sf::Vector2f(right - left, bottom - top);
+	if (!mIsStatic)
+		mShape.setPosition(position1.x, position1.y);
 
-	sf::Vector2f normal = distance / length;
-
-	sf::Vector2f translation = sf::Vector2f(overlap.x * normal.x, overlap.y * normal.y);
-
-	sf::Vector2f position1 = GetPosition(0.5f, 0.5f) - translation;
-	sf::Vector2f position2 = other->GetPosition(0.5f, 0.5f) + translation;
-
-	SetPosition(position1.x, position1.y, 0.5f, 0.5f);
-	other->SetPosition(position2.x, position2.y, 0.5f, 0.5f);
+	if (!other->mIsStatic)
+		other->SetPosition(position2.x, position2.y);
 }
 
 bool Entity::IsColliding(Entity* other)
