@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "AssetManager.h"
 
 #include "Entity.h"
 #include "Debug.h"
@@ -16,6 +17,7 @@ GameManager::GameManager()
 	mpScene = nullptr;
 	mWindowWidth = -1;
 	mWindowHeight = -1;
+	mAssetManager = new AssetManager();
 }
 
 GameManager* GameManager::Get()
