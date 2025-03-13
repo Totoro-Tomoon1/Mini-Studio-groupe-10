@@ -13,8 +13,9 @@ Player::Player() : mStateMachine(this, (int)State::Count)
 
 void Player::OnInitialize()
 {
+	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
-	SetPosition(0.f, 400.f);
+	SetPosition(600.f, 400.f);
 	mPlayerPosition = GetPosition();
 
 	//Idle
@@ -23,9 +24,9 @@ void Player::OnInitialize()
 
 		//-> Moving
 		{
-			//auto transition = pIdle->CreateTransition(State::Moving);
+			auto transition = pIdle->CreateTransition(State::Moving);
 
-			//ici ajouter la condition
+			transition->AddCondition<PlayerCondition_IsMoving>();
 		}
 
 		//-> Jump
@@ -44,21 +45,21 @@ void Player::OnInitialize()
 		{
 			auto transition = pMoving->CreateTransition(State::Idle);
 
-			//ici ajouter la condition
+			transition->AddCondition<PlayerCondition_IsMoving>(false);
 		}
 
 		//-> Jump
 		{
 			auto transition = pMoving->CreateTransition(State::Jump);
 
-			//Ici add condition
+			transition->AddCondition<PlayerCondition_IsJumping>();
 		}
 
 		//-> Fall
 		{
 			auto transition = pMoving->CreateTransition(State::Fall);
 
-			//Ici add condition
+			transition->AddCondition<PlayerCondition_IsTouchingGround>(false);
 		}
 	}
 
@@ -70,7 +71,8 @@ void Player::OnInitialize()
 		{
 			auto transition = pJumping->CreateTransition(State::Fall);
 
-			//Ici add condition
+			transition->AddCondition<PlayerCondition_IsJumping>();
+			transition->AddCondition<PlayerCondition_IsTouchingGround>(false);
 		}
 	}
 
@@ -82,7 +84,7 @@ void Player::OnInitialize()
 		{
 			auto transition = pFalling->CreateTransition(State::Idle);
 
-			//Ici add condition
+			transition->AddCondition<PlayerCondition_IsTouchingGround>();
 		}
 	}
 
@@ -94,7 +96,47 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
-	std::cout << GetStateName((Player::State)mStateMachine.GetCurrentState()) << std::endl;
+}
+void Player::OnFixedUpdate(float deltaTime) //Update physique
+{
+	mIsMoving = false;
+
+	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+	bool A = sf::Joystick::isButtonPressed(0, 0);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		MoveRight(deltaTime);
+		mIsMoving = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		MoveLeft(deltaTime);
+		mIsMoving = true;
+	}
+
+	/*if (stickX < 0)
+		MoveLeft(deltaTime);
+
+	if (stickX > 0)
+		MoveRight(deltaTime);*/
+
+	/*if (A == true)
+	{
+		OnJump(deltaTime);
+	}*/
+
+	if (IsGravityOn()) //C'est un test du fall
+	{
+		OnFall(deltaTime);
+	}
+
+	//Update de la position en fonction de si y'a eu Jump ou Fall
+	mPlayerPosition.y += mGravitySpeed * deltaTime;
+	SetPosition(mPlayerPosition.x, mPlayerPosition.y);
 }
 
 //Pour l'affichage debug
@@ -117,50 +159,14 @@ void Player::OnCollision(Entity* pCollideWith)
 		SetGravity(false);
 	}
 
-	SetPosition(GetPosition().x, 400.f);
-}
-
-void Player::OnFixedUpdate(float deltaTime) //Update physique
-{
-	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-	bool A = sf::Joystick::isButtonPressed(0, 0);
-
-	//Tests sans manette
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		MoveRight(deltaTime);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		MoveLeft(deltaTime);
-
-	/*if (stickX < 0)
-		MoveLeft(deltaTime);
-
-	if (stickX > 0)
-		MoveRight(deltaTime);*/
-
-	/*if (A == true)
-	{
-		OnJump(deltaTime);
-	}*/
-
-	if (IsGravityOn()) //C'est un test du fall
-	{
-		OnFall(deltaTime);
-	}
-
-	//Update de la position en fonction de si y'a eu Jump ou Fall
-	mPlayerPosition.y += mGravitySpeed * deltaTime;
-
-	SetPosition(mPlayerPosition.x, mPlayerPosition.y);
+	mGravitySpeed = 0.f;
 }
 
 void Player::MoveRight(float deltaTime)
 {
-	mSpeed += mAcceleration * deltaTime;
+	/*mSpeed += mAcceleration * deltaTime;
 	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;
+		mSpeed = mMaxSpeed;*/
 
 	mPlayerPosition.x += mSpeed * deltaTime;
 }
@@ -168,21 +174,25 @@ void Player::MoveRight(float deltaTime)
 void Player::MoveLeft(float deltaTime)
 {
 	
-	mSpeed += mAcceleration * deltaTime;
+	/*mSpeed += mAcceleration * deltaTime;
 	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;
+		mSpeed = mMaxSpeed;*/
 
 	mPlayerPosition.x -= mSpeed * deltaTime;
 }
 
 void Player::OnFall(float deltaTime)
 {
-	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime * 100.f;
-	
+	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime * 200.f;
 }
 
 void Player::OnJump()
 {
-	mGravitySpeed -= 100.f;
+	mGravitySpeed -= 500.f;
 	SetGravity(true);
+}
+
+bool Player::IsMoving()
+{
+	return mIsMoving;
 }

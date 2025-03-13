@@ -8,4 +8,14 @@ public:
 	bool OnTest(Player* owner) override;
 };
 
+class PlayerCondition_IsMoving : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};
 
+class PlayerCondition_IsTouchingGround : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};

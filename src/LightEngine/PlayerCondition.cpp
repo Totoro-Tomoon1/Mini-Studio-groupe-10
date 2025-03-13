@@ -10,3 +10,13 @@ bool PlayerCondition_IsJumping::OnTest(Player* owner)
 
     return false;
 }
+
+bool PlayerCondition_IsMoving::OnTest(Player * owner)
+{
+    return owner->IsMoving();
+}
+
+bool PlayerCondition_IsTouchingGround::OnTest(Player* owner)
+{
+    return !owner->IsGravityOn();
+}

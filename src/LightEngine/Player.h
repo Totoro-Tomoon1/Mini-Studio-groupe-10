@@ -21,30 +21,27 @@ public:
 
 private:
 
-	float mAcceleration = 50.f;
-	float mSpeed = 200.f;
-	float mMaxSpeed = 800.f;
-	
-	float mDeceleration;
+	//float mAcceleration = 50.f;
+	//float mSpeed = 200.f;
+	//float mMaxSpeed = 800.f;
 
-	float mFallDuration = 1.0f;
+	float mSpeed = 800.f;
 
-	float mJumpDuration = 1.0f;
+	bool mIsMoving = false;
 
-	int mAreaIndex;
 	sf::Vector2f mPlayerPosition;
-	float mGravitySpeed = 0;
+	float mGravitySpeed = 0.f;
 
 public:
 	Player();
 	
-	void SetAreaIndex(int index) { mAreaIndex = index; }
 	const char* GetStateName(State state) const;
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
 	void OnFall(float deltaTime);
 	void OnJump();
+	bool IsMoving();
 
 protected:
 	void OnInitialize() override;
