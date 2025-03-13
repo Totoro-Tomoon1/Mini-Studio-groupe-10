@@ -35,6 +35,13 @@ void Player::OnInitialize()
 
 			transition->AddCondition<PlayerCondition_IsJumping>();
 		}
+
+		//-> Fall
+		{
+			auto transition = pIdle->CreateTransition(State::Fall);
+
+			transition->AddCondition<PlayerCondition_IsTouchingGround>(false);
+		}
 	}
 
 	//Moving
@@ -97,6 +104,7 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 	Debug::DrawText(0, 0, std::to_string(mSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
 }
+
 void Player::OnFixedUpdate(float deltaTime) //Update physique
 {
 	mIsMoving = false;
@@ -157,9 +165,8 @@ void Player::OnCollision(Entity* pCollideWith)
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
 	{
 		SetGravity(false);
+		mGravitySpeed = 0.f;
 	}
-
-	mGravitySpeed = 0.f;
 }
 
 void Player::MoveRight(float deltaTime)
