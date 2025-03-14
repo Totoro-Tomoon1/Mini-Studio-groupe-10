@@ -181,7 +181,8 @@ void GameManager::Draw()
 	
 	for (Entity* entity : mEntities)
 	{
-		mpWindow->draw(*entity->GetShape());
+		if (entity->GetToDraw())
+			mpWindow->draw(*entity->GetShape());
 	}
 	
 	Debug::Get()->Draw(mpWindow);

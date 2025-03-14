@@ -36,6 +36,7 @@ protected:
     int mTag = -1;
 	bool mRigidBody = false;
 	bool mIsStatic = false;
+	bool mToDraw = true;
 
 public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
@@ -49,6 +50,8 @@ public:
 	sf::Vector2f GetSize() const { return mShape.getSize(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
+	void SetToDraw(bool draw) { mToDraw = draw; }
+	bool GetToDraw() { return mToDraw; }
 
     sf::Vector2f GetPosition(float ratioX = 0.f, float ratioY = 0.f) const;
 	sf::Shape* GetShape() { return &mShape; }

@@ -77,6 +77,7 @@ void PlatFormerScene::OnInitialize()
 				pGround->SetRigidBody(true);
 				pGround->SetStatic(true);
 				pGround->SetTag(Tag::GROUND);
+				pGround->SetToDraw(false);
 
 				// Passer apr�s le dernier 'x' trouv�
 				i = j;
