@@ -13,6 +13,7 @@ class Entity;
 class Scene;
 class Debug;
 class AssetManager;
+class Camera;
 
 namespace sf 
 {
@@ -68,6 +69,8 @@ public:
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
 	AssetManager* GetAssetManager() { return mAssetManager; };
+
+	void SetCamera(Camera& camera);
 
 	friend Debug;
 	friend Scene;

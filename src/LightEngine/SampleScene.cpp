@@ -6,7 +6,7 @@
 
 void SampleScene::OnInitialize()
 {
-	pEntity1 = CreateEntity<Player>(100, sf::Color::White);
+	pEntity1 = CreateRectangleEntity<Player>(sf::Vector2f(100, 100), sf::Color::Red);
 
 	pEntitySelected = nullptr;
 }

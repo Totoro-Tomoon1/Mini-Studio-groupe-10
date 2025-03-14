@@ -1,6 +1,9 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <cmath>
+#include "Utils.h"
+
+#include <algorithm>
 
 namespace Utils 
 {
@@ -33,5 +36,28 @@ namespace Utils
 		float det = v1.x * v2.y - v1.y * v2.x;
 
 		return std::atan2(det, dot) * 180 / 3.14159265;
+	}
+	int Utils::GetFace(const AABBCollider& c1, const AABBCollider& c2)
+	{
+		float overlapX = std::min(c1.xMax, c2.xMax) - std::max(c1.xMin, c2.xMin);
+
+		float overlapY = std::min(c1.yMax, c2.yMax) - std::max(c1.yMin, c2.yMin);
+
+		if (overlapX > overlapY) //Collision vertical
+		{
+			if (c1.yMin > c2.yMax && c1.yMin < c2.yMin)
+				return 1; //Collision avec le haut
+			else if (c1.yMax > c2.yMin && c1.yMax < c2.yMax)
+				return 3; //Collision avec le bas
+		}
+		else //Collision horizontale
+		{
+			if (c1.xMax < c2.xMax && c1.xMax > c2.xMin)
+				return 2; //Collision avec la droite
+			else if (c1.xMin < c2.xMax && c1.xMin > c2.xMin)
+				return 4; //Collision avec la gauche
+		}
+
+		return 0; //Si probleme
 	}
 }
