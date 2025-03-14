@@ -20,14 +20,15 @@ class Drone : public PhysicalEntity
 	{
 		Idle,
 		Moving,
-		Attack,
+		Shooting,
 
 		
 		Count
 	};
-
+private:
 	DroneParameter mDroneParameters;
 	bool mIsMoving = false;
+	bool mIsShooting = false;
 
 
 	int mAreaIndex;
@@ -36,8 +37,14 @@ class Drone : public PhysicalEntity
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
 
+public:
+	const char* GetStateName(State state) const;
+
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
+	void Shoot(float deltaTime);
+	bool IsMoving();
+	bool IsShooting();
 
 protected:
 	void OnInitialize() override;

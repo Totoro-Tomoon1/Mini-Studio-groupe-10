@@ -19,7 +19,7 @@ public:
 	void OnEnd(Drone* pDrone) override {}
 };
 
-class DroneAction_Attack : public Action<Drone>
+class DroneAction_Shooting : public Action<Drone>
 {
 public:
 	void OnStart(Drone* pDrone) override;
