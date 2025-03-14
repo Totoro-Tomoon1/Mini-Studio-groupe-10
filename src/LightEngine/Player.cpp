@@ -136,6 +136,7 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 	{
 		OnJump(deltaTime);
 	}*/
+	SetGravity(true); //Marche mais fait des sables mouvants maintenant
 
 	if (IsGravityOn()) //C'est un test du fall
 	{
