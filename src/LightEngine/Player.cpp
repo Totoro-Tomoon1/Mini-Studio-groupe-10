@@ -6,6 +6,7 @@
 #include "AssetManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Utils.h"
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
@@ -128,6 +129,13 @@ void Player::OnCollision(Entity* pCollideWith)
 		mGravitySpeed = 0.f;
 	}
 	
+	AABBCollider c1 = GetAABBCollider();
+
+	AABBCollider c2 = pCollideWith->GetAABBCollider();
+
+	int face = Utils::GetFace(c1, c2);
+
+	std::cout << "Collide with face : " << face << std::endl;
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
