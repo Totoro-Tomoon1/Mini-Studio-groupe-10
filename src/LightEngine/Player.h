@@ -35,13 +35,10 @@ private:
 	float mJumpDuration = 1.0f;
 
 	int mAreaIndex;
-	sf::Shape* mShape;
 	sf::Vector2f mPlayerPosition;
 	Animation* mPlayerAnimation;
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
-	sf::Vector2f mPlayerPosition;
-	float mGravitySpeed = 0.f;
 
 public:
 	Player();

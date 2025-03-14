@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "PlatFormerScene.h"
 #include "PlayerAction.h"
 #include "PlayerCondition.h"
@@ -25,6 +25,10 @@ void Player::OnInitialize()
 	SetRigidBody(true);
 	SetPosition(600.f, 400.f);
 	mPlayerPosition = GetPosition();
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
+	//mShape.setTexture(mCurrentTexture);
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 32, 32, 32), 6); //� modifier
+	mPlayerAnimation->SetStartSize(0, 32 * 7, 32, 32);
 
 	//Idle
 	{
@@ -109,7 +113,7 @@ void Player::OnInitialize()
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
 	mPlayerAnimation->Update(GetDeltaTime());
-	mShape->setTextureRect(*mPlayerAnimation->GetTextureRect());
+	//mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
@@ -118,7 +122,11 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 void Player::OnCollision(Entity* pCollideWith)
 {
-	
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+	{
+		SetGravity(false);
+		mGravitySpeed = 0.f;
+	}
 	
 }
 
@@ -178,14 +186,6 @@ const char* Player::GetStateName(State state) const
 	}
 }
 
-void Player::OnCollision(Entity* pCollideWith)
-{
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
-	{
-		SetGravity(false);
-		mGravitySpeed = 0.f;
-	}
-}
 
 void Player::MoveRight(float deltaTime)
 {
