@@ -8,6 +8,10 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+Drone::Drone() : mStateMachine(this, (int)State::Count)
+{
+
+}
 void Drone::OnInitialize()
 {
 	SetTag(PlatFormerScene::Tag::DRONE);
@@ -34,7 +38,7 @@ void Drone::OnInitialize()
 		{
 			auto transition = pIdle->CreateTransition(State::Shooting);
 
-			transition->AddCondition<DroneCondition_IsShooting>();
+		    transition->AddCondition<DroneCondition_IsShooting>();
 		}
 
 	}

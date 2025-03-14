@@ -1,6 +1,5 @@
 #pragma once
 #include "PhysicalEntity.h"
-#include "Animations.h"
 #include "StateMachine.h"
 
 struct DroneParameter
@@ -13,6 +12,8 @@ struct DroneParameter
 
 class Drone : public PhysicalEntity
 {
+public:
+
 
 	StateMachine<Drone> mStateMachine;
 
@@ -25,6 +26,7 @@ class Drone : public PhysicalEntity
 		
 		Count
 	};
+
 private:
 	DroneParameter mDroneParameters;
 	bool mIsMoving = false;
@@ -33,11 +35,13 @@ private:
 
 	int mAreaIndex;
 	sf::Vector2f* mDronePosition;
-	Animation* mDroneAnimation;
-	sf::Texture* mCurrentTexture;
+	//Animation* mDroneAnimation;
+	//sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
 
 public:
+	Drone();
+
 	const char* GetStateName(State state) const;
 
 	void MoveRight(float deltaTime);
@@ -56,6 +60,7 @@ protected:
 
 	friend class DroneAction_Idle;
 	friend class DroneAction_Moving;
+	friend class DroneAction_Shooting;
 
 };
 
