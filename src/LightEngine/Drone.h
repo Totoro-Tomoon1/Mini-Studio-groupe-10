@@ -1,0 +1,47 @@
+#pragma once
+#include "PhysicalEntity.h"
+#include "Animations.h"
+#include "StateMachine.h"
+
+struct DroneParameter
+{
+	float mMinSpeed = 800.f;
+	float mMaxSpeed = 200.f;
+	float mAcceleration = 200.f;
+	float mDeceleration = 200.f;
+};
+
+class Drone : public PhysicalEntity
+{
+
+	StateMachine<Drone> mStateMachine;
+
+	enum State
+	{
+		Idle,
+		Moving,
+		
+		Count
+	};
+
+	DroneParameter mDroneParameters;
+	bool mIsMoving = false;
+
+
+	int mAreaIndex;
+	sf::Vector2f* mDronePosition;
+	Animation* mDroneAnimation;
+	sf::Texture* mCurrentTexture;
+	float mGravitySpeed = 0;
+
+protected:
+	void OnInitialize() override;
+	void OnUpdate() override;
+	void OnCollision(Entity* pCollideWith) override;
+	void OnFixedUpdate(float deltaTime) override;
+
+	friend class DroneAction_Idle;
+	friend class DroneAction_Moving;
+
+};
+

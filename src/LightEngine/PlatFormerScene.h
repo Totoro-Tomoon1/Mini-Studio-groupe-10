@@ -34,7 +34,8 @@ public:
 	enum Tag
 	{
 		PLAYER,
-		GROUND
+		GROUND,
+		DRONE
 	};
 
 	/*int mLaneLevel[1] = { 0 };

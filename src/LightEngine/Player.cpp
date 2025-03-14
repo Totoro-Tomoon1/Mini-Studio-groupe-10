@@ -2,6 +2,7 @@
 #include "PlatFormerScene.h"
 #include "PlayerAction.h"
 #include "PlayerCondition.h"
+#include "Drone.h"
 #include "Debug.h"
 #include "AssetManager.h"
 #include <SFML/Graphics.hpp>

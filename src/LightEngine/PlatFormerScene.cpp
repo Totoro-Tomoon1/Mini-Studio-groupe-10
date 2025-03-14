@@ -1,6 +1,7 @@
 #include "PlatFormerScene.h"
 
 #include "Player.h"
+#include "Drone.h"
 #include "DummyEntity.h"
 #include "Debug.h"
 
