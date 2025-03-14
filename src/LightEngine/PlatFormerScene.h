@@ -19,6 +19,7 @@ namespace sf
 //	int xMax;
 //	int yMax;
 //};
+
 class PlatFormerScene : public Scene
 {
 private:
@@ -38,7 +39,5 @@ public:
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;
-
-
 };
 
