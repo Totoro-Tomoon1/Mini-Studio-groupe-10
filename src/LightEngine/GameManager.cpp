@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "AssetManager.h"
 
 #include "Entity.h"
 #include "Debug.h"
@@ -16,6 +17,7 @@ GameManager::GameManager()
 	mpScene = nullptr;
 	mWindowWidth = -1;
 	mWindowHeight = -1;
+	mAssetManager = new AssetManager();
 }
 
 GameManager* GameManager::Get()
@@ -51,7 +53,8 @@ void GameManager::CreateWindow(unsigned int width, unsigned int height, const ch
 
 void GameManager::SetCamera(Camera& camera)
 {
-	mpWindow->setView(camera.GetView());
+	cam = &camera;
+	mpWindow->setView(cam->GetView());
 }
 
 void GameManager::Run()
@@ -123,6 +126,8 @@ void GameManager::Update()
 		mAccumulatedDt -= FIXED_DT;
 	}
 
+	mpScene->OnLateUpdate();
+
 	for (auto it = mEntitiesToDestroy.begin(); it != mEntitiesToDestroy.end(); ++it) 
 	{
 		delete *it;
@@ -169,6 +174,9 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 
 void GameManager::Draw()
 {
+	//std::cout << mpWindow->getView().getCenter().y << std::endl;
+	mpWindow->setView(cam->GetView());
+
 	mpWindow->clear(mClearColor);
 	
 	for (Entity* entity : mEntities)

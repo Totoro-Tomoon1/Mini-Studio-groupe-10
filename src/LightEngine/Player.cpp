@@ -1,15 +1,23 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include "PlatFormerScene.h"
 #include "PlayerAction.h"
 #include "PlayerCondition.h"
 #include "Debug.h"
+#include "AssetManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
-
 }
+
+
+//void Player::SetPosition(float x, float y, float ratioX, float ratioY)
+//{
+//	Entity::SetPosition(x, y, ratioX, ratioY);
+//	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
+//	mShape->setTexture(mCurrentTexture);
+//}
 
 void Player::OnInitialize()
 {
@@ -17,6 +25,10 @@ void Player::OnInitialize()
 	SetRigidBody(true);
 	SetPosition(600.f, 400.f);
 	mPlayerPosition = GetPosition();
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
+	//mShape.setTexture(mCurrentTexture);
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 32, 32, 32), 6); //� modifier
+	mPlayerAnimation->SetStartSize(0, 32 * 7, 32, 32);
 
 	//Idle
 	{
@@ -100,9 +112,22 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	mPlayerAnimation->Update(GetDeltaTime());
+	//mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
+
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
+}
+
+void Player::OnCollision(Entity* pCollideWith)
+{
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+	{
+		SetGravity(false);
+		mGravitySpeed = 0.f;
+	}
+	
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -161,14 +186,6 @@ const char* Player::GetStateName(State state) const
 	}
 }
 
-void Player::OnCollision(Entity* pCollideWith)
-{
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
-	{
-		SetGravity(false);
-		mGravitySpeed = 0.f;
-	}
-}
 
 void Player::MoveRight(float deltaTime)
 {

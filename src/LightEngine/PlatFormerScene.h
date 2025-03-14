@@ -3,6 +3,7 @@
 #include "GameManager.h"
 
 #include <list>
+#include "Camera.h"
 
 class Player;
 
@@ -26,7 +27,10 @@ private:
 	Entity* pPlayer;
 	Entity* pGround;
 
+	Camera mCamera;
+
 public:
+
 	enum Tag
 	{
 		PLAYER,
@@ -38,6 +42,9 @@ public:
 		
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
-	void OnUpdate() override;
+	void OnUpdate() override {};
+	void OnLateUpdate() override;
+
+
 };
 

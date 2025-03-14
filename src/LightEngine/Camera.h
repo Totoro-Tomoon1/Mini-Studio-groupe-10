@@ -7,6 +7,8 @@ class Camera
 	sf::View mView;
 
 public:
+	Camera();
+
 	void SetPosition(const sf::Vector2f& pos) //?
 	{
 		mView.setCenter(pos);

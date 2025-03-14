@@ -4,14 +4,17 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/View.hpp>
 
 #define FIXED_DT 0.01667f
 #define GRAVITY_ACCELERATION 9.81f
+#define PLAYER_PATH "../../../res/test.png"
 
 class Entity;
 class Scene;
 class Debug;
 class Camera;
+class AssetManager;
 
 namespace sf 
 {
@@ -37,6 +40,10 @@ class GameManager
 	int mWindowHeight;
 
 	sf::Color mClearColor;
+
+	AssetManager* mAssetManager;
+
+	Camera* cam;
 
 private:
 	GameManager();
@@ -64,6 +71,7 @@ public:
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
 	sf::Font& GetFont() { return mFont; };
+	AssetManager* GetAssetManager() { return mAssetManager; };
 
 	void SetCamera(Camera& camera);
 

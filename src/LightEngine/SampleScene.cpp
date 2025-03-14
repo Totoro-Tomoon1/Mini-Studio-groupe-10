@@ -30,7 +30,7 @@ void SampleScene::OnEvent(const sf::Event& event)
 	}
 }
 
-void SampleScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
+void SampleScene::TrySetSelectedEntity(Entity* pEntity, int x, int y)
 {
 	if (pEntity->IsInside(x, y) == false)
 		return;

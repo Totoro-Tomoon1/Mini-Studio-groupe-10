@@ -3,15 +3,16 @@
 #include "Scene.h"
 
 class Player;
+class Entity;
 
 class SampleScene : public Scene
 {
-	Player* pEntity1;
+	Entity* pEntity1;
 
-	Player* pEntitySelected;
+	Entity* pEntitySelected;
 
 private:
-	void TrySetSelectedEntity(Player* pEntity, int x, int y);
+	void TrySetSelectedEntity(Entity* pEntity, int x, int y);
 
 public:
 	void OnInitialize() override;

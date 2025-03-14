@@ -1,6 +1,6 @@
 #pragma once
-
 #include "PhysicalEntity.h"
+#include "Animations.h"
 #include "StateMachine.h"
 
 struct PlayerParameter
@@ -32,13 +32,19 @@ private:
 	PlayerParameter mPlayerParameters;
 	bool mIsMoving = false;
 
+	float mJumpDuration = 1.0f;
+
+	int mAreaIndex;
 	sf::Vector2f mPlayerPosition;
-	float mGravitySpeed = 0.f;
+	Animation* mPlayerAnimation;
+	sf::Texture* mCurrentTexture;
+	float mGravitySpeed = 0;
 
 public:
 	Player();
 	
 	const char* GetStateName(State state) const;
+	//void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);

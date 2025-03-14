@@ -46,10 +46,10 @@ void PlatFormerScene::OnInitialize()
 		size_t i = 0;
 		while (i < line.size()) {
 			if (line[i] == 'x') {
-				// Trouvé un 'x', maintenant compter les 'x' suivants
+				// Trouvï¿½ un 'x', maintenant compter les 'x' suivants
 				size_t count = 0;
 
-				// Compter les 'x' derrière le premier trouvé
+				// Compter les 'x' derriï¿½re le premier trouvï¿½
 				size_t j = i + 1;
 				while (j < line.size() && line[j] == 'x') {
 					count++;
@@ -57,7 +57,7 @@ void PlatFormerScene::OnInitialize()
 				}
 
 				// Afficher combien de 'x' suivent
-				std::cout << "Nombre de 'x' après l'index " << i << ": " << count << std::endl;
+				std::cout << "Nombre de 'x' aprï¿½s l'index " << i << ": " << count << std::endl;
 
 				pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(count * 20, 20), sf::Color::Red);
 				pGround->SetPosition(i * 20, lineNumber * 20);
@@ -65,7 +65,7 @@ void PlatFormerScene::OnInitialize()
 				pGround->SetStatic(true);
 				pGround->SetTag(Tag::GROUND);
 
-				// Passer après le dernier 'x' trouvé
+				// Passer aprï¿½s le dernier 'x' trouvï¿½
 				i = j;
 			}
 			else {
@@ -77,6 +77,10 @@ void PlatFormerScene::OnInitialize()
 	}
 
 	file.close();	
+	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::Green);
+
+	mCamera.SetPosition(pPlayer->GetPosition(0.5f, 0.5f));
+	GameManager::Get()->SetCamera(mCamera);
 }
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
@@ -89,8 +93,8 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 
 }
 
-void PlatFormerScene::OnUpdate()
+void PlatFormerScene::OnLateUpdate()
 {
-	
-
+	//std::cout << pPlayer->GetPosition().y << "\t";
+	mCamera.GetView().setCenter(pPlayer->GetPosition(0.5f, 0.5f));
 }
