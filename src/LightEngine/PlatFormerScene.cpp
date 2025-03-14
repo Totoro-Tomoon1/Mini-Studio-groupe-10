@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "DummyEntity.h"
 #include "Debug.h"
+#include "Music.h"
+#include "Sound.h"
 
 #include <iostream>
 
@@ -29,6 +31,17 @@ void PlatFormerScene::OnInitialize()
 	pGround->SetTag(Tag::GROUND);
 
 	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::Green);*/
+
+
+	mMusic = new Music();
+
+	mMusic->Load("../../../res/blood.wav");
+	//mMusic->Play();
+
+	mSound = new Sound();
+
+	mSound->Load("../../../res/test.wav");
+	//mSound->Play();
 
 	std::ifstream file("../../../res/Level-Editor.txt");
 	if (!file.is_open())
