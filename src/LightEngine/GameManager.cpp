@@ -162,11 +162,11 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 
 			if (entity->IsColliding(otherEntity))
 			{
-				if (entity->IsRigidBody() && otherEntity->IsRigidBody())
-					entity->Repulse(otherEntity);
-
 				entity->OnCollision(otherEntity);
 				otherEntity->OnCollision(entity);
+
+				if (entity->IsRigidBody() && otherEntity->IsRigidBody())
+					entity->Repulse(otherEntity);
 			}
 		}
 	}

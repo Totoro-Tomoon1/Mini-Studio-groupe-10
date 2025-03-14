@@ -5,7 +5,7 @@
 
 void DummyEntity::OnCollision(Entity* other)
 {
-	std::cout << "DummyEntity::OnCollision" << std::endl;
+	/*std::cout << "DummyEntity::OnCollision" << std::endl;
 
 	AABBCollider c1 = GetAABBCollider();
 
@@ -13,5 +13,5 @@ void DummyEntity::OnCollision(Entity* other)
 
 	int face = Utils::GetFace(c1, c2);
 
-	std::cout << "Collide with face : " << face << std::endl;
+	std::cout << "Collide with face : " << face << std::endl;*/
 }
