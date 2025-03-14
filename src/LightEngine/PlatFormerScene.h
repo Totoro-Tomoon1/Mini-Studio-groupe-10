@@ -35,7 +35,8 @@ public:
 	{
 		PLAYER,
 		GROUND,
-		DRONE
+		DRONE,
+		PROJECTILE
 	};
 
 	/*int mLaneLevel[1] = { 0 };

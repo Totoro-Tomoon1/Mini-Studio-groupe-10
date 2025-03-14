@@ -193,10 +193,10 @@ void Player::MoveRight(float deltaTime)
 {
 	/*mSpeed += mAcceleration * deltaTime;
 	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
+		mSpeed = mMaxSpeed;
 
-	//mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));*/
 }
 
 void Player::MoveLeft(float deltaTime)
@@ -204,10 +204,10 @@ void Player::MoveLeft(float deltaTime)
 	
 	/*mSpeed += mAcceleration * deltaTime;
 	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
+		mSpeed = mMaxSpeed;
 
-	//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));*/
 }
 
 void Player::OnFall(float deltaTime)

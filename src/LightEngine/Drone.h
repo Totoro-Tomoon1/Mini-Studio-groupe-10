@@ -20,6 +20,8 @@ class Drone : public PhysicalEntity
 	{
 		Idle,
 		Moving,
+		Attack,
+
 		
 		Count
 	};
@@ -33,6 +35,9 @@ class Drone : public PhysicalEntity
 	Animation* mDroneAnimation;
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
+
+	void MoveRight(float deltaTime);
+	void MoveLeft(float deltaTime);
 
 protected:
 	void OnInitialize() override;
