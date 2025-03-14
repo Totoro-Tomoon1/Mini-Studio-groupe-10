@@ -1,11 +1,15 @@
 #include "AssetManager.h"
 #include "GameManager.h"
+#include <SFML/Audio.hpp>
 
 sf::Texture* AssetManager::LoadTexture(const char* path)
 {
     sf::Texture* pTexture = new sf::Texture();
     pTexture->loadFromFile(path);
     mTextures[path] = pTexture;
+
+    sf::Music a;
+    a.openFromFile("");
 
     return pTexture;
 }
