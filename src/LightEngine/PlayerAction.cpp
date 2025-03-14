@@ -3,22 +3,29 @@
 
 #include "GameManager.h"
 #include "Scene.h"
+#include <iostream>
 
-//void PlayerAction_Jump::OnStart(Player* pPlayer)
-//{
-//	mJumpTimer = pPlayer->mJumpDuration;
-//}
-//
-//void PlayerAction_Jump::OnUpdate(Player* pPlayer)
-//{
-//	mJumpTimer += GameManager::Get()->GetDeltaTime();
-//
-//	if (mJumpTimer < pPlayer->mJumpDuration)
-//		return;
-//
-//	mJumpTimer -= pPlayer->mJumpDuration;
-//
-//	Scene* pScene = pPlayer->GetScene<Scene>();
-//
-//	const sf::Vector2f& position = pPlayer->GetPosition();
-//}
+void PlayerAction_Idle::OnStart(Player* pPlayer)
+{
+	std::cout << "Idle" << std::endl;
+}
+
+void PlayerAction_Moving::OnStart(Player* pPlayer)
+{
+	std::cout << "Moving" << std::endl;
+}
+
+void PlayerAction_Jump::OnStart(Player* pPlayer)
+{
+	std::cout << "Jump" << std::endl;
+}
+
+void PlayerAction_Jump::OnUpdate(Player* pPlayer)
+{
+
+}
+
+void PlayerAction_Fall::OnStart(Player* pPlayer)
+{
+	std::cout << "Fall" << std::endl;
+}

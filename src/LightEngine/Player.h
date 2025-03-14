@@ -3,27 +3,34 @@
 #include "Animations.h"
 #include "StateMachine.h"
 
+struct PlayerParameter
+{
+	float mMinSpeed = 800.f;
+	float mMaxSpeed = 200.f;
+	float mAcceleration = 200.f;
+	float mDeceleration = 200.f;
+};
+
 class Player : public PhysicalEntity
 {
+public:
 
 	StateMachine<Player> mStateMachine;
 
 	enum State
 	{
 		Idle,
+		Moving,
 		Jump,
 		Fall,
 
 		Count
 	};
 
-	float mAcceleration = 50.f;
-	float mSpeed = 200.f;
-	float mMaxSpeed = 800.f;
-	
-	float mDeceleration;
+private:
 
-	float mFallDuration = 1.0f;
+	PlayerParameter mPlayerParameters;
+	bool mIsMoving = false;
 
 	float mJumpDuration = 1.0f;
 
@@ -33,23 +40,30 @@ class Player : public PhysicalEntity
 	Animation* mPlayerAnimation;
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
+	sf::Vector2f mPlayerPosition;
+	float mGravitySpeed = 0.f;
 
 public:
 	Player();
 	
-	void SetAreaIndex(int index) { mAreaIndex = index; }
 	const char* GetStateName(State state) const;
 	//void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
+
+	void MoveRight(float deltaTime);
+	void MoveLeft(float deltaTime);
+	void OnFall(float deltaTime);
+	void OnJump();
+	bool IsMoving();
 
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
-	void MoveRight(float deltaTime);
-	void MoveLeft(float deltaTime);
-	void OnFall(float deltaTime);
-	void OnJump(float deltaTime);
 
+	friend class PlayerAction_Idle;
+	friend class PlayerAction_Moving;
+	friend class PlayerAction_Jump;
+	friend class PlayerAction_Fall;
 };
 
