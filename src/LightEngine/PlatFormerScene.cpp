@@ -47,7 +47,7 @@ void PlatFormerScene::OnInitialize()
 		while (i < line.size()) {
 			if (line[i] == 'x') {
 				// Trouv� un 'x', maintenant compter les 'x' suivants
-				size_t count = 0;
+				size_t count = 1;
 
 				// Compter les 'x' derri�re le premier trouv�
 				size_t j = i + 1;
