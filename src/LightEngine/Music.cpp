@@ -12,5 +12,9 @@ void Music::Load(const char* path)
 void Music::Play()
 {
 	mMusic.play();
-	mMusic.setVolume(60);
+}
+
+sf::Music* Music::GetMusic()
+{
+	return &mMusic;
 }

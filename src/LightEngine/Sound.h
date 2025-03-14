@@ -9,5 +9,7 @@ class Sound
 public:
 	void Load(const char* path);
 	void Play();
+
+	sf::Sound* GetSound();
 };
 

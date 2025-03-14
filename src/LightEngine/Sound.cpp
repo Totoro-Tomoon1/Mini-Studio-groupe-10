@@ -14,3 +14,8 @@ void Sound::Play()
 {
 	mSound.play();
 }
+
+sf::Sound* Sound::GetSound()
+{
+	return &mSound;
+}

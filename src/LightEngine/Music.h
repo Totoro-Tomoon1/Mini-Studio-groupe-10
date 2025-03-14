@@ -8,5 +8,7 @@ class Music
 public:
 	void Load(const char* path);
 	void Play();
+
+	sf::Music* GetMusic();
 };
 
