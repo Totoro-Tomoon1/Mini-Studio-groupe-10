@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
+#include <iostream>
 #include <algorithm>
 
 //void Entity::Initialize(float radius, const sf::Color& color)
@@ -45,6 +46,8 @@ void Entity::Repulse(Entity* other)
 	float changeX = 0;
 	float changeY = 0;
 
+	std::cout << overlapX << "\t" << overlapY << std::endl;
+
 	// Si il y a un overlap sur l'axe X
 	if (overlapX > 0) {
 		// Si l'overlap sur X est plus important que sur Y, on déplace selon l'axe X
@@ -66,13 +69,21 @@ void Entity::Repulse(Entity* other)
 		// Si l'overlap sur Y est plus important que sur X, on déplace selon l'axe Y
 		if (overlapY > overlapX) {
 			// Calculer le déplacement nécessaire sur l'axe Y
+
+			AABBCollider c1 = GetAABBCollider();
+			AABBCollider c2 = other->GetAABBCollider();
+
+			int face = Utils::GetFace(c1, c2);
+			if (face == 4)
+				overlapX = -overlapX;
+
 			if (c2.yMax > c1.yMin) {
 				// Pousser c1 vers le bas
 				changeX = overlapX;
 			}
 			else {
 				// Pousser c1 vers le haut
-				changeX = -overlapX;
+				changeX = overlapX;
 			}
 		}
 	}
