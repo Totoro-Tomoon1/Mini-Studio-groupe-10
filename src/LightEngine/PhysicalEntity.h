@@ -9,5 +9,6 @@ public:
 
 	void SetGravity(bool targetState);
 	bool IsGravityOn() { return mGravity; };
+	void OnCollision(Entity* collidedWith) override;
 };
 

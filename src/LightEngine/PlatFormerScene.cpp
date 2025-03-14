@@ -70,9 +70,10 @@ void PlatFormerScene::OnInitialize()
 			}
 			else if (line[i] == 'p')
 			{
+				std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
 				pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100, 200), sf::Color::White);
 				pPlayer->SetPosition(i * 20, lineNumber * 20);
-				mCamera.SetPosition(pPlayer->GetPosition(0.5f, 0.5f));
+				mCamera.SetPosition(pPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}

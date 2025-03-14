@@ -23,8 +23,8 @@ void Player::OnInitialize()
 {
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
+	SetGravity(true);
 	//SetPosition(600.f, 400.f);
-	mPlayerPosition = GetPosition();
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
 	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //� modifier
@@ -161,7 +161,7 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 	{
 		OnJump(deltaTime);
 	}*/
-	SetGravity(true); //Marche mais fait des sables mouvants maintenant
+	//SetGravity(true); //Marche mais fait des sables mouvants maintenant
 
 	if (IsGravityOn()) //C'est un test du fall
 	{
@@ -169,8 +169,9 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 	}
 
 	//Update de la position en fonction de si y'a eu Jump ou Fall
-	mPlayerPosition.y += mGravitySpeed * deltaTime;
-	SetPosition(mPlayerPosition.x, mPlayerPosition.y);
+	//mPlayerPosition.y += mGravitySpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
+	//SetPosition(mPlayerPosition.x, mPlayerPosition.y);
 }
 
 //Pour l'affichage debug
@@ -193,7 +194,8 @@ void Player::MoveRight(float deltaTime)
 	if (mSpeed > mMaxSpeed)
 		mSpeed = mMaxSpeed;*/
 
-	mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
+	//mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 }
 
 void Player::MoveLeft(float deltaTime)
@@ -203,7 +205,8 @@ void Player::MoveLeft(float deltaTime)
 	if (mSpeed > mMaxSpeed)
 		mSpeed = mMaxSpeed;*/
 
-	mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
+	//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 }
 
 void Player::OnFall(float deltaTime)
