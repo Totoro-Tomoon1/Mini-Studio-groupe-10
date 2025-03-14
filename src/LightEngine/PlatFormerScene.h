@@ -7,6 +7,7 @@
 
 class Player;
 class Music;
+class Sound;
 
 namespace sf
 {
@@ -31,6 +32,7 @@ private:
 	Camera mCamera;
 
 	Music* mMusic;
+	Sound* mSound;
 
 public:
 

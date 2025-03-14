@@ -4,6 +4,7 @@
 #include "DummyEntity.h"
 #include "Debug.h"
 #include "Music.h"
+#include "Sound.h"
 
 #include <iostream>
 
@@ -35,7 +36,12 @@ void PlatFormerScene::OnInitialize()
 	mMusic = new Music();
 
 	mMusic->Load("../../../res/blood.wav");
-	mMusic->Play();
+	//mMusic->Play();
+
+	mSound = new Sound();
+
+	mSound->Load("../../../res/test.wav");
+	//mSound->Play();
 
 	std::ifstream file("../../../res/Level-Editor.txt");
 	if (!file.is_open())
