@@ -170,12 +170,12 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
 	//float size = mShape.getRadius() * 2;
-	/*float sizeX = mShape.getSize().x * 2;
-	float sizeY = mShape.getSize().y * 2;*/
+	float sizeX = mShape.getSize().x / 2;
+	float sizeY = mShape.getSize().y / 2;
 	sf::Vector2f position = mShape.getPosition();
 
-	/*position.x += sizeX * ratioX;
-	position.y += sizeY * ratioY;*/
+	position.x += sizeX * ratioX;
+	position.y += sizeY * ratioY;
 
 	return position;
 }

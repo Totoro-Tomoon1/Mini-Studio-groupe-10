@@ -19,7 +19,7 @@ void PlatFormerScene::OnInitialize()
 	pPlayer->SetPosition(0, 0);
 	pPlayer->SetRigidBody(true);
 
-	mCamera.SetPosition(pPlayer->GetPosition());
+	mCamera.SetPosition(pPlayer->GetPosition(0.5f, 0.5f));
 	GameManager::Get()->SetCamera(mCamera);
 }
 
@@ -35,6 +35,6 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 
 void PlatFormerScene::OnLateUpdate()
 {
-	std::cout << pPlayer->GetPosition().y << "\t";
-	mCamera.GetView().setCenter(pPlayer->GetPosition());
+	//std::cout << pPlayer->GetPosition().y << "\t";
+	mCamera.GetView().setCenter(pPlayer->GetPosition(0.5f, 0.5f));
 }
