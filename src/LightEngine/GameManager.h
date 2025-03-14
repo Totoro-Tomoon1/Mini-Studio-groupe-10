@@ -8,7 +8,7 @@
 
 #define FIXED_DT 0.01667f
 #define GRAVITY_ACCELERATION 9.81f
-#define PLAYER_PATH "../../../res/test.png"
+#define PLAYER_PATH "../../../res/test-perso.png"
 
 class Entity;
 class Scene;

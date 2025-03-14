@@ -68,6 +68,14 @@ void PlatFormerScene::OnInitialize()
 				// Passer apr�s le dernier 'x' trouv�
 				i = j;
 			}
+			else if (line[i] == 'p')
+			{
+				pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100, 200), sf::Color::White);
+				pPlayer->SetPosition(i * 20, lineNumber * 20);
+				mCamera.SetPosition(pPlayer->GetPosition(0.5f, 0.5f));
+				GameManager::Get()->SetCamera(mCamera);
+				i++;
+			}
 			else {
 				// Si ce n'est pas un 'x', simplement avancer
 				i++;
@@ -76,11 +84,10 @@ void PlatFormerScene::OnInitialize()
 		lineNumber++;
 	}
 
-	file.close();	
-	pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100,200), sf::Color::Green);
-
-	mCamera.SetPosition(pPlayer->GetPosition(0.5f, 0.5f));
-	GameManager::Get()->SetCamera(mCamera);
+	file.close();
+	
+	
+	
 }
 
 void PlatFormerScene::OnEvent(const sf::Event& event)

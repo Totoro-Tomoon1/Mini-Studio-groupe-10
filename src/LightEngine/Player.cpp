@@ -23,12 +23,12 @@ void Player::OnInitialize()
 {
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
-	SetPosition(600.f, 400.f);
+	//SetPosition(600.f, 400.f);
 	mPlayerPosition = GetPosition();
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
-	//mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 32, 32, 32), 6); //� modifier
-	mPlayerAnimation->SetStartSize(0, 32 * 7, 32, 32);
+	mShape.setTexture(mCurrentTexture);
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //� modifier
+	mPlayerAnimation->SetStartSize(0, 0, 1750, 2200);
 
 	//Idle
 	{
@@ -113,7 +113,7 @@ void Player::OnInitialize()
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
 	mPlayerAnimation->Update(GetDeltaTime());
-	//mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
+	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
