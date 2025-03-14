@@ -6,7 +6,7 @@
 struct DroneParameter
 {
 	float mMinSpeed = 800.f;
-	float mMaxSpeed = 200.f;
+	float mMaxSpeed = 400.f;
 	float mAcceleration = 200.f;
 	float mDeceleration = 200.f;
 };
@@ -42,6 +42,8 @@ public:
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
+	void MoveUp(float deltaTime);
+	void MoveDown(float deltaTime);
 	void Shoot(float deltaTime);
 	bool IsMoving();
 	bool IsShooting();

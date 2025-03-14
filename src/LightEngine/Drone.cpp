@@ -2,6 +2,7 @@
 #include "DroneAction.h"
 #include "DroneCondition.h"
 #include "Drone.h"
+#include "Projectile.h"
 #include "Debug.h"
 #include "AssetManager.h"
 #include <SFML/Graphics.hpp>
@@ -73,7 +74,11 @@ void Drone::OnUpdate()
 
 void Drone::OnCollision(Entity* pCollideWith)
 {
-
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+	{
+		SetGravity(false);
+		mGravitySpeed = 0.f;
+	}
 }
 
 void Drone::OnFixedUpdate(float deltaTime)
@@ -94,6 +99,18 @@ void Drone::OnFixedUpdate(float deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		MoveLeft(deltaTime);
+		mIsMoving = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		MoveUp(deltaTime);
+		mIsMoving = true;
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		MoveDown(deltaTime);
 		mIsMoving = true;
 	}
 
@@ -119,28 +136,52 @@ const char* Drone::GetStateName(State state) const
 void Drone::Shoot(float deltaTime)
 {
 
+	/*PlatFormerScene* pScene = ->GetScene<>();
+	Projectile* pProjectile = ->CreateEntity<Projectile>(5.0f, sf::Color::Red);
+	pProjectile->SetPosition(position.x, position.y);*/
 }
 
 void Drone::MoveRight(float deltaTime)
 {
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;
+	mSpeed += mDroneParameters.mAcceleration * deltaTime;
+	if (mSpeed > mDroneParameters.mMaxSpeed)
+		mSpeed = mDroneParameters.mMaxSpeed;
 
-	mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));*/
+	mDronePosition->x += mDroneParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 }
 
 void Drone::MoveLeft(float deltaTime)
 {
 
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;
+	mSpeed += mDroneParameters.mAcceleration * deltaTime;
+	if (mSpeed > mDroneParameters.mMaxSpeed)
+		mSpeed = mDroneParameters.mMaxSpeed;
 
-	mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-    mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));*/
+	mDronePosition->x -= mDroneParameters.mMinSpeed * deltaTime;
+    mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 }
+
+void Drone::MoveUp(float deltaTime)
+{
+	mSpeed += mDroneParameters.mAcceleration * deltaTime;
+	if (mSpeed > mDroneParameters.mMaxSpeed)
+		mSpeed = mDroneParameters.mMaxSpeed;
+
+	mDronePosition->y += mDroneParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+}
+
+void Drone::MoveDown(float deltaTime)
+{
+	mSpeed += mDroneParameters.mAcceleration * deltaTime;
+	if (mSpeed > mDroneParameters.mMaxSpeed)
+		mSpeed = mDroneParameters.mMaxSpeed;
+
+	mDronePosition->y -= mDroneParameters.mMinSpeed * deltaTime;
+	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+}
+
 
 bool Drone::IsMoving()
 {

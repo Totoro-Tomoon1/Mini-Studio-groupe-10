@@ -26,6 +26,7 @@ class PlatFormerScene : public Scene
 private:
 	Entity* pPlayer;
 	Entity* pGround;
+	Entity* pProjectile;
 
 	Camera mCamera;
 
