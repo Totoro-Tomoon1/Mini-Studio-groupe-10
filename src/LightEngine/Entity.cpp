@@ -62,7 +62,8 @@ void Entity::Repulse(Entity* other)
 	}
 
 	// Si il y a un overlap sur l'axe Y
-	if (overlapY > 0) {
+	if (overlapY > 0) 
+	{
 		// Si l'overlap sur Y est plus important que sur X, on déplace selon l'axe Y
 		if (overlapY > overlapX) {
 			// Calculer le déplacement nécessaire sur l'axe Y

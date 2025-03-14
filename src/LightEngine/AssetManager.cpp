@@ -8,9 +8,6 @@ sf::Texture* AssetManager::LoadTexture(const char* path)
     pTexture->loadFromFile(path);
     mTextures[path] = pTexture;
 
-    sf::Music a;
-    a.openFromFile("");
-
     return pTexture;
 }
 

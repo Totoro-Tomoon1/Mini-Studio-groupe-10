@@ -6,6 +6,7 @@
 #include "Camera.h"
 
 class Player;
+class Music;
 
 namespace sf
 {
@@ -28,6 +29,8 @@ private:
 	Entity* pGround;
 
 	Camera mCamera;
+
+	Music* mMusic;
 
 public:
 
