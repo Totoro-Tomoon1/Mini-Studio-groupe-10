@@ -123,12 +123,6 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 void Player::OnCollision(Entity* pCollideWith)
 {
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
-	{
-		//SetGravity(false);
-		mGravitySpeed = 0.f;
-	}
-	
 	AABBCollider c1 = GetAABBCollider();
 
 	AABBCollider c2 = pCollideWith->GetAABBCollider();
@@ -136,6 +130,13 @@ void Player::OnCollision(Entity* pCollideWith)
 	int face = Utils::GetFace(c1, c2);
 
 	std::cout << "Collide with face : " << face << std::endl;
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND) && (face == 1 || face == 3))
+	{
+		//SetGravity(false);
+		mGravitySpeed = 0.f;
+	}
+
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -169,9 +170,8 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 	{
 		OnJump(deltaTime);
 	}*/
-	//SetGravity(true); //Marche mais fait des sables mouvants maintenant
 
-	if (IsGravityOn()) //C'est un test du fall
+	if (IsGravityOn())
 	{
 		OnFall(deltaTime);
 	}
@@ -194,7 +194,6 @@ const char* Player::GetStateName(State state) const
 	default: return "Unknown";
 	}
 }
-
 
 void Player::MoveRight(float deltaTime)
 {

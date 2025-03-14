@@ -1,5 +1,5 @@
 #include "Entity.h"
-
+#include <iostream>
 #include "GameManager.h"
 #include "Utils.h"
 #include "Debug.h"
@@ -9,19 +9,6 @@
 
 #include <iostream>
 #include <algorithm>
-
-//void Entity::Initialize(float radius, const sf::Color& color)
-//{
-//	mDirection = sf::Vector2f(0.0f, 0.0f);
-//
-//	mShape.setOrigin(0.f, 0.f);
-//	mShape.setRadius(radius);
-//	mShape.setFillColor(color);
-//	
-//	mTarget.isSet = false;
-//
-//	OnInitialize();
-//}
 
 void Entity::Initialize(sf::Vector2f size, const sf::Color& color)
 {
@@ -49,26 +36,32 @@ void Entity::Repulse(Entity* other)
 	std::cout << overlapX << "\t" << overlapY << std::endl;
 
 	// Si il y a un overlap sur l'axe X
-	if (overlapX > 0) {
-		// Si l'overlap sur X est plus important que sur Y, on déplace selon l'axe X
-		if (overlapX >= overlapY) {
-			// Calculer le déplacement nécessaire sur l'axe Y
-			if (c2.xMax > c1.xMin) {
-				// Pousser c1 à gauche
+	if (overlapX > 0)
+	{
+		// Si l'overlap sur X est plus important que sur Y, on dï¿½place selon l'axe X
+		if (overlapX >= overlapY) 
+		{
+			// Calculer le dï¿½placement nï¿½cessaire sur l'axe Y
+			if (c2.xMax > c1.xMin) 
+			{
+				// Pousser c1 ï¿½ gauche
 				changeY = overlapY;
 			}
-			else {
-				// Pousser c1 à droite
+			else 
+			{
+				// Pousser c1 ï¿½ droite
 				changeY = -overlapY;
 			}
 		}
 	}
 
 	// Si il y a un overlap sur l'axe Y
-	if (overlapY > 0) {
-		// Si l'overlap sur Y est plus important que sur X, on déplace selon l'axe Y
-		if (overlapY > overlapX) {
-			// Calculer le déplacement nécessaire sur l'axe Y
+	if (overlapY > 0) 
+	{
+		// Si l'overlap sur Y est plus important que sur X, on dï¿½place selon l'axe Y
+		if (overlapY >= overlapX) 
+		{
+			// Calculer le dï¿½placement nï¿½cessaire sur l'axe Y
 
 			AABBCollider c1 = GetAABBCollider();
 			AABBCollider c2 = other->GetAABBCollider();
@@ -81,14 +74,16 @@ void Entity::Repulse(Entity* other)
 				// Pousser c1 vers le bas
 				changeX = overlapX;
 			}
-			else {
+			else 
+			{
 				// Pousser c1 vers le haut
 				changeX = overlapX;
 			}
 		}
 	}
-
-	// Appliquer le changement de position à c1 et c2
+	std::cout << overlapX << "\t" << overlapY << std::endl;
+	std::cout << " Delta X : " << changeX << " Delta Y : " << changeY << std::endl;
+	// Appliquer le changement de position ï¿½ c1 et c2
 	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x - changeX, mShape.getPosition().y - changeY);
 	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x + changeX, other->GetPosition().y + changeY);
 
