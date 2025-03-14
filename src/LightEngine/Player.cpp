@@ -124,7 +124,7 @@ void Player::OnCollision(Entity* pCollideWith)
 {
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
 	{
-		SetGravity(false);
+		//SetGravity(false);
 		mGravitySpeed = 0.f;
 	}
 	
@@ -223,4 +223,9 @@ void Player::OnJump()
 bool Player::IsMoving()
 {
 	return mIsMoving;
+}
+
+float Player::GetGravitySpeed()
+{
+	return mGravitySpeed;
 }

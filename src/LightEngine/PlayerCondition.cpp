@@ -18,5 +18,5 @@ bool PlayerCondition_IsMoving::OnTest(Player * owner)
 
 bool PlayerCondition_IsTouchingGround::OnTest(Player* owner)
 {
-    return !owner->IsGravityOn();
+    return owner->GetGravitySpeed() == 0;
 }

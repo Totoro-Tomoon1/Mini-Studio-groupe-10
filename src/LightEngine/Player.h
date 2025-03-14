@@ -52,6 +52,8 @@ public:
 	void OnJump();
 	bool IsMoving();
 
+	float GetGravitySpeed();
+
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
