@@ -28,7 +28,7 @@ ParallaxLayer::ParallaxLayer(sf::Texture* texture, float speed)
     mSprite2.setTexture(*texture);
     mSprite2.setTextureRect(sf::IntRect(0, 0, texture->getSize().x, texture->getSize().y));
     mSprite2.setScale(sf::Vector2f(1280.f / 1920.f * 1.1f, 720.f / 1080.f * 1.1f));
-    mSprite2.setPosition(mSprite1.getLocalBounds().width, 0);
+    mSprite2.setPosition(mSprite1.getGlobalBounds().width, 0);
 
     mSpeed = speed;
 }
@@ -78,7 +78,7 @@ void ParallaxLayer::SetPosition(sf::Vector2f posPlayer)
 
     // On ajuste la position en fonction de posPlayer pour centrer le sprite
     mSprite1.setPosition(posPlayer - spriteCenter);
-    mSprite2.setPosition(posPlayer - spriteCenter);
+    mSprite2.setPosition(posPlayer - spriteCenter - sf::Vector2f(mSprite1.getGlobalBounds().width, 0));
 }
 
 void ParallaxLayer::SetPositionY(float posY)
