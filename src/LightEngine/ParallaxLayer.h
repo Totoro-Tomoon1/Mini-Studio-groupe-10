@@ -22,7 +22,8 @@ class ParallaxLayer
 public:
 	ParallaxLayer(sf::Texture* texture, float speed);
 
-	void Update(sf::Vector2f offset);
+	void Update(Player* player);
+	void SetPosition(sf::Vector2f posPlayer);
 	void SetPositionY(float posY);
 	//void ConvertToGrayscale();
 

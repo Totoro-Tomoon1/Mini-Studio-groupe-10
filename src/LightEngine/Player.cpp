@@ -135,7 +135,7 @@ void Player::OnCollision(Entity* pCollideWith)
 	if (face == 2 || face == 4)
 		mDepl = sf::Vector2f(0, 0);
 
-	std::cout << "Collide with face : " << face << std::endl;
+	//std::cout << "Collide with face : " << face << std::endl;
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND) && (face == 1 || face == 3))
 	{
