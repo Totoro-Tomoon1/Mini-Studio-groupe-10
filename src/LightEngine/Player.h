@@ -40,6 +40,8 @@ private:
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
 
+	sf::Vector2f mDepl;
+
 public:
 	Player();
 	
@@ -53,6 +55,7 @@ public:
 	bool IsMoving();
 
 	float GetGravitySpeed();
+	sf::Vector2f* GetDepl();
 
 protected:
 	void OnInitialize() override;

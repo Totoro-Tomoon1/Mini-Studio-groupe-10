@@ -8,6 +8,7 @@
 class Player;
 class Music;
 class Sound;
+class ParallaxManager;
 
 namespace sf
 {
@@ -34,6 +35,10 @@ private:
 	Music* mMusic;
 	Sound* mSound;
 
+	Player* mPlayer;
+
+	ParallaxManager* mParallaxManager;
+
 public:
 
 	enum Tag
@@ -47,9 +52,10 @@ public:
 		
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
-	void OnUpdate() override {};
+	void OnUpdate() override;
 	void OnLateUpdate() override;
+	void Draw(sf::RenderWindow& pRenderWindow) override;
 
-
+	void CreateBackGround();
 };
 

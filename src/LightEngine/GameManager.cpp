@@ -178,6 +178,8 @@ void GameManager::Draw()
 	mpWindow->setView(cam->GetView());
 
 	mpWindow->clear(mClearColor);
+
+	mpScene->Draw(*mpWindow);
 	
 	for (Entity* entity : mEntities)
 	{

@@ -10,6 +10,7 @@
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
+	mDepl = sf::Vector2f(0, 0);
 }
 
 
@@ -113,6 +114,8 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	mShape.move(mDepl);
+
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
@@ -128,6 +131,9 @@ void Player::OnCollision(Entity* pCollideWith)
 	AABBCollider c2 = pCollideWith->GetAABBCollider();
 
 	int face = Utils::GetFace(c1, c2);
+
+	if (face == 2 || face == 4)
+		mDepl = sf::Vector2f(0, 0);
 
 	std::cout << "Collide with face : " << face << std::endl;
 
@@ -154,10 +160,15 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 		mIsMoving = true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		MoveLeft(deltaTime);
 		mIsMoving = true;
+	}
+
+	else
+	{
+		mDepl = sf::Vector2f(0, 0);
 	}
 
 	/*if (stickX < 0)
@@ -202,7 +213,8 @@ void Player::MoveRight(float deltaTime)
 		mSpeed = mMaxSpeed;*/
 
 	//mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	mDepl = sf::Vector2f(mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::MoveLeft(float deltaTime)
@@ -213,7 +225,8 @@ void Player::MoveLeft(float deltaTime)
 		mSpeed = mMaxSpeed;*/
 
 	//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	mDepl = sf::Vector2f(-mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::OnFall(float deltaTime)
@@ -235,4 +248,9 @@ bool Player::IsMoving()
 float Player::GetGravitySpeed()
 {
 	return mGravitySpeed;
+}
+
+sf::Vector2f* Player::GetDepl()
+{
+	return &mDepl;
 }
