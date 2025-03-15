@@ -53,47 +53,46 @@ void PlatFormerScene::OnInitialize()
 	}
 
 	int lineNumber = 0;
+	std::vector<std::tuple<int, int, int>> entities;  // (startX, totalLength, lineNumber)
+
 	std::string line;
 	while (std::getline(file, line))
 	{
 		std::cout << "Ligne lue: " << line << std::endl;
-
 		size_t i = 0;
-		while (i < line.size()) {
-			if (line[i] == 'x') {
-				// Trouv� un 'x', maintenant compter les 'x' suivants
+		while (i < line.size())
+		{
+			if (line[i] == 'x')
+			{
+				int startX = i;
 				size_t count = 1;
-
-				// Compter les 'x' derri�re le premier trouv�
 				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'x') {
+				while (j < line.size() && line[j] == 'x')
+				{
 					count++;
 					j++;
 				}
 
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				entities.push_back(std::make_tuple(startX, count, lineNumber));
+
 				// Afficher combien de 'x' suivent
-				std::cout << "Nombre de 'x' apr�s l'index " << i << ": " << count << std::endl;
+				std::cout << "Nombre de 'x' après l'index " << i << ": " << count << std::endl;
 
-				pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(count * 20, 20), sf::Color::Red);
-				pGround->SetPosition(i * 20, lineNumber * 20);
-				pGround->SetRigidBody(true);
-				pGround->SetStatic(true);
-				pGround->SetTag(Tag::GROUND);
-
-				// Passer apr�s le dernier 'x' trouv�
+				// Passer après le dernier 'x' trouvé
 				i = j;
 			}
 			else if (line[i] == 'p')
 			{
-				std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
+				std::cout << "p à la ligne :" << lineNumber * 20 << "    et à l'index : " << i * 20 << std::endl;
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(160, 130), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mCamera.SetPosition(mPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}
-			else {
-				// Si ce n'est pas un 'x', simplement avancer
+			else
+			{
 				i++;
 			}
 		}
@@ -101,6 +100,22 @@ void PlatFormerScene::OnInitialize()
 	}
 
 	file.close();
+
+	// Créer les entités à partir des données collectées
+	for (const auto& entity : entities)
+	{
+		int startX = std::get<0>(entity);
+		int totalLength = std::get<1>(entity);
+		int entityLine = std::get<2>(entity);
+
+		// Créer l'entité
+		pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20), sf::Color::Red);
+		pGround->SetPosition(startX * 20, entityLine * 20);
+		pGround->SetRigidBody(true);
+		pGround->SetStatic(true);
+		pGround->SetTag(Tag::GROUND);
+	}
+
 	
 	//Creation du fond
 	CreateBackGround();
