@@ -74,6 +74,7 @@ public:
 	AssetManager* GetAssetManager() { return mAssetManager; };
 
 	void SetCamera(Camera& camera);
+	void DestroyAllEntities();
 
 	friend Debug;
 	friend Scene;

@@ -101,8 +101,8 @@ void ParallaxLayer::SetPositionY(float posY)
 
 void ParallaxLayer::Draw(sf::RenderWindow& window)
 {
-    std::cout << "mSprite1 : " << mSprite1.getPosition().x << "      " << mSprite1.getPosition().y << std::endl;
-    std::cout << "mSprite2 : " << mSprite2.getPosition().x << "      " << mSprite2.getPosition().y << std::endl;
+    //std::cout << "mSprite1 : " << mSprite1.getPosition().x << "      " << mSprite1.getPosition().y << std::endl;
+    //std::cout << "mSprite2 : " << mSprite2.getPosition().x << "      " << mSprite2.getPosition().y << std::endl;
 
     window.draw(mSprite1);
     window.draw(mSprite2);

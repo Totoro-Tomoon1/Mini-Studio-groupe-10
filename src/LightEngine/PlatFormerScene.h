@@ -44,7 +44,8 @@ public:
 	enum Tag
 	{
 		PLAYER,
-		GROUND
+		GROUND,
+		Damagezone
 	};
 
 	/*int mLaneLevel[1] = { 0 };
@@ -57,5 +58,7 @@ public:
 	void Draw(sf::RenderWindow& pRenderWindow) override;
 
 	void CreateBackGround();
+
+	void GenerateMap();
 };
 

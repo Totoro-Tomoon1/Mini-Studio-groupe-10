@@ -16,7 +16,7 @@ void ParallaxManager::SetPlayer(Player* player)
 
 void ParallaxManager::Update(float dt)
 {
-	std::cout << mPlayer->GetPosition().x << "\t" << mPlayer->GetPosition().y << std::endl;
+	//std::cout << mPlayer->GetPosition().x << "\t" << mPlayer->GetPosition().y << std::endl;
 
 	for (auto& layer : mLayer)
 	{

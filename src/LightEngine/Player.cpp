@@ -23,6 +23,7 @@ Player::Player() : mStateMachine(this, (int)State::Count)
 
 void Player::OnInitialize()
 {
+	SetLife(20);
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
 	SetGravity(true);
@@ -114,6 +115,13 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	if (GetHP() <= 0)
+	{
+		std::cout << "You're dead" << std::endl;
+	}
+
+	imuuneProgresse += GetDeltaTime();
+
 	mShape.move(mDepl);
 
 	mPlayerAnimation->Update(GetDeltaTime());
@@ -132,15 +140,26 @@ void Player::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-	if (face == 2 || face == 4)
-		mDepl = sf::Vector2f(0, 0);
+	
 
 	//std::cout << "Collide with face : " << face << std::endl;
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND) && (face == 1 || face == 3))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
 	{
 		//SetGravity(false);
-		mGravitySpeed = 0.f;
+		if (face == 1 || face == 3)
+			mGravitySpeed = 0.f;
+
+		if (face == 2 || face == 4)
+			mDepl = sf::Vector2f(0, 0);
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone) && imuuneProgresse >= immuneTime)
+	{
+		std::cout << "Player take damage" << std::endl;
+		TakeDamage(1);
+		std::cout << "Current hp player : " << GetHP() << std::endl;
+		imuuneProgresse = 0;
 	}
 
 }
