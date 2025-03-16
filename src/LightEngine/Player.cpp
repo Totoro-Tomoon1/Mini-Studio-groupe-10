@@ -25,11 +25,10 @@ void Player::OnInitialize()
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
 	SetGravity(true);
-	//SetPosition(600.f, 400.f);
-	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
-	mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //� modifier
-	mPlayerAnimation->SetStartSize(0, 0, 1750, 2200);
+	//mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
+	//mShape.setTexture(mCurrentTexture);
+	//mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //� modifier
+	//mPlayerAnimation->SetStartSize(0, 0, 1750, 2200);
 
 	//Idle
 	{
@@ -113,10 +112,12 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
-	mPlayerAnimation->Update(GetDeltaTime());
-	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
+	//mPlayerAnimation->Update(GetDeltaTime());
+	//mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
 	mStateMachine.Update();
+
+	//Debug
 	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
 }

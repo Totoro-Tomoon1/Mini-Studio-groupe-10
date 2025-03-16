@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include <fstream>
+#define TILE_SIZE 60.f
 
 void PlatFormerScene::OnInitialize()
 {
@@ -72,8 +73,8 @@ void PlatFormerScene::OnInitialize()
 				// Afficher combien de 'x' suivent
 				std::cout << "Nombre de 'x' apr�s l'index " << i << ": " << count << std::endl;
 
-				pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(count * 20, 20), sf::Color::Red);
-				pGround->SetPosition(i * 20, lineNumber * 20);
+				pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(count * TILE_SIZE, TILE_SIZE), sf::Color::Red);
+				pGround->SetPosition(i * TILE_SIZE, lineNumber * TILE_SIZE);
 				pGround->SetRigidBody(true);
 				pGround->SetStatic(true);
 				pGround->SetTag(Tag::GROUND);
@@ -83,12 +84,12 @@ void PlatFormerScene::OnInitialize()
 			}
 			else if (line[i] == 'p')
 			{
-				std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
-				pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100, 200), sf::Color::White);
-				pPlayer->SetPosition(i * 20, lineNumber * 20);
+				std::cout << "p a la ligne :" << lineNumber * TILE_SIZE << "    et a l'index : " << i * TILE_SIZE << std::endl;
+				pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(128, 128), sf::Color::Green);
+				pPlayer->SetPosition(i * TILE_SIZE, lineNumber * TILE_SIZE);
 				mCamera.SetPosition(pPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
-				i++;
+				i++;;
 			}
 			else {
 				// Si ce n'est pas un 'x', simplement avancer
