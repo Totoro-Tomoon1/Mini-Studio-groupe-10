@@ -35,37 +35,49 @@ ParallaxLayer::ParallaxLayer(sf::Texture* texture, float speed)
 
 void ParallaxLayer::Update(Player* player)
 {
-    // Calcul du décalage par rapport au joueur
+    // Récupération du déplacement du joueur
     sf::Vector2f offset = *player->GetDepl();
     sf::Vector2f playerPos = player->GetPosition();
 
-    float newX = player->GetPosition(0.5f, 0.5f).x - player->GetScene()->GetWindowWidth() / 2;
+    // Calcul de la position cible du fond (avec un ajustement horizontal en fonction du joueur)
+    float newX = playerPos.x - player->GetScene()->GetWindowWidth() / 2;
 
     // Déplacement des sprites de fond en fonction du mouvement du joueur
-    mSprite1.move(-offset.x * mSpeed, -offset.y * mSpeed);
-    mSprite2.move(-offset.x * mSpeed, -offset.y * mSpeed);
+    // Ici, nous gardons un défilement continu et un parallaxe modéré (mSpeed ajusté)
+    //mSprite1.move(offset.x * mSpeed, 0);  // Déplacement horizontal du fond en fonction du joueur
+    //mSprite2.move(offset.x * mSpeed, 0);  // Déplacement horizontal du fond en fonction du joueur
 
+    mSprite1.setPosition(mSprite1.getPosition().x - offset.x * mSpeed + offset.x, mSprite1.getPosition().y);
+    mSprite2.setPosition(mSprite2.getPosition().x - offset.x * mSpeed + offset.x, mSprite2.getPosition().y);
+
+    // Calcul de la largeur des sprites pour la gestion de la répétition du fond
     float spriteWidth = mSprite1.getGlobalBounds().width;
 
-    // Réinitialisation du sprite 1 (horizontal)
+    // Réinitialisation du sprite 1 (quand il sort de l'écran à gauche)
     if (mSprite1.getPosition().x <= newX - spriteWidth)
     {
         mSprite1.setPosition(mSprite2.getPosition().x + spriteWidth, mSprite1.getPosition().y);
     }
+    // Réinitialisation du sprite 1 (quand il sort de l'écran à droite)
     else if (mSprite1.getPosition().x >= newX + spriteWidth)
     {
         mSprite1.setPosition(mSprite2.getPosition().x - spriteWidth, mSprite1.getPosition().y);
     }
 
-    // Réinitialisation du sprite 2 (horizontal)
+    // Réinitialisation du sprite 2 (quand il sort de l'écran à gauche)
     if (mSprite2.getPosition().x <= newX - spriteWidth)
     {
         mSprite2.setPosition(mSprite1.getPosition().x + spriteWidth, mSprite2.getPosition().y);
     }
+    // Réinitialisation du sprite 2 (quand il sort de l'écran à droite)
     else if (mSprite2.getPosition().x >= newX + spriteWidth)
     {
         mSprite2.setPosition(mSprite1.getPosition().x - spriteWidth, mSprite2.getPosition().y);
     }
+
+    // Ajustement de la position horizontale des sprites en fonction de la position du joueur
+   /* mSprite1.setPosition(newX, mSprite1.getPosition().y);
+    mSprite2.setPosition(newX + spriteWidth, mSprite2.getPosition().y);*/
 
 }
 

@@ -176,7 +176,7 @@ void PlatFormerScene::CreateBackGround()
 	ParallaxLayer background1(backgroundTexture1, 0.2f);
 	ParallaxLayer background2(backgroundTexture2, 0.25f);
 	ParallaxLayer background3(backgroundTexture3, 0.3f);
-	ParallaxLayer background4(backgroundTexture4, 0.45f);
+	ParallaxLayer background4(backgroundTexture4, 0.35f);
 	ParallaxLayer background5(backgroundTexture5, 0.4f);
 	ParallaxLayer background6(backgroundTexture6, 0.45f);
 	ParallaxLayer background7(backgroundTexture7, 0.5f);
