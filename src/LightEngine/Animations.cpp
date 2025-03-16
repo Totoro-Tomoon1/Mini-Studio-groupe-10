@@ -1,10 +1,11 @@
 #include "Animations.h"
 #include "AssetManager.h"
 
-Animation::Animation(const char* path, sf::IntRect rect, int nbFrame)
+Animation::Animation(const char* path, sf::IntRect rect, int nbFrame, bool isReapeted)
 {
 	mTextureRect = rect;
 	mNumberFrames = nbFrame;
+	mIsReapated = isReapeted;
 }
 
 void Animation::SetStartSize(int xStart, int yStart, int xSize, int ySize)
@@ -22,7 +23,28 @@ void Animation::Update(float deltaTime)
 	if (mDuration <= 0)
 	{
 		mDuration += 0.1f;
-		mCurrentIndex = (mCurrentIndex + 1) % mNumberFrames;
+
+		if (!mIsReapated)
+		{
+			std::cout << mCurrentIndex << std::endl;
+			mCurrentIndex = (mCurrentIndex + 1) % mNumberFrames;
+		}
+
+		else if (!mReverse)
+		{
+			std::cout << mCurrentIndex << std::endl;
+			mCurrentIndex = mCurrentIndex + 1;
+			if (mCurrentIndex + 1 == mNumberFrames)
+				mReverse = true;
+		}
+		else
+		{
+			std::cout << mCurrentIndex << std::endl;
+			mCurrentIndex -= 1;
+			if (mCurrentIndex == 0)
+				mReverse = false;
+		}
+		
 		mTextureRect = sf::IntRect(mXSize * mCurrentIndex + mXStart,mYStart,mXSize,mYSize);
 	}
 }
