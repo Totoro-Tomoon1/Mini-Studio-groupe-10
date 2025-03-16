@@ -45,7 +45,8 @@ public:
 	{
 		PLAYER,
 		GROUND,
-		Damagezone
+		Damagezone,
+		Fallzone
 	};
 
 	/*int mLaneLevel[1] = { 0 };

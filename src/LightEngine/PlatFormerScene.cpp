@@ -12,6 +12,7 @@
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
 #include "DamageZone.h"
+#include "FallZone.h"
 
 void PlatFormerScene::OnInitialize()
 {
@@ -139,6 +140,7 @@ void PlatFormerScene::GenerateMap()
 	int lineNumber = 0;
 	std::vector<std::tuple<int, int, int>> ground;// (startX, totalLength, lineNumber)
 	std::vector<std::tuple<int, int, int>> damageZone;
+	std::vector<std::tuple<int, int, int>> fallZone;
 
 	std::string line;
 	while (std::getline(file, line))
@@ -171,7 +173,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'x')
+				while (j < line.size() && line[j] == 's')
 				{
 					count++;
 					j++;
@@ -184,6 +186,23 @@ void PlatFormerScene::GenerateMap()
 				//std::cout << "Nombre de 'x' après l'index " << i << ": " << count << std::endl;
 
 				// Passer après le dernier 'x' trouvé
+				i = j;
+			}
+			else if (line[i] == 'f')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'f')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				fallZone.push_back(std::make_tuple(i, count, lineNumber));
+
 				i = j;
 			}
 			else if (line[i] == 'p')
@@ -230,6 +249,18 @@ void PlatFormerScene::GenerateMap()
 		pDamage->SetPosition(start * 20, entityLine * 20);
 		pDamage->SetToDraw(false);
 		pDamage->SetTag(Tag::Damagezone);
+	}
+
+	for (const auto& entity : fallZone)
+	{
+		int start = std::get<0>(entity);
+		int totalLenght = std::get<1>(entity);
+		int entityLine = std::get<2>(entity);
+
+		Entity* pFall = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::White);
+		pFall->SetPosition(start * 20, entityLine * 20);
+		pFall->SetToDraw(true);
+		pFall->SetTag(Tag::Fallzone);
 	}
 
 	//Creation du fond

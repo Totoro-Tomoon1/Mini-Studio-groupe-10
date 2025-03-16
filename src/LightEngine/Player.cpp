@@ -162,6 +162,10 @@ void Player::OnCollision(Entity* pCollideWith)
 		imuuneProgresse = 0;
 	}
 
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
+	{
+		TakeDamage(GetHP());
+	}
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
