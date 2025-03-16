@@ -30,8 +30,9 @@ void Player::OnInitialize()
 	//SetPosition(600.f, 400.f);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 160, 130), 6, true); //� modifier
-	mPlayerAnimation->SetStartSize(0, 0, 160, 130);
+	//mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 160, 130), 6, false); //� modifier
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,123,100), 8, true);
+	mPlayerAnimation->SetStartSize(0, 0, 123, 100);
 
 	//Idle
 	{

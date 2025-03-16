@@ -96,36 +96,36 @@ void PlatFormerScene::CreateBackGround()
 	sf::Texture* backgroundTexture3 = new sf::Texture;
 	sf::Texture* backgroundTexture4 = new sf::Texture;
 	sf::Texture* backgroundTexture5 = new sf::Texture;
-	sf::Texture* backgroundTexture6 = new sf::Texture;
-	sf::Texture* backgroundTexture7 = new sf::Texture;
+	/*sf::Texture* backgroundTexture6 = new sf::Texture;
+	sf::Texture* backgroundTexture7 = new sf::Texture;*/
 		
-	if (!backgroundTexture1->loadFromFile("../../../res/layers/sky.png") ||
-		!backgroundTexture2->loadFromFile("../../../res/layers/clouds_1.png") ||
-		!backgroundTexture3->loadFromFile("../../../res/layers/clouds_2.png") ||
-		!backgroundTexture4->loadFromFile("../../../res/layers/rocks_1.png") ||
-		!backgroundTexture5->loadFromFile("../../../res/layers/clouds_3.png") ||
+	if (!backgroundTexture1->loadFromFile("../../../res/background/Fond.png") ||
+		!backgroundTexture2->loadFromFile("../../../res/background/4e_plan.png") ||
+		!backgroundTexture3->loadFromFile("../../../res/background/3e_plan.png") ||
+		!backgroundTexture4->loadFromFile("../../../res/background/2e_plan.png") ||
+		!backgroundTexture5->loadFromFile("../../../res/background/1er_plan.png")/* ||
 		!backgroundTexture6->loadFromFile("../../../res/layers/rocks_2.png") ||
-		!backgroundTexture7->loadFromFile("../../../res/layers/clouds_4.png"))
+		!backgroundTexture7->loadFromFile("../../../res/layers/clouds_4.png")*/)
 	{
 
 		std::cout << "Erreur de chargement des fonds d'ecrans." << std::endl;
 	}
 
-	ParallaxLayer background1(backgroundTexture1, 0.2f);
-	ParallaxLayer background2(backgroundTexture2, 0.25f);
-	ParallaxLayer background3(backgroundTexture3, 0.3f);
-	ParallaxLayer background4(backgroundTexture4, 0.35f);
+	ParallaxLayer background1(backgroundTexture1, 0.01f);
+	ParallaxLayer background2(backgroundTexture2, 0.1f);
+	ParallaxLayer background3(backgroundTexture3, 0.2f);
+	ParallaxLayer background4(backgroundTexture4, 0.3f);
 	ParallaxLayer background5(backgroundTexture5, 0.4f);
-	ParallaxLayer background6(backgroundTexture6, 0.45f);
-	ParallaxLayer background7(backgroundTexture7, 0.5f);
+	/*ParallaxLayer background6(backgroundTexture6, 0.45f);
+	ParallaxLayer background7(backgroundTexture7, 0.5f);*/
 
 	mParallaxManager->AddLayers(background1);
 	mParallaxManager->AddLayers(background2);
 	mParallaxManager->AddLayers(background3);
 	mParallaxManager->AddLayers(background4);
-	mParallaxManager->AddLayers(background5);
+	mParallaxManager->AddLayers(background5);/*
 	mParallaxManager->AddLayers(background6);
-	mParallaxManager->AddLayers(background7);
+	mParallaxManager->AddLayers(background7);*/
 }
 
 void PlatFormerScene::GenerateMap()
@@ -208,8 +208,9 @@ void PlatFormerScene::GenerateMap()
 			else if (line[i] == 'p')
 			{
 				//std::cout << "p à la ligne :" << lineNumber * 20 << "    et à l'index : " << i * 20 << std::endl;
-				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(50, 73), sf::Color::White);
+				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(123, 100), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
+				mPlayer->SetToDraw(false);
 				mCamera.SetPosition(mPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
@@ -259,7 +260,7 @@ void PlatFormerScene::GenerateMap()
 
 		Entity* pFall = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::White);
 		pFall->SetPosition(start * 20, entityLine * 20);
-		pFall->SetToDraw(true);
+		pFall->SetToDraw(false);
 		pFall->SetTag(Tag::Fallzone);
 	}
 
