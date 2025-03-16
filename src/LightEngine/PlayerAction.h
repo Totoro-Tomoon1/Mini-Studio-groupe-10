@@ -30,7 +30,6 @@ public:
 
 class PlayerAction_Fall : public Action<Player>
 {
-	float mFallTImer = 0.0f;
 public:
 	void OnStart(Player* pPlayer) override;
 	void OnUpdate(Player* pPlayer) override {}

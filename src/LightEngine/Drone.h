@@ -1,56 +1,56 @@
 #pragma once
-#include "PhysicalEntity.h"
+#include "Entity.h"
 #include "Animations.h"
 #include "StateMachine.h"
 
-struct PlayerParameter
+struct DroneParameter
 {
-	float mMinSpeed = 800.f;
+	float mMinSpeed = 600.f;
 	float mMaxSpeed = 200.f;
 	float mAcceleration = 200.f;
 	float mDeceleration = 200.f;
 };
 
-class Player : public PhysicalEntity
+class Drone : public Entity
 {
 public:
 
-	StateMachine<Player> mStateMachine;
+	StateMachine<Drone> mStateMachine;
 
 	enum State
 	{
 		Idle,
 		Moving,
-		Jump,
-		Fall,
+		Shooting,
+		Hacking,
 
 		Count
 	};
 
 private:
 
-	PlayerParameter mPlayerParameters;
+	DroneParameter mDroneParameters;
 	bool mIsMoving = false;
+	bool mIsShooting = false;
+	bool mCanHack = false;
 
-	int mAreaIndex;
-	sf::Vector2f* mPlayerPosition;
-	Animation* mPlayerAnimation;
+	sf::Vector2f* mDronePosition;
+	Animation* mDroneAnimation;
 	sf::Texture* mCurrentTexture;
-	float mGravitySpeed = 0;
 
 public:
-	Player();
-	
+	Drone();
+
 	const char* GetStateName(State state) const;
 	//void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
-	void OnFall(float deltaTime);
-	void OnJump();
+	void MoveUp(float deltaTime);
+	void MoveDown(float deltaTime);
 	bool IsMoving();
-
-	float GetGravitySpeed();
+	bool CanHack();
+	void Shoot(float deltaTime);
 
 protected:
 	void OnInitialize() override;
@@ -63,4 +63,5 @@ protected:
 	friend class PlayerAction_Jump;
 	friend class PlayerAction_Fall;
 };
+
 

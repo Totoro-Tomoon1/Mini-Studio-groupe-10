@@ -1,6 +1,7 @@
 #include "PlatFormerScene.h"
 
 #include "Player.h"
+#include "Drone.h"
 #include "DummyEntity.h"
 #include "Debug.h"
 #include "Music.h"
@@ -57,14 +58,17 @@ void PlatFormerScene::OnInitialize()
 		std::cout << "Ligne lue: " << line << std::endl;
 
 		size_t i = 0;
-		while (i < line.size()) {
-			if (line[i] == 'x') {
+		while (i < line.size())
+		{
+			if (line[i] == 'x') 
+			{
 				// Trouv� un 'x', maintenant compter les 'x' suivants
 				size_t count = 1;
 
 				// Compter les 'x' derri�re le premier trouv�
 				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'x') {
+				while (j < line.size() && line[j] == 'x') 
+				{
 					count++;
 					j++;
 				}
@@ -81,6 +85,31 @@ void PlatFormerScene::OnInitialize()
 				// Passer apr�s le dernier 'x' trouv�
 				i = j;
 			}
+			else if (line[i] == 'h') 
+			{
+				// Trouv� un 'h', maintenant compter les 'h' suivants
+				size_t count = 1;
+
+				// Compter les 'h' derri�re le premier trouv�
+				size_t j = i + 1;
+				while (j < line.size() && line[j] == 'h') 
+				{
+					count++;
+					j++;
+				}
+
+				// Afficher combien de 'h' suivent
+				std::cout << "Nombre de 'h' apr�s l'index " << i << ": " << count << std::endl;
+
+				pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(count * 20, 20), sf::Color::Black);
+				pGround->SetPosition(i * 20, lineNumber * 20);
+				pGround->SetRigidBody(false);
+				pGround->SetStatic(true);
+				pGround->SetTag(Tag::HACKING_ZONE);
+
+				// Passer apr�s le dernier 'x' trouv�
+				i = j;
+			}
 			else if (line[i] == 'p')
 			{
 				std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
@@ -90,7 +119,17 @@ void PlatFormerScene::OnInitialize()
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}
-			else {
+			else if (line[i] == 'd')
+			{
+				std::cout << "d a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
+				pPlayer = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
+				pPlayer->SetPosition(i * 20, lineNumber * 20);
+				mCamera.SetPosition(pPlayer->GetPosition());
+				GameManager::Get()->SetCamera(mCamera);
+				i++;
+			}
+			else 
+			{
 				// Si ce n'est pas un 'x', simplement avancer
 				i++;
 			}

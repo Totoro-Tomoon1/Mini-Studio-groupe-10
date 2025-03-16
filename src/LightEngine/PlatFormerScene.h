@@ -39,7 +39,9 @@ public:
 	enum Tag
 	{
 		PLAYER,
-		GROUND
+		GROUND,
+		DRONE,
+		HACKING_ZONE,
 	};
 
 	/*int mLaneLevel[1] = { 0 };
