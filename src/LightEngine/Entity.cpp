@@ -41,16 +41,19 @@ void Entity::Repulse(Entity* other)
 		// Si l'overlap sur X est plus important que sur Y, on d�place selon l'axe X
 		if (overlapX >= overlapY) 
 		{
+			int face = Utils::GetFace(c1, c2);
+			if (face == 3)
+				overlapY = -overlapY;
 			// Calculer le d�placement n�cessaire sur l'axe Y
 			if (c2.xMax > c1.xMin) 
 			{
 				// Pousser c1 � gauche
-				changeY = overlapY;
+				changeY = -overlapY;
 			}
 			else 
 			{
 				// Pousser c1 � droite
-				changeY = -overlapY;
+				changeY = overlapY;
 			}
 		}
 	}
