@@ -2,6 +2,7 @@
 #include "PhysicalEntity.h"
 #include "Animations.h"
 #include "StateMachine.h"
+#include "Life.h"
 
 struct PlayerParameter
 {
@@ -11,7 +12,7 @@ struct PlayerParameter
 	float mDeceleration = 200.f;
 };
 
-class Player : public PhysicalEntity
+class Player : public PhysicalEntity, public Life
 {
 public:
 
@@ -38,6 +39,11 @@ private:
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;
 
+	sf::Vector2f mDepl;
+
+	float immuneTime = 1.f;
+	float imuuneProgresse = 0.f;
+
 public:
 	Player();
 	
@@ -51,6 +57,7 @@ public:
 	bool IsMoving();
 
 	float GetGravitySpeed();
+	sf::Vector2f* GetDepl();
 
 protected:
 	void OnInitialize() override;

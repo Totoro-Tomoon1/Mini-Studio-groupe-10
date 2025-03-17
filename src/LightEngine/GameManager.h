@@ -8,7 +8,7 @@
 
 #define FIXED_DT 0.01667f
 #define GRAVITY_ACCELERATION 9.81f
-#define PLAYER_PATH "../../../res/test-perso.png"
+#define PLAYER_PATH "C:/Users/romai/Downloads/MODELSHEET_MOB_VOLANT_ANIM_VOLE.png"
 
 class Entity;
 class Scene;
@@ -74,6 +74,7 @@ public:
 	AssetManager* GetAssetManager() { return mAssetManager; };
 
 	void SetCamera(Camera& camera);
+	void DestroyAllEntities();
 
 	friend Debug;
 	friend Scene;

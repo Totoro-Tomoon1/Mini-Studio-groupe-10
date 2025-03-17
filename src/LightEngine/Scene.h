@@ -3,7 +3,7 @@
 class GameManager;
 
 #include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics.hpp>
 
 class Scene
 {
@@ -20,6 +20,7 @@ protected:
 	virtual void OnEvent(const sf::Event& event) = 0;
 	virtual void OnUpdate() = 0;
 	virtual void OnLateUpdate() = 0;
+	virtual void Draw(sf::RenderWindow& pRenderWindow) {};
 
 public:
 	/*template<typename T>

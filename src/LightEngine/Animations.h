@@ -14,8 +14,11 @@ class Animation
 	int mXSize;
 	int mYSize;
 
+	bool mIsReapated = false;
+	bool mReverse = false;
+
 public:
-	Animation(const char* path, sf::IntRect rect, int nbFrame);
+	Animation(const char* path, sf::IntRect rect, int nbFrame, bool isReapated);
 
 	void SetStartSize(int xStart, int yStart, int xSize, int ySize);
 
