@@ -324,7 +324,7 @@ void PlatFormerScene::GenerateMap()
 				//std::cout << "p à la ligne :" << lineNumber * 20 << "    et à l'index : " << i * 20 << std::endl;
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(123, 100), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
-				mPlayer->SetToDraw(false);
+				//mPlayer->SetToDraw(false);
 				mCamera.SetPosition(mPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
