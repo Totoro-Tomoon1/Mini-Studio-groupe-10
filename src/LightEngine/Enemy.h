@@ -11,7 +11,6 @@ protected:
 	Animation* mAnimation;
 	sf::Texture* mCurrentTexture;
 	sf::Vector2f mDepl;
-	sf::Vector2f mShotDirection;
 	Drone* mDroneTarget;
 	bool mIsAttacking = false;
 	float mChangeDirectionTimer = 4.f;
@@ -27,6 +26,7 @@ public:
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
+	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 
 };

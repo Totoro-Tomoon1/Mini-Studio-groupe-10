@@ -1,24 +1,18 @@
 #pragma once
-
 #include "Enemy.h"
 
-class GroundEnemy : public Enemy
+class Enemy2 : public Enemy
 {
-	Animation* mAnimation;
-	sf::Texture* mCurrentTexture;
-	sf::Vector2f mDepl;
-
-	float mChangeDirectionTimer = 4.f;
-	float mChangeDirectionProcess = 0.f;
 
 public:
-	GroundEnemy();
+	Enemy2();
+
+	void Shoot(float deltaTime);
 
 protected:
 	void OnInitialize() override;
     void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
-
 };
 

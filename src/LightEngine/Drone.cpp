@@ -15,6 +15,7 @@ void Drone::OnInitialize()
 {
 	SetTag(PlatFormerScene::Tag::DRONE);
 	SetRigidBody(true);
+	SetLife(20.f);
 
 	//Idle
 	{
@@ -106,7 +107,11 @@ void Drone::OnInitialize()
 
 void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 {
-	mShape.move(mDepl);
+	if (GetHP() <= 0)
+	{
+		Destroy();
+		std::cout << "You're dead" << std::endl;
+	}
 
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mDroneParameters.mMinSpeed), sf::Color::White);
@@ -126,6 +131,11 @@ void Drone::OnCollision(Entity* pCollideWith)
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::HACKING_ZONE))
 	{
 		mCanHack = true;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+	{
+		TakeDamage(1.f);
 	}
 }
 
@@ -160,6 +170,8 @@ void Drone::OnFixedUpdate(float deltaTime) //Update physique
 		MoveDown(deltaTime);
 		mIsMoving = true;
 	}
+
+	mShape.move(mDepl);
 }
 
 //Pour l'affichage debug
@@ -236,4 +248,5 @@ void Drone::Shoot(float deltaTime)
 {		
 	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
 	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
+	b->SetTag(PlatFormerScene::Tag::PLAYER_BULLET);
 }

@@ -24,7 +24,7 @@ void Bullet::OnCollision(Entity* other)
 	}
 	else
 	{
-		if (other->IsTag(PlatFormerScene::Tag::PLAYER))
+		if (other->IsTag(PlatFormerScene::Tag::PLAYER) || other->IsTag(PlatFormerScene::Tag::DRONE))
 		{
 			Destroy();
 			return;

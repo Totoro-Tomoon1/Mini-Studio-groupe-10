@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Animations.h"
 #include "StateMachine.h"
+#include "Life.h"
 
 struct DroneParameter
 {
@@ -11,7 +12,7 @@ struct DroneParameter
 	float mDeceleration = 200.f;
 };
 
-class Drone : public Entity
+class Drone : public Entity, public Life
 {
 public:
 

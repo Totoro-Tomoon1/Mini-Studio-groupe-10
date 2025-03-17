@@ -1,19 +1,19 @@
-#include "Enemy1.h"
+#include "Enemy2.h"
 #include "Utils.h"
 #include "Bullet.h"
 
-Enemy1::Enemy1()
+Enemy2::Enemy2()
 {
 }
 
-void Enemy1::OnInitialize()
+void Enemy2::OnInitialize()
 {
 	Enemy::OnInitialize();
 
 	//Setter les textures ici
 }
 
-void Enemy1::OnUpdate()
+void Enemy2::OnUpdate()
 {
 	Enemy::OnUpdate();
 
@@ -30,12 +30,13 @@ void Enemy1::OnUpdate()
 		mIsAttacking = false;
 }
 
-void Enemy1::OnCollision(Entity* pCollideWith)
+void Enemy2::OnCollision(Entity* pCollideWith)
 {
 	Enemy::OnCollision(pCollideWith);
+
 }
 
-void Enemy1::OnFixedUpdate(float deltaTime)
+void Enemy2::OnFixedUpdate(float deltaTime)
 {
 	if (mIsAttacking)
 	{
@@ -47,7 +48,7 @@ void Enemy1::OnFixedUpdate(float deltaTime)
 	}
 }
 
-void Enemy1::Shoot(float deltaTime)
+void Enemy2::Shoot(float deltaTime)
 {
 	mLastAttackTime += deltaTime;
 

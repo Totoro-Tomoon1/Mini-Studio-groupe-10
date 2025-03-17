@@ -7,6 +7,7 @@
 #include "Music.h"
 #include "Sound.h"
 #include "Enemy1.h"
+#include "Enemy2.h"
 #include <iostream>
 
 #include <fstream>
@@ -348,6 +349,20 @@ void PlatFormerScene::GenerateMap()
 				//GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}
+			else if (line[i] == 'e')
+			{
+				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Magenta);
+				pEnemy->SetPosition(i * 20, lineNumber * 20);
+				pEnemy->SetDroneTarget(mDrone);
+				i++;
+			}
+			else if (line[i] == 'g')
+			{
+				Enemy2* pEnemy = CreateRectangleEntity<Enemy2>(sf::Vector2f(150, 150), sf::Color::Black);
+				pEnemy->SetPosition(i * 20, lineNumber * 20);
+				pEnemy->SetDroneTarget(mDrone);
+				i++;
+			}
 			else
 			{
 				i++;
@@ -463,16 +478,12 @@ void PlatFormerScene::GenerateMap()
 		int totalLenght = std::get<1>(entity);
 		int entityLine = std::get<2>(entity);
 
-		Entity* pHacking = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
+		Entity* pHacking = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
 		pHacking->SetPosition(start * 20, entityLine * 20);
 		pHacking->SetToDraw(false);
 		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
 
-	Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Magenta);
-	pEnemy->SetPosition(100.f, 100.f);
-	pEnemy->SetTag(Tag::ENEMY);
-	pEnemy->SetDroneTarget(mDrone);
 	//Creation du fond
 	CreateBackGround();
 }
