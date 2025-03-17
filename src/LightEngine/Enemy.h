@@ -17,6 +17,9 @@ protected:
 	float mChangeDirectionTimer = 4.f;
 	float mChangeDirectionProcess = 0.f;
 
+	float mAttackTimer = 0.5f;
+	float mLastAttackTime = 0.f;
+
 public:
 	Enemy();
 

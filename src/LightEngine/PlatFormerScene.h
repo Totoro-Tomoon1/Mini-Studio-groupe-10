@@ -52,6 +52,9 @@ public:
 		HACKING_ZONE,
 		Damagezone,
 		Fallzone,
+		PLAYER_BULLET,
+		ENEMY_BULLET,
+
 	};
 
 	/*int mLaneLevel[1] = { 0 };

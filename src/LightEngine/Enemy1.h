@@ -7,6 +7,8 @@ class Enemy1 : public Enemy
 public:
 	Enemy1();
 
+	void Shoot(float deltaTime);
+
 protected:
 	void OnInitialize();
 	void OnUpdate();

@@ -3,7 +3,7 @@
 
 void Bullet::OnInitialize()
 {
-	mDirection = { 3.f, 0.f };
+	mDirection = { 3.0f, 0.f };
 }
 
 void Bullet::OnCollision(Entity* other)
@@ -11,7 +11,26 @@ void Bullet::OnCollision(Entity* other)
 	if (other->IsTag(PlatFormerScene::Tag::GROUND))
 	{
 		Destroy();
+		return;
 	}
+
+	if (IsTag(PlatFormerScene::Tag::PLAYER_BULLET))
+	{
+		if (other->IsTag(PlatFormerScene::Tag::ENEMY))
+		{
+			Destroy();
+			return;
+		}
+	}
+	else
+	{
+		if (other->IsTag(PlatFormerScene::Tag::PLAYER))
+		{
+			Destroy();
+			return;
+		}
+	}
+	
 }
 
 void Bullet::OnUpdate()
@@ -22,4 +41,9 @@ void Bullet::OnUpdate()
 	{
 		Destroy();
 	}
+}
+
+void Bullet::SetTag(int tag)
+{
+	Entity::SetTag(tag);
 }
