@@ -28,6 +28,8 @@ class PlatFormerScene : public Scene
 private:
 	Entity* pPlayer;
 	Entity* pGround;
+	Entity* pAmovible;
+	Entity* pActivate;
 
 	Camera mCamera;
 
@@ -39,7 +41,8 @@ public:
 	enum Tag
 	{
 		PLAYER,
-		GROUND
+		GROUND,
+		ACTIVATE
 	};
 
 	/*int mLaneLevel[1] = { 0 };
