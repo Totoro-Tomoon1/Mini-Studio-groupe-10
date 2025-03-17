@@ -1,9 +1,8 @@
 #pragma once
-#include "PhysicalEntity.h"
-#include "Life.h"
-#include "Animations.h"
 
-class Enemy : public PhysicalEntity, public Life
+#include "Enemy.h"
+
+class GroundEnemy : public Enemy
 {
 	Animation* mAnimation;
 	sf::Texture* mCurrentTexture;
@@ -13,11 +12,11 @@ class Enemy : public PhysicalEntity, public Life
 	float mChangeDirectionProcess = 0.f;
 
 public:
-	Enemy();
+	GroundEnemy();
 
 protected:
-	virtual void OnInitialize();
-	virtual void OnUpdate();
+	void OnInitialize() override;
+    void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 
