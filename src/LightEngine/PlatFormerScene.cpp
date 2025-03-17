@@ -111,31 +111,31 @@ void PlatFormerScene::OnInitialize()
 				i = j;
 			}
 
-			else if (line[i] == 'i') {
-				// Trouv� un 'i', maintenant compter les 'x' suivants
-				size_t count = 1;
+			//else if (line[i] == 'i') {
+			//	// Trouv� un 'i', maintenant compter les 'x' suivants
+			//	size_t count = 1;
 
-				// Compter les 'i' derri�re le premier trouv�
-				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'i') {
-					count++;
-					j++;
-				}
+			//	// Compter les 'i' derri�re le premier trouv�
+			//	size_t j = i + 1;
+			//	while (j < line.size() && line[j] == 'i') {
+			//		count++;
+			//		j++;
+			//	}
 
-				// Afficher combien de 'a' suivent
-				std::cout << "Nombre de 'i' apr�s l'index " << i << ": " << count << std::endl;
+			//	// Afficher combien de 'a' suivent
+			//	std::cout << "Nombre de 'i' apr�s l'index " << i << ": " << count << std::endl;
 
-				pActivate = CreateRectangleEntity<ActivateZone>(sf::Vector2f(count * 20, 20), sf::Color::Transparent);
-				pActivate->SetPosition(i * 20, lineNumber * 20);
-				pActivate->SetRigidBody(false);
-				pActivate->SetStatic(true);
-				pActivate->SetTag(Tag::ACTIVATE);
+			//	pActivate = CreateRectangleEntity<ActivateZone>(sf::Vector2f(count * 20, 20), sf::Color::Transparent);
+			//	pActivate->SetPosition(i * 20, lineNumber * 20);
+			//	pActivate->SetRigidBody(false);
+			//	pActivate->SetStatic(true);
+			//	pActivate->SetTag(Tag::ACTIVATE);
 
 
 
-				// Passer apr�s le dernier 'i' trouv�
-				i = j;
-			}
+			//	// Passer apr�s le dernier 'i' trouv�
+			//	i = j;
+			//}
 
 			else if (line[i] == 'p')
 			{
@@ -177,7 +177,7 @@ void PlatFormerScene::OnLateUpdate()
 {
 	//std::cout << pPlayer->GetPosition().y << "\t";
 	mCamera.GetView().setCenter(pPlayer->GetPosition(0.5f, 0.5f));
-	if(pPlayer->IsColliding(pActivate))
-		pAmovible->GoToDirection(100,100, 50.f);
+	
+		
 	
 }
