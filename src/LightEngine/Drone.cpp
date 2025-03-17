@@ -249,8 +249,9 @@ void Drone::Undisplay()
 	SetRigidBody(false);
 }
 
-void Drone::Display()
+void Drone::Display(sf::Vector2f posPlayer)
 {
 	SetToDraw(true);
 	SetRigidBody(true);
+	SetPosition(posPlayer.x - 20, posPlayer.y - 20);
 }

@@ -56,7 +56,7 @@ public:
 
 	void Input();
 	void Undisplay();
-	void Display();
+	void Display(sf::Vector2f posPlayer);
 
 protected:
 	void OnInitialize() override;

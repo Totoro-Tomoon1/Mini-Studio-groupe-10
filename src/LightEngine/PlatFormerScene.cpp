@@ -49,7 +49,7 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 			}
 			else
 			{
-				mDrone->Display();
+				mDrone->Display(mPlayer->GetPosition());
 			}
 			std::cout << "change" << std::endl;
 		}
