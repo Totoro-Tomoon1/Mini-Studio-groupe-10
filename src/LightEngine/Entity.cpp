@@ -33,7 +33,7 @@ void Entity::Repulse(Entity* other)
 	float changeX = 0;
 	float changeY = 0;
 
-	std::cout << overlapX << "\t" << overlapY << std::endl;
+	//std::cout << overlapX << "\t" << overlapY << std::endl;
 
 	// Si il y a un overlap sur l'axe X
 	if (overlapX > 0)
@@ -84,8 +84,8 @@ void Entity::Repulse(Entity* other)
 			}
 		}
 	}
-	std::cout << overlapX << "\t" << overlapY << std::endl;
-	std::cout << " Delta X : " << changeX << " Delta Y : " << changeY << std::endl;
+	//std::cout << overlapX << "\t" << overlapY << std::endl;
+	//std::cout << " Delta X : " << changeX << " Delta Y : " << changeY << std::endl;
 	// Appliquer le changement de position � c1 et c2
 	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x - changeX, mShape.getPosition().y - changeY);
 	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x + changeX, other->GetPosition().y + changeY);

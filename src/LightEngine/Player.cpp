@@ -10,6 +10,7 @@
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
+	mDepl = sf::Vector2f(0, 0);
 }
 
 
@@ -22,14 +23,16 @@ Player::Player() : mStateMachine(this, (int)State::Count)
 
 void Player::OnInitialize()
 {
+	SetLife(20);
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
 	SetGravity(true);
 	//SetPosition(600.f, 400.f);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //� modifier
-	mPlayerAnimation->SetStartSize(0, 0, 1750, 2200);
+	//mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 160, 130), 6, false); //� modifier
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,123,100), 8, true);
+	mPlayerAnimation->SetStartSize(0, 0, 123, 100);
 
 	//Idle
 	{
@@ -113,6 +116,15 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	if (GetHP() <= 0)
+	{
+		std::cout << "You're dead" << std::endl;
+	}
+
+	imuuneProgresse += GetDeltaTime();
+
+	mShape.move(mDepl);
+
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
@@ -129,14 +141,32 @@ void Player::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-	std::cout << "Collide with face : " << face << std::endl;
+	
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND) && (face == 1 || face == 3))
+	//std::cout << "Collide with face : " << face << std::endl;
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
 	{
 		//SetGravity(false);
-		mGravitySpeed = 0.f;
+		if (face == 1 || face == 3)
+			mGravitySpeed = 0.f;
+
+		if (face == 2 || face == 4)
+			mDepl = sf::Vector2f(0, 0);
 	}
 
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone) && imuuneProgresse >= immuneTime)
+	{
+		std::cout << "Player take damage" << std::endl;
+		TakeDamage(1);
+		std::cout << "Current hp player : " << GetHP() << std::endl;
+		imuuneProgresse = 0;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
+	{
+		TakeDamage(GetHP());
+	}
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -154,10 +184,15 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 		mIsMoving = true;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		MoveLeft(deltaTime);
 		mIsMoving = true;
+	}
+
+	else
+	{
+		mDepl = sf::Vector2f(0, 0);
 	}
 
 	/*if (stickX < 0)
@@ -202,7 +237,8 @@ void Player::MoveRight(float deltaTime)
 		mSpeed = mMaxSpeed;*/
 
 	//mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	mDepl = sf::Vector2f(mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::MoveLeft(float deltaTime)
@@ -213,7 +249,8 @@ void Player::MoveLeft(float deltaTime)
 		mSpeed = mMaxSpeed;*/
 
 	//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
+	mDepl = sf::Vector2f(-mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::OnFall(float deltaTime)
@@ -235,4 +272,9 @@ bool Player::IsMoving()
 float Player::GetGravitySpeed()
 {
 	return mGravitySpeed;
+}
+
+sf::Vector2f* Player::GetDepl()
+{
+	return &mDepl;
 }
