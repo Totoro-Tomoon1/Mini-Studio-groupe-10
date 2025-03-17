@@ -197,7 +197,7 @@ void Player::OnFall(float deltaTime)
 
 void Player::OnJump()
 {
-	mGravitySpeed -= 500.f;
+	mGravitySpeed -= 300.f;
 	SetGravity(true);
 }
 
