@@ -10,8 +10,8 @@ public:
 	void Shoot(float deltaTime);
 
 protected:
-	void OnInitialize();
-	void OnUpdate();
+	void OnInitialize() override;
+	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 };

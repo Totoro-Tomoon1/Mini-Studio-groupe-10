@@ -25,8 +25,8 @@ public:
 
 	void SetDroneTarget(Drone* drone);
 protected:
-	void OnInitialize();
-	void OnUpdate();
+	void OnInitialize() override;
+	void OnUpdate() override;
 	void OnFixedUpdate(float deltaTime) override;
 
 };
