@@ -26,20 +26,17 @@ void Animation::Update(float deltaTime)
 
 		if (!mIsReapated)
 		{
-			std::cout << mCurrentIndex << std::endl;
 			mCurrentIndex = (mCurrentIndex + 1) % mNumberFrames;
 		}
 
 		else if (!mReverse)
 		{
-			std::cout << mCurrentIndex << std::endl;
 			mCurrentIndex = mCurrentIndex + 1;
 			if (mCurrentIndex + 1 == mNumberFrames)
 				mReverse = true;
 		}
 		else
 		{
-			std::cout << mCurrentIndex << std::endl;
 			mCurrentIndex -= 1;
 			if (mCurrentIndex == 0)
 				mReverse = false;

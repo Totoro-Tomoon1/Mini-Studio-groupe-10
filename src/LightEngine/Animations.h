@@ -4,7 +4,6 @@
 
 class Animation
 {
-	//sf::Texture* mSpriteSheet;
 	int mNumberFrames;
 	int mCurrentIndex = 0;
 	float mDuration = 0.1f;

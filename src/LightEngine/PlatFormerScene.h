@@ -16,15 +16,6 @@ namespace sf
 	class Event;
 }
 
-
-//struct AABB
-//{
-//	int xMin;
-//	int yMin;
-//	int xMax;
-//	int yMax;
-//};
-
 class PlatFormerScene : public Scene
 {
 private:
@@ -43,6 +34,8 @@ private:
 
 	ParallaxManager* mParallaxManager;
 
+	bool UpPressed = false;
+
 public:
 
 	enum Tag
@@ -54,9 +47,6 @@ public:
 		Damagezone,
 		Fallzone
 	};
-
-	/*int mLaneLevel[1] = { 0 };
-	AABB mAreas[1];*/
 		
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;

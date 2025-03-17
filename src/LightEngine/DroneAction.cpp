@@ -3,18 +3,14 @@
 
 void DroneAction_Idle::OnStart(Drone* pDrone)
 {
-	std::cout << "Idle" << std::endl;
 }
 
 void DroneAction_Moving::OnStart(Drone* pDrone)
 {
-	std::cout << "Moving" << std::endl;
 }
 
 void DroneAction_Shoot::OnStart(Drone* pDrone)
 {
-	std::cout << "Shoot" << std::endl;
-
 	//Init des timers 
 	mShootInterval = 0.3f;
 	mLastShotTime = 0.f;
@@ -36,8 +32,6 @@ void DroneAction_Shoot::OnUpdate(Drone* pDrone)
 
 void DroneAction_Hacking::OnStart(Drone* pDrone)
 {
-	std::cout << "Hacking" << std::endl;
-
 	mHackingTime = 3.f;
 	mHackingProcess = 0.f;
 }

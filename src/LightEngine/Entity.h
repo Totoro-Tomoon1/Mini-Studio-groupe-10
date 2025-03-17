@@ -46,7 +46,7 @@ public:
 	void SetSpeed(float speed) { mSpeed = speed; }
 	void SetTag(int tag) { mTag = tag; }
 	void SetStatic(bool stati) { mIsStatic = stati; }
-	//float GetRadius() const { return mShape.getRadius(); }
+
 	sf::Vector2f GetSize() const { return mShape.getSize(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
@@ -69,9 +69,6 @@ public:
 
     Scene* GetScene() const;
 	float GetDeltaTime() const;
-
-    /*template<typename T>
-    T* CreateEntity(float radius, const sf::Color& color);*/
 
 	template<typename T>
 	T* CreateEntity(sf::Vector2f size, const sf::Color& color);

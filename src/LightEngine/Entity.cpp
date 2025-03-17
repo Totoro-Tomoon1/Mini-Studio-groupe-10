@@ -7,7 +7,6 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
-#include <iostream>
 #include <algorithm>
 
 void Entity::Initialize(sf::Vector2f size, const sf::Color& color)
@@ -33,39 +32,29 @@ void Entity::Repulse(Entity* other)
 	float changeX = 0;
 	float changeY = 0;
 
-	//std::cout << overlapX << "\t" << overlapY << std::endl;
-
-	// Si il y a un overlap sur l'axe X
 	if (overlapX > 0)
 	{
-		// Si l'overlap sur X est plus important que sur Y, on d�place selon l'axe X
 		if (overlapX >= overlapY) 
 		{
 			int face = Utils::GetFace(c1, c2);
 			if (face == 3)
 				overlapY = -overlapY;
-			// Calculer le d�placement n�cessaire sur l'axe Y
+		
 			if (c2.xMax > c1.xMin) 
 			{
-				// Pousser c1 � gauche
 				changeY = -overlapY;
 			}
 			else 
 			{
-				// Pousser c1 � droite
 				changeY = overlapY;
 			}
 		}
 	}
 
-	// Si il y a un overlap sur l'axe Y
 	if (overlapY > 0) 
 	{
-		// Si l'overlap sur Y est plus important que sur X, on d�place selon l'axe Y
 		if (overlapY >= overlapX) 
 		{
-			// Calculer le d�placement n�cessaire sur l'axe Y
-
 			AABBCollider c1 = GetAABBCollider();
 			AABBCollider c2 = other->GetAABBCollider();
 
@@ -73,20 +62,17 @@ void Entity::Repulse(Entity* other)
 			if (face == 4)
 				overlapX = -overlapX;
 
-			if (c2.yMax > c1.yMin) {
-				// Pousser c1 vers le bas
+			if (c2.yMax > c1.yMin) 
+			{
 				changeX = overlapX;
 			}
 			else 
 			{
-				// Pousser c1 vers le haut
 				changeX = overlapX;
 			}
 		}
 	}
-	//std::cout << overlapX << "\t" << overlapY << std::endl;
-	//std::cout << " Delta X : " << changeX << " Delta Y : " << changeY << std::endl;
-	// Appliquer le changement de position � c1 et c2
+
 	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x - changeX, mShape.getPosition().y - changeY);
 	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x + changeX, other->GetPosition().y + changeY);
 
@@ -99,17 +85,6 @@ void Entity::Repulse(Entity* other)
 
 bool Entity::IsColliding(Entity* other)
 {
-	/*sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-
-	float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
-
-	float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
-
-	return sqrLength < sqrRadius;*/
-
 	AABBCollider c1 = GetAABBCollider();
 	AABBCollider c2 = other->GetAABBCollider();
 
@@ -121,15 +96,6 @@ bool Entity::IsColliding(Entity* other)
 
 bool Entity::IsInside(float x, float y)
 {
-	/*sf::Vector2f position = GetPosition(0.5f, 0.5f);
-
-	float dx = x - position.x;
-	float dy = y - position.y;
-
-	float radius = mShape.getRadius();
-
-	return (dx * dx + dy * dy) < (radius * radius);*/
-
 	AABBCollider c = GetAABBCollider();
 
 	if (x >= c.xMin && x <= c.xMax && y >= c.yMin && y <= c.yMax)
@@ -158,11 +124,6 @@ AABBCollider Entity::GetAABBCollider()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	//float size = mShape.getRadius() * 2;
-	/*sf::Vector2f size = mShape.getSize();
-
-	x -= size.x * ratioX;
-	y -= size.y * ratioY;*/
 
 	mShape.setPosition(x, y);
 
@@ -178,7 +139,6 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	//float size = mShape.getRadius() * 2;
 	float sizeX = mShape.getSize().x / 2;
 	float sizeY = mShape.getSize().y / 2;
 	sf::Vector2f position = mShape.getPosition();

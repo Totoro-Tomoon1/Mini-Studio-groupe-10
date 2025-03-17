@@ -13,24 +13,14 @@ Player::Player() : mStateMachine(this, (int)State::Count)
 	mDepl = sf::Vector2f(0, 0);
 }
 
-
-//void Player::SetPosition(float x, float y, float ratioX, float ratioY)
-//{
-//	Entity::SetPosition(x, y, ratioX, ratioY);
-//	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
-//	mShape->setTexture(mCurrentTexture);
-//}
-
 void Player::OnInitialize()
 {
 	SetLife(20);
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
 	SetGravity(true);
-	//SetPosition(600.f, 400.f);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
-	//mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 160, 130), 6, false); //� modifier
 	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,123,100), 8, true);
 	mPlayerAnimation->SetStartSize(0, 0, 123, 100);
 
@@ -141,13 +131,8 @@ void Player::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-	
-
-	//std::cout << "Collide with face : " << face << std::endl;
-
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
 	{
-		//SetGravity(false);
 		if (face == 1 || face == 3)
 			mGravitySpeed = 0.f;
 
@@ -173,17 +158,13 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 {
 	mIsMoving = false;
 
-	
+
 
 	if (IsGravityOn())
 	{
 		OnFall(deltaTime);
 	}
-
-	//Update de la position en fonction de si y'a eu Jump ou Fall
-	//mPlayerPosition.y += mGravitySpeed * deltaTime;
 	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
-	//SetPosition(mPlayerPosition.x, mPlayerPosition.y);
 }
 
 //Pour l'affichage debug
@@ -201,24 +182,11 @@ const char* Player::GetStateName(State state) const
 
 void Player::MoveRight(float deltaTime)
 {
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
-
-	//mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 	mDepl = sf::Vector2f(mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::MoveLeft(float deltaTime)
 {
-	
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
-
-	//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 	mDepl = sf::Vector2f(-mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
@@ -253,11 +221,15 @@ void Player::Input()
 	float deltaTime = GetDeltaTime();
 
 	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
-	bool A = sf::Joystick::isButtonPressed(0, 0);
+	if (std::abs(stickX) < 10)
+		stickX = 0;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	std::cout << 10 * stickX / 100 << std::endl;
+
+	mDepl = sf::Vector2f(10 * stickX / 100, 0);
+
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		MoveRight(deltaTime);
 		mIsMoving = true;
@@ -272,18 +244,7 @@ void Player::Input()
 	else
 	{
 		mDepl = sf::Vector2f(0, 0);
-	}
-
-	/*if (stickX < 0)
-		MoveLeft(deltaTime);
-
-	if (stickX > 0)
-		MoveRight(deltaTime);*/
-
-		/*if (A == true)
-		{
-			OnJump(deltaTime);
-		}*/
+	}*/
 }
 
 void Player::ActivateInput()

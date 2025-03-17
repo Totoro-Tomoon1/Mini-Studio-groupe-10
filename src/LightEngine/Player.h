@@ -50,7 +50,6 @@ public:
 	Player();
 	
 	const char* GetStateName(State state) const;
-	//void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);

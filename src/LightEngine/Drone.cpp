@@ -121,8 +121,6 @@ void Drone::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-	//std::cout << "Collide with face : " << face << std::endl;
-
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::HACKING_ZONE))
 	{
 		mCanHack = true;
@@ -151,48 +149,21 @@ const char* Drone::GetStateName(State state) const
 
 void Drone::MoveRight(float deltaTime)
 {
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
-
-		//mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 	mDepl.x += mDroneParameters.mMinSpeed * deltaTime;
 }
 
 void Drone::MoveLeft(float deltaTime)
 {
-
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
-
-		//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
 	mDepl.x -= mDroneParameters.mMinSpeed * deltaTime;
 }
 
 void Drone::MoveUp(float deltaTime)
 {
-
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
-
-		//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y - mDroneParameters.mMinSpeed * deltaTime));
 	mDepl.y -= mDroneParameters.mMinSpeed * deltaTime;
 }
 
 void Drone::MoveDown(float deltaTime)
 {
-
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;*/
-
-		//mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	//mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mDroneParameters.mMinSpeed * deltaTime));
 	mDepl.y += mDroneParameters.mMinSpeed * deltaTime;
 }
 
@@ -216,7 +187,20 @@ void Drone::Input()
 {
 	float deltaTime = GetDeltaTime();
 
-	mDepl = sf::Vector2f(0, 0);
+	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+	if (std::abs(stickX) < 10)
+		stickX = 0;
+
+	if (std::abs(stickY) < 10)
+		stickY = 0;
+
+	std::cout << 10 * stickX / 100 << std::endl;
+
+	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);
+
+	/*mDepl = sf::Vector2f(0, 0);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
@@ -240,7 +224,7 @@ void Drone::Input()
 	{
 		MoveDown(deltaTime);
 		mIsMoving = true;
-	}
+	}*/
 }
 
 void Drone::Undisplay()

@@ -183,7 +183,6 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 
 void GameManager::Draw()
 {
-	//std::cout << mpWindow->getView().getCenter().y << std::endl;
 	mpWindow->setView(cam->GetView());
 
 	mpWindow->clear(mClearColor);

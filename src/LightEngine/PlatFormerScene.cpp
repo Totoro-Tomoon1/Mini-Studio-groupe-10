@@ -35,13 +35,16 @@ void PlatFormerScene::OnInitialize()
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
 {
-	if (event.type == sf::Event::EventType::JoystickButtonPressed)
-		std::cout << "Mannette connecte" << std::endl;
+	//if (event.type == sf::Event::EventType::JoystickButtonPressed)
+		//std::cout << "Mannette connecte" << std::endl;
 
-	if (event.type == sf::Event::KeyPressed)
-	{
-		if (event.key.code == sf::Keyboard::C)
+	/*if (event.type == sf::Event::KeyPressed)
+	{*/
+	
+		if (sf::Joystick::isButtonPressed(0, 3) && !UpPressed)
 		{
+			UpPressed = true;
+			std::cout << UpPressed << std::endl;
 			playerSelected = !playerSelected;
 			if (playerSelected)
 			{
@@ -55,9 +58,13 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 				mPlayer->DesactivateInput();
 				mDrone->ActivateInput();
 			}
-			std::cout << "change" << std::endl;
 		}
-	}
+
+		else if (!sf::Joystick::isButtonPressed(0, 3))
+		{
+			UpPressed = false;
+		}
+	//}
 
 	if (playerSelected)
 	{
@@ -82,7 +89,6 @@ void PlatFormerScene::OnUpdate()
 
 void PlatFormerScene::OnLateUpdate()
 {
-	//std::cout << pPlayer->GetPosition().y << "\t";
 	mCamera.GetView().setCenter(mPlayer->GetPosition(0.5f, 0.5f));
 }
 
@@ -101,16 +107,12 @@ void PlatFormerScene::CreateBackGround()
 	sf::Texture* backgroundTexture3 = new sf::Texture;
 	sf::Texture* backgroundTexture4 = new sf::Texture;
 	sf::Texture* backgroundTexture5 = new sf::Texture;
-	/*sf::Texture* backgroundTexture6 = new sf::Texture;
-	sf::Texture* backgroundTexture7 = new sf::Texture;*/
 		
 	if (!backgroundTexture1->loadFromFile("../../../res/background/Fond.png") ||
 		!backgroundTexture2->loadFromFile("../../../res/background/4e_plan.png") ||
 		!backgroundTexture3->loadFromFile("../../../res/background/3e_plan.png") ||
 		!backgroundTexture4->loadFromFile("../../../res/background/2e_plan.png") ||
-		!backgroundTexture5->loadFromFile("../../../res/background/1er_plan.png")/* ||
-		!backgroundTexture6->loadFromFile("../../../res/layers/rocks_2.png") ||
-		!backgroundTexture7->loadFromFile("../../../res/layers/clouds_4.png")*/)
+		!backgroundTexture5->loadFromFile("../../../res/background/1er_plan.png"))
 	{
 
 		std::cout << "Erreur de chargement des fonds d'ecrans." << std::endl;
@@ -121,16 +123,12 @@ void PlatFormerScene::CreateBackGround()
 	ParallaxLayer background3(backgroundTexture3, 0.2f);
 	ParallaxLayer background4(backgroundTexture4, 0.3f);
 	ParallaxLayer background5(backgroundTexture5, 0.4f);
-	/*ParallaxLayer background6(backgroundTexture6, 0.45f);
-	ParallaxLayer background7(backgroundTexture7, 0.5f);*/
 
 	mParallaxManager->AddLayers(background1);
 	mParallaxManager->AddLayers(background2);
 	mParallaxManager->AddLayers(background3);
 	mParallaxManager->AddLayers(background4);
-	mParallaxManager->AddLayers(background5);/*
-	mParallaxManager->AddLayers(background6);
-	mParallaxManager->AddLayers(background7);*/
+	mParallaxManager->AddLayers(background5);
 }
 
 void PlatFormerScene::GenerateMap()
@@ -150,7 +148,6 @@ void PlatFormerScene::GenerateMap()
 	std::string line;
 	while (std::getline(file, line))
 	{
-		std::cout << "Ligne lue: " << line << std::endl;
 		size_t i = 0;
 		while (i < line.size())
 		{
@@ -165,13 +162,8 @@ void PlatFormerScene::GenerateMap()
 					j++;
 				}
 
-				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				ground.push_back(std::make_tuple(startX, count, lineNumber));
 
-				// Afficher combien de 'x' suivent
-				//std::cout << "Nombre de 'x' après l'index " << i << ": " << count << std::endl;
-
-				// Passer après le dernier 'x' trouvé
 				i = j;
 			}
 			else if (line[i] == 's')
@@ -184,35 +176,26 @@ void PlatFormerScene::GenerateMap()
 					j++;
 				}
 
-				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				damageZone.push_back(std::make_tuple(i, count, lineNumber));
 
-				// Afficher combien de 'x' suivent
-				//std::cout << "Nombre de 'x' après l'index " << i << ": " << count << std::endl;
-
-				// Passer après le dernier 'x' trouvé
 				i = j;
 			}
 			else if (line[i] == 'f')
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'f')
 				{
-					//std::cout << "beug " << j << std::endl;
 					count++;
 					j++;
 				}
 
-				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				fallZone.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
 			}
 			else if (line[i] == 'p')
 			{
-				//std::cout << "p à la ligne :" << lineNumber * 20 << "    et à l'index : " << i * 20 << std::endl;
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(123, 100), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mPlayer->SetToDraw(false);
@@ -221,15 +204,6 @@ void PlatFormerScene::GenerateMap()
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}
-			//else if (line[i] == 'd')
-			//{
-			//	std::cout << "d a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
-			//	pPlayer = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
-			//	pPlayer->SetPosition(i * 20, lineNumber * 20);
-			//	//mCamera.SetPosition(pPlayer->GetPosition());
-			//	//GameManager::Get()->SetCamera(mCamera);
-			//	i++;
-			//}
 			else
 			{
 				i++;
@@ -239,21 +213,6 @@ void PlatFormerScene::GenerateMap()
 	}
 
 	file.close();
-
-	// Créer les entités à partir des données collectées
-	//for (const auto& entity : ground)
-	//{
-	//	int startX = std::get<0>(entity);
-	//	int totalLength = std::get<1>(entity);
-	//	int entityLine = std::get<2>(entity);
-
-	//	// Créer l'entité
-	//	pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20), sf::Color::Red);
-	//	pGround->SetPosition(startX * 20, entityLine * 20);
-	//	pGround->SetRigidBody(true);
-	//	pGround->SetStatic(true);
-	//	pGround->SetTag(Tag::GROUND);
-	//}
 
 	for (int i = 0; i < ground.size(); i++)
 	{
@@ -281,8 +240,6 @@ void PlatFormerScene::GenerateMap()
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
 		pGround->SetTag(Tag::GROUND);
-
-		std::cout << "create ground" << std::endl;
 	}
 
 	for (int i = 0; i < damageZone.size(); i++)
@@ -339,6 +296,5 @@ void PlatFormerScene::GenerateMap()
 		pFall->SetTag(Tag::Fallzone);
 	}
 
-	//Creation du fond
 	CreateBackGround();
 }

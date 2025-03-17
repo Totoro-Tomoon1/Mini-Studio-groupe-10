@@ -23,8 +23,6 @@ protected:
 	virtual void Draw(sf::RenderWindow& pRenderWindow) {};
 
 public:
-	/*template<typename T>
-	T* CreateEntity(float radius, const sf::Color& color);*/
 
 	template<typename T>
 	T* CreateRectangleEntity(sf::Vector2f size, const sf::Color& color);
