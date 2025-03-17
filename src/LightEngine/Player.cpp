@@ -261,3 +261,8 @@ bool Player::GetIsInputActivate()
 {
 	return isInputActive;
 }
+
+void Player::ResetmDepl()
+{
+	mDepl = sf::Vector2f(0, 0);
+}

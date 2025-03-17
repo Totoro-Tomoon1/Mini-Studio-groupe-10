@@ -50,12 +50,14 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 			{
 				mDrone->Undisplay();
 				mPlayer->ActivateInput();
+				mDrone->ResetmDepl();
 				mDrone->DesactivateInput();
 			}
 			else
 			{
 				mDrone->Display(mPlayer->GetPosition());
 				mPlayer->DesactivateInput();
+				mPlayer->ResetmDepl();
 				mDrone->ActivateInput();
 			}
 		}

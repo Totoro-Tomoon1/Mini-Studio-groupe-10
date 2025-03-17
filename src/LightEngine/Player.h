@@ -65,6 +65,7 @@ public:
 	void DesactivateInput();
 
 	bool GetIsInputActivate();
+	void ResetmDepl();
 
 protected:
 	void OnInitialize() override;

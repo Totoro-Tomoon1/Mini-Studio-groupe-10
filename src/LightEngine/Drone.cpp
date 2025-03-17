@@ -254,3 +254,8 @@ bool Drone::GetIsInputActivate()
 {
 	return isInputActive;
 }
+
+void Drone::ResetmDepl()
+{
+	mDepl = sf::Vector2f(0, 0);
+}
