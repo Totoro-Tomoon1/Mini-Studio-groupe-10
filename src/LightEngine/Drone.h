@@ -38,6 +38,8 @@ private:
 	Animation* mDroneAnimation;
 	sf::Texture* mCurrentTexture;
 
+	sf::Vector2f mDepl;
+
 public:
 	Drone();
 
