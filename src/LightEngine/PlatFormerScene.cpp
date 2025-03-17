@@ -226,39 +226,99 @@ void PlatFormerScene::GenerateMap()
 	file.close();
 
 	// Créer les entités à partir des données collectées
-	for (const auto& entity : ground)
-	{
-		int startX = std::get<0>(entity);
-		int totalLength = std::get<1>(entity);
-		int entityLine = std::get<2>(entity);
+	//for (const auto& entity : ground)
+	//{
+	//	int startX = std::get<0>(entity);
+	//	int totalLength = std::get<1>(entity);
+	//	int entityLine = std::get<2>(entity);
 
-		// Créer l'entité
-		pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20), sf::Color::Red);
+	//	// Créer l'entité
+	//	pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20), sf::Color::Red);
+	//	pGround->SetPosition(startX * 20, entityLine * 20);
+	//	pGround->SetRigidBody(true);
+	//	pGround->SetStatic(true);
+	//	pGround->SetTag(Tag::GROUND);
+	//}
+
+	for (int i = 0; i < ground.size(); i++)
+	{
+		int startX = std::get<0>(ground[i]);
+		int totalLength = std::get<1>(ground[i]);
+		int entityLine = std::get<2>(ground[i]);
+
+		if (i > 0)
+		{
+			if (startX == std::get<0>(ground[i - 1]) && totalLength == std::get<1>(ground[i - 1]))
+				continue;
+		}
+			//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < ground.size() && startX == std::get<0>(ground[j]) && totalLength == std::get<1>(ground[j]))
+		{
+			j++;
+			countLigne++;
+		}
+		
+		pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
 		pGround->SetTag(Tag::GROUND);
+
+		std::cout << "create ground" << std::endl;
 	}
 
-	for (const auto& entity : damageZone)
+	for (int i = 0; i < damageZone.size(); i++)
 	{
-		int start = std::get<0>(entity);
-		int totalLenght = std::get<1>(entity);
-		int entityLine = std::get<2>(entity);
+		int start = std::get<0>(damageZone[i]);
+		int totalLenght = std::get<1>(damageZone[i]);
+		int entityLine = std::get<2>(damageZone[i]);
 
-		Entity* pDamage = CreateRectangleEntity<DamageZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::White);
+		if (i > 0)
+		{
+			if (start == std::get<0>(damageZone[i - 1]) && totalLenght == std::get<1>(damageZone[i - 1]))
+				continue;
+		}
+		//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < damageZone.size() && start == std::get<0>(damageZone[j]) && totalLenght == std::get<1>(damageZone[j]))
+		{
+			j++;
+			countLigne++;
+		}
+
+		Entity* pDamage = CreateRectangleEntity<DamageZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::White);
 		pDamage->SetPosition(start * 20, entityLine * 20);
 		pDamage->SetToDraw(false);
 		pDamage->SetTag(Tag::Damagezone);
 	}
 
-	for (const auto& entity : fallZone)
+	for (int i = 0; i < fallZone.size(); i++)
 	{
-		int start = std::get<0>(entity);
-		int totalLenght = std::get<1>(entity);
-		int entityLine = std::get<2>(entity);
+		int start = std::get<0>(fallZone[i]);
+		int totalLenght = std::get<1>(fallZone[i]);
+		int entityLine = std::get<2>(fallZone[i]);
 
-		Entity* pFall = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::White);
+		if (i > 0)
+		{
+			if (start == std::get<0>(fallZone[i - 1]) && totalLenght == std::get<1>(fallZone[i - 1]))
+				continue;
+		}
+		//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < fallZone.size() && start == std::get<0>(fallZone[j]) && totalLenght == std::get<1>(fallZone[j]))
+		{
+			j++;
+			countLigne++;
+		}
+
+		Entity* pFall = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::White);
 		pFall->SetPosition(start * 20, entityLine * 20);
 		pFall->SetToDraw(false);
 		pFall->SetTag(Tag::Fallzone);
