@@ -325,8 +325,8 @@ void PlatFormerScene::GenerateMap()
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(123, 100), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mPlayer->SetToDraw(false);
-				//mCamera.SetPosition(mPlayer->GetPosition());
-				//GameManager::Get()->SetCamera(mCamera);
+				mCamera.SetPosition(mPlayer->GetPosition());
+				GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}
 			else if (line[i] == 'd')
@@ -334,8 +334,8 @@ void PlatFormerScene::GenerateMap()
 				std::cout << "d a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
 				pPlayer = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
 				pPlayer->SetPosition(i * 20, lineNumber * 20);
-				mCamera.SetPosition(pPlayer->GetPosition());
-				GameManager::Get()->SetCamera(mCamera);
+				//mCamera.SetPosition(pPlayer->GetPosition());
+				//GameManager::Get()->SetCamera(mCamera);
 				i++;
 			}
 			else
