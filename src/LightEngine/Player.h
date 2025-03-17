@@ -59,6 +59,8 @@ public:
 	float GetGravitySpeed();
 	sf::Vector2f* GetDepl();
 
+	void Input();
+
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;

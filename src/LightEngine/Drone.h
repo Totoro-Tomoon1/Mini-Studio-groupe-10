@@ -54,6 +54,10 @@ public:
 	bool CanHack();
 	void Shoot(float deltaTime);
 
+	void Input();
+	void Undisplay();
+	void Display();
+
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;

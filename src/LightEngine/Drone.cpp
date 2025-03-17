@@ -134,32 +134,6 @@ void Drone::OnFixedUpdate(float deltaTime) //Update physique
 	mIsMoving = false;
 	mIsShooting = false;
 	mCanHack = false;
-
-	mDepl = sf::Vector2f(0, 0);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		MoveRight(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		MoveLeft(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		MoveUp(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		MoveDown(deltaTime);
-		mIsMoving = true;
-	}
 }
 
 //Pour l'affichage debug
@@ -236,4 +210,47 @@ void Drone::Shoot(float deltaTime)
 {		
 	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
 	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
+}
+
+void Drone::Input()
+{
+	float deltaTime = GetDeltaTime();
+
+	mDepl = sf::Vector2f(0, 0);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		MoveRight(deltaTime);
+		mIsMoving = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		MoveLeft(deltaTime);
+		mIsMoving = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		MoveUp(deltaTime);
+		mIsMoving = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		MoveDown(deltaTime);
+		mIsMoving = true;
+	}
+}
+
+void Drone::Undisplay()
+{
+	SetToDraw(false);
+	SetRigidBody(false);
+}
+
+void Drone::Display()
+{
+	SetToDraw(true);
+	SetRigidBody(true);
 }

@@ -9,6 +9,7 @@ class Player;
 class Music;
 class Sound;
 class ParallaxManager;
+class Drone;
 
 namespace sf
 {
@@ -36,6 +37,9 @@ private:
 	Sound* mSound;
 
 	Player* mPlayer;
+	Drone* mDrone;
+
+	bool playerSelected = true;
 
 	ParallaxManager* mParallaxManager;
 

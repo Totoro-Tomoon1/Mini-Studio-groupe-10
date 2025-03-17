@@ -173,38 +173,7 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 {
 	mIsMoving = false;
 
-	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-	bool A = sf::Joystick::isButtonPressed(0, 0);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		MoveRight(deltaTime);
-		mIsMoving = true;
-	}
-
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		MoveLeft(deltaTime);
-		mIsMoving = true;
-	}
-
-	else
-	{
-		mDepl = sf::Vector2f(0, 0);
-	}
-
-	/*if (stickX < 0)
-		MoveLeft(deltaTime);
-
-	if (stickX > 0)
-		MoveRight(deltaTime);*/
-
-	/*if (A == true)
-	{
-		OnJump(deltaTime);
-	}*/
+	
 
 	if (IsGravityOn())
 	{
@@ -277,4 +246,42 @@ float Player::GetGravitySpeed()
 sf::Vector2f* Player::GetDepl()
 {
 	return &mDepl;
+}
+
+void Player::Input()
+{
+	float deltaTime = GetDeltaTime();
+
+	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+
+	bool A = sf::Joystick::isButtonPressed(0, 0);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		MoveRight(deltaTime);
+		mIsMoving = true;
+	}
+
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		MoveLeft(deltaTime);
+		mIsMoving = true;
+	}
+
+	else
+	{
+		mDepl = sf::Vector2f(0, 0);
+	}
+
+	/*if (stickX < 0)
+		MoveLeft(deltaTime);
+
+	if (stickX > 0)
+		MoveRight(deltaTime);*/
+
+		/*if (A == true)
+		{
+			OnJump(deltaTime);
+		}*/
 }
