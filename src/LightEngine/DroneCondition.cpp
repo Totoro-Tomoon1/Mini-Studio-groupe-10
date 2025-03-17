@@ -7,7 +7,7 @@ bool DroneCondition_IsMoving::OnTest(Drone* owner)
 
 bool DroneCondition_IsShooting::OnTest(Drone* owner)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && owner->GetIsInputActivate())
 	{
 		return true;
 	}

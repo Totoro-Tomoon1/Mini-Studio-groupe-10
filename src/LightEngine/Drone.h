@@ -40,6 +40,8 @@ private:
 
 	sf::Vector2f mDepl;
 
+	bool isInputActive = false;
+
 public:
 	Drone();
 
@@ -57,6 +59,11 @@ public:
 	void Input();
 	void Undisplay();
 	void Display(sf::Vector2f posPlayer);
+
+	void ActivateInput();
+	void DesactivateInput();
+
+	bool GetIsInputActivate();
 
 protected:
 	void OnInitialize() override;

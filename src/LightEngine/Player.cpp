@@ -285,3 +285,18 @@ void Player::Input()
 			OnJump(deltaTime);
 		}*/
 }
+
+void Player::ActivateInput()
+{
+	isInputActive = true;
+}
+
+void Player::DesactivateInput()
+{
+	isInputActive = false;
+}
+
+bool Player::GetIsInputActivate()
+{
+	return isInputActive;
+}

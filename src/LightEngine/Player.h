@@ -44,6 +44,8 @@ private:
 	float immuneTime = 1.f;
 	float imuuneProgresse = 0.f;
 
+	bool isInputActive = false;
+
 public:
 	Player();
 	
@@ -60,6 +62,10 @@ public:
 	sf::Vector2f* GetDepl();
 
 	void Input();
+	void ActivateInput();
+	void DesactivateInput();
+
+	bool GetIsInputActivate();
 
 protected:
 	void OnInitialize() override;

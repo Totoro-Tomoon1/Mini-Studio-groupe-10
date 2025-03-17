@@ -255,3 +255,18 @@ void Drone::Display(sf::Vector2f posPlayer)
 	SetRigidBody(true);
 	SetPosition(posPlayer.x - 20, posPlayer.y - 20);
 }
+
+void Drone::ActivateInput()
+{
+	isInputActive = true;
+}
+
+void Drone::DesactivateInput()
+{
+	isInputActive = false;
+}
+
+bool Drone::GetIsInputActivate()
+{
+	return isInputActive;
+}

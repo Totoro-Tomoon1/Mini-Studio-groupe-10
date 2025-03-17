@@ -46,10 +46,14 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 			if (playerSelected)
 			{
 				mDrone->Undisplay();
+				mPlayer->ActivateInput();
+				mDrone->DesactivateInput();
 			}
 			else
 			{
 				mDrone->Display(mPlayer->GetPosition());
+				mPlayer->DesactivateInput();
+				mDrone->ActivateInput();
 			}
 			std::cout << "change" << std::endl;
 		}
@@ -212,6 +216,7 @@ void PlatFormerScene::GenerateMap()
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(123, 100), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mPlayer->SetToDraw(false);
+				mPlayer->ActivateInput();
 				mCamera.SetPosition(mPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
 				i++;
