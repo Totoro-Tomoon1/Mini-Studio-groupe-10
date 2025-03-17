@@ -6,7 +6,7 @@
 #include "Debug.h"
 #include "Music.h"
 #include "Sound.h"
-
+#include "Enemy.h"
 #include <iostream>
 
 #include <fstream>
@@ -456,9 +456,12 @@ void PlatFormerScene::GenerateMap()
 		Entity* pHacking = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
 		pHacking->SetPosition(start * 20, entityLine * 20);
 		pHacking->SetToDraw(false);
-		pHacking->SetTag(Tag::Hackingzone);
+		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
 
+	Entity* pEnemy = CreateRectangleEntity<Enemy>(sf::Vector2f(150, 150), sf::Color::Magenta);
+	pEnemy->SetPosition(100.f, 100.f);
+	pEnemy->SetTag(Tag::ENEMY);
 	//Creation du fond
 	CreateBackGround();
 }

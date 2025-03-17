@@ -7,6 +7,10 @@ class Enemy : public PhysicalEntity, public Life
 {
 	Animation* mAnimation;
 	sf::Texture* mCurrentTexture;
+	sf::Vector2f mDepl;
+
+	float mChangeDirectionTimer = 4.f;
+	float mChangeDirectionProcess = 0.f;
 
 public:
 	Enemy();

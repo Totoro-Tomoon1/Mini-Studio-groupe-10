@@ -123,8 +123,6 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 	imuuneProgresse += GetDeltaTime();
 
-	mShape.move(mDepl);
-
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
@@ -206,13 +204,11 @@ void Player::OnFixedUpdate(float deltaTime) //Update physique
 		OnJump(deltaTime);
 	}*/
 
-	if (IsGravityOn())
-	{
-		OnFall(deltaTime);
-	}
+	OnFall(deltaTime);
 
 	//Update de la position en fonction de si y'a eu Jump ou Fall
 	//mPlayerPosition.y += mGravitySpeed * deltaTime;
+	mShape.move(mDepl);
 	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
 	//SetPosition(mPlayerPosition.x, mPlayerPosition.y);
 }

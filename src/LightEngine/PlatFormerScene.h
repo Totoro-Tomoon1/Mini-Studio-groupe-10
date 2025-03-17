@@ -46,10 +46,10 @@ public:
 		PLAYER,
 		GROUND,
 		DRONE,
+		ENEMY,
 		HACKING_ZONE,
 		Damagezone,
 		Fallzone,
-		Hackingzone
 	};
 
 	/*int mLaneLevel[1] = { 0 };
