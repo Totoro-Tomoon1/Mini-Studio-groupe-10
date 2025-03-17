@@ -237,6 +237,7 @@ void PlatFormerScene::GenerateMap()
 	std::vector<std::tuple<int, int, int>> ground;// (startX, totalLength, lineNumber)
 	std::vector<std::tuple<int, int, int>> damageZone;
 	std::vector<std::tuple<int, int, int>> fallZone;
+	std::vector<std::tuple<int, int, int>> hackingZone;
 
 	std::string line;
 	while (std::getline(file, line))
@@ -298,6 +299,23 @@ void PlatFormerScene::GenerateMap()
 
 				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				fallZone.push_back(std::make_tuple(i, count, lineNumber));
+
+				i = j;
+			}
+			else if (line[i] == 'h')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'h')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
 			}
@@ -427,6 +445,18 @@ void PlatFormerScene::GenerateMap()
 		pFall->SetPosition(start * 20, entityLine * 20);
 		pFall->SetToDraw(false);
 		pFall->SetTag(Tag::Fallzone);
+	}
+
+	for (const auto& entity : hackingZone)
+	{
+		int start = std::get<0>(entity);
+		int totalLenght = std::get<1>(entity);
+		int entityLine = std::get<2>(entity);
+
+		Entity* pHacking = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
+		pHacking->SetPosition(start * 20, entityLine * 20);
+		pHacking->SetToDraw(false);
+		pHacking->SetTag(Tag::Hackingzone);
 	}
 
 	//Creation du fond

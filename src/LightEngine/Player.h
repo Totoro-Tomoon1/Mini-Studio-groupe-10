@@ -33,8 +33,6 @@ private:
 	PlayerParameter mPlayerParameters;
 	bool mIsMoving = false;
 
-	int mAreaIndex;
-	sf::Vector2f* mPlayerPosition;
 	Animation* mPlayerAnimation;
 	sf::Texture* mCurrentTexture;
 	float mGravitySpeed = 0;

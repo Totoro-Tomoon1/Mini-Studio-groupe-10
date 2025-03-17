@@ -48,7 +48,8 @@ public:
 		DRONE,
 		HACKING_ZONE,
 		Damagezone,
-		Fallzone
+		Fallzone,
+		Hackingzone
 	};
 
 	/*int mLaneLevel[1] = { 0 };
