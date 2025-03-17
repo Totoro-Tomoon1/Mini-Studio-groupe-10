@@ -6,6 +6,7 @@
 #include "Camera.h"
 
 class Player;
+class Drone;
 class Music;
 class Sound;
 class ParallaxManager;
@@ -27,7 +28,7 @@ namespace sf
 class PlatFormerScene : public Scene
 {
 private:
-	Entity* pPlayer;
+	
 	Entity* pGround;
 
 	Camera mCamera;
@@ -36,6 +37,7 @@ private:
 	Sound* mSound;
 
 	Player* mPlayer;
+	Drone* mDrone; 
 
 	ParallaxManager* mParallaxManager;
 
@@ -60,7 +62,8 @@ public:
 	void OnUpdate() override;
 	void OnLateUpdate() override;
 	void Draw(sf::RenderWindow& pRenderWindow) override;
-
+	Player* GetPlayer();
+	Drone* GetDrone();
 	void CreateBackGround();
 
 	void GenerateMap();

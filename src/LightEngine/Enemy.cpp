@@ -5,6 +5,11 @@ Enemy::Enemy()
 {
 }
 
+void Enemy::SetDroneTarget(Drone* drone)
+{
+	mDroneTarget = drone;
+}
+
 void Enemy::OnInitialize()
 {
 	SetLife(20.f);

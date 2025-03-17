@@ -6,7 +6,7 @@
 #include "Debug.h"
 #include "Music.h"
 #include "Sound.h"
-#include "Enemy.h"
+#include "Enemy1.h"
 #include <iostream>
 
 #include <fstream>
@@ -182,6 +182,16 @@ void PlatFormerScene::Draw(sf::RenderWindow& pRenderWindow)
 	mParallaxManager->Draw(pRenderWindow);
 }
 
+Player* PlatFormerScene::GetPlayer()
+{
+	return mPlayer;
+}
+
+Drone* PlatFormerScene::GetDrone()
+{
+	return mDrone;
+}
+
 void PlatFormerScene::CreateBackGround()
 {
 	mParallaxManager = new ParallaxManager();
@@ -332,8 +342,8 @@ void PlatFormerScene::GenerateMap()
 			else if (line[i] == 'd')
 			{
 				std::cout << "d a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
-				pPlayer = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
-				pPlayer->SetPosition(i * 20, lineNumber * 20);
+				mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
+				mDrone->SetPosition(i * 20, lineNumber * 20);
 				//mCamera.SetPosition(pPlayer->GetPosition());
 				//GameManager::Get()->SetCamera(mCamera);
 				i++;
@@ -459,9 +469,10 @@ void PlatFormerScene::GenerateMap()
 		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
 
-	Entity* pEnemy = CreateRectangleEntity<Enemy>(sf::Vector2f(150, 150), sf::Color::Magenta);
+	Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Magenta);
 	pEnemy->SetPosition(100.f, 100.f);
 	pEnemy->SetTag(Tag::ENEMY);
+	pEnemy->SetDroneTarget(mDrone);
 	//Creation du fond
 	CreateBackGround();
 }
