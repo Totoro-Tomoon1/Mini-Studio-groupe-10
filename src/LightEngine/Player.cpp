@@ -151,6 +151,8 @@ void Player::OnCollision(Entity* pCollideWith)
 
 		if (face == 2 || face == 4)
 			mDepl = sf::Vector2f(0, 0);
+
+		return;
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone) && imuuneProgresse >= immuneTime)
@@ -159,11 +161,22 @@ void Player::OnCollision(Entity* pCollideWith)
 		TakeDamage(1);
 		std::cout << "Current hp player : " << GetHP() << std::endl;
 		imuuneProgresse = 0;
+
+		return;
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
 	{
 		TakeDamage(GetHP());
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+	{
+		TakeDamage(1.f);
+
+		return;
 	}
 }
 

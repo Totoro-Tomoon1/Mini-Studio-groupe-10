@@ -19,10 +19,6 @@ void Enemy::OnUpdate()
 {
 }
 
-void Enemy::OnCollision(Entity* pCollideWith)
-{
-}
-
 void Enemy::OnFixedUpdate(float deltaTime)
 {
 	mChangeDirectionProcess += deltaTime;

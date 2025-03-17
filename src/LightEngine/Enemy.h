@@ -18,7 +18,6 @@ public:
 protected:
 	void OnInitialize();
 	void OnUpdate();
-	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 
 };
