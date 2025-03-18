@@ -49,9 +49,15 @@ void Enemy::OnCollision(Entity* pCollideWith)
 {
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::PLAYER_BULLET))
 		TakeDamage(1.f);
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+		mGravitySpeed = 0.f;
 }
 
 void Enemy::OnFixedUpdate(float deltaTime)
 {
 	mShape.move(mDepl * mSpeed * deltaTime);
+
+	if (IsGravityOn())
+		PhysicalEntity::OnFixedUpdate(deltaTime);
 }

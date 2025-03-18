@@ -222,7 +222,7 @@ void Drone::Input()
 {
 	float deltaTime = GetDeltaTime();
 
-	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	/*float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
 	if (std::abs(stickX) < 10)
@@ -233,9 +233,9 @@ void Drone::Input()
 
 	std::cout << 10 * stickX / 100 << std::endl;
 
-	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);
+	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);*/
 
-	/*mDepl = sf::Vector2f(0, 0);
+	mDepl = sf::Vector2f(0, 0);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
@@ -259,7 +259,7 @@ void Drone::Input()
 	{
 		MoveDown(deltaTime);
 		mIsMoving = true;
-	}*/
+	}
 	
 
 	//mShape.move(mDepl);
