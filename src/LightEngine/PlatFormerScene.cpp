@@ -167,6 +167,7 @@ void PlatFormerScene::GenerateMap()
 	std::vector<std::tuple<int, int, int>> fallZone;
 	std::vector<std::tuple<int, int, int>> hackingZone;
 	std::vector<std::tuple<int, int, int>> activatingZone;
+	std::vector<std::tuple<int, int, int>> platformAmovible;
 
 	std::string line;
 	while (std::getline(file, line))
@@ -255,13 +256,12 @@ void PlatFormerScene::GenerateMap()
 
 				i = j;
 			}
-
-			else if (line[i] == 'h')
+			else if (line[i] == 'm')
 			{
 				size_t count = 1;
 				size_t j = i + 1;
 				std::cout << i << std::endl;
-				while (j < line.size() && line[j] == 'a')
+				while (j < line.size() && line[j] == 'm')
 				{
 					//std::cout << "beug " << j << std::endl;
 					count++;
@@ -269,7 +269,7 @@ void PlatFormerScene::GenerateMap()
 				}
 
 				// Enregistrer l'entité (startX, totalLength, lineNumber)
-				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
+				platformAmovible.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
 			}
@@ -431,6 +431,34 @@ void PlatFormerScene::GenerateMap()
 		pActivating->SetRigidBody(true);                                       
 		pActivating->SetPosition(start * 20, entityLine * 20);
 		pActivating->SetTag(Tag::ACTIVATE_ZONE);
+	}
+
+	for (int i = 0; i < platformAmovible.size(); i++)
+	{
+		int start = std::get<0>(platformAmovible[i]);
+		int totalLenght = std::get<1>(platformAmovible[i]);
+		int entityLine = std::get<2>(platformAmovible[i]);
+
+		if (i > 0)
+		{
+			if (start == std::get<0>(platformAmovible[i - 1]) && totalLenght == std::get<1>(platformAmovible[i - 1]))
+				continue;
+		}
+		//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < platformAmovible.size() && start == std::get<0>(platformAmovible[j]) && totalLenght == std::get<1>(platformAmovible[j]))
+		{
+			j++;
+			countLigne++;
+		}
+
+		PlatformAmovible* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
+		/*pActivating->SetStatic(true);*/
+		pActivating->SetPosition(start * 20, entityLine * 20);
+		pActivating->SetRigidBody(true);
+		pActivating->SetTag(Tag::GROUND);
 	}
 
 	for (const auto& entity : hackingZone)
