@@ -23,7 +23,6 @@ void Enemy::OnInitialize()
 {
 	
 	SetRigidBody(true);
-	SetGravity(true);
 	mDepl = { 1.f, 0.f };
 	SetSpeed(100.f);
 }

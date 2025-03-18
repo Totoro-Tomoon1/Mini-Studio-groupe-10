@@ -3,10 +3,7 @@
 
 class Boss : public Enemy
 {
-protected:
-	float mAttackProcess = 0.f;
-	float mAttackTimerBoss = 3.5f;
-	
+	bool mIsMovable;
 
 public:
 	Boss();
