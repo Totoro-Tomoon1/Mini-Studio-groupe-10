@@ -49,11 +49,13 @@ public:
 		GROUND,
 		DRONE,
 		ENEMY,
+		BOSS,
 		HACKING_ZONE,
 		Damagezone,
 		Fallzone,
 		PLAYER_BULLET,
 		ENEMY_BULLET,
+		BOSS_BULLET
 
 	};
 

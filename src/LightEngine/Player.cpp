@@ -178,6 +178,13 @@ void Player::OnCollision(Entity* pCollideWith)
 
 		return;
 	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS))
+	{
+		TakeDamage(2.f);
+
+		return;
+	}
 }
 
 void Player::OnFixedUpdate(float deltaTime) //Update physique

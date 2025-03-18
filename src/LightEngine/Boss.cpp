@@ -1,21 +1,22 @@
-#include "Enemy2.h"
+#include "Boss.h"
 #include "Utils.h"
 #include "Bullet.h"
 
-Enemy2::Enemy2()
+Boss::Boss()
 {
 }
 
-void Enemy2::OnInitialize()
+void Boss::OnInitialize()
 {
-	SetLife(1.f);
-	SetTag(PlatFormerScene::Tag::ENEMY);
+	SetLife(5.f);
+	SetTag(PlatFormerScene::Tag::BOSS);
+
 	Enemy::OnInitialize();
 
 	//Setter les textures ici
 }
 
-void Enemy2::OnUpdate()
+void Boss::OnUpdate()
 {
 	Enemy::OnUpdate();
 
@@ -32,17 +33,17 @@ void Enemy2::OnUpdate()
 		mIsAttacking = false;
 }
 
-void Enemy2::OnCollision(Entity* pCollideWith)
+void Boss::OnCollision(Entity* pCollideWith)
 {
 	Enemy::OnCollision(pCollideWith);
-
 }
 
-void Enemy2::OnFixedUpdate(float deltaTime)
+void Boss::OnFixedUpdate(float deltaTime)
 {
 	if (mIsAttacking)
 	{
 		Shoot(deltaTime);
+		Punch(deltaTime);
 	}
 	else
 	{
@@ -50,14 +51,12 @@ void Enemy2::OnFixedUpdate(float deltaTime)
 	}
 }
 
-void Enemy2::Shoot(float deltaTime)
+void Boss::Shoot(float deltaTime)
 {
 	mLastAttackTime += deltaTime;
 
-	if (mLastAttackTime > mAttackTimer)
+	if (mLastAttackTime > mAttackTimerBoss)
 	{
-		mLastAttackTime = 0.f;
-
 		sf::Vector2f dronePosition = mDroneTarget->GetPosition();
 		sf::Vector2f myPosition = GetPosition();
 
@@ -65,9 +64,29 @@ void Enemy2::Shoot(float deltaTime)
 
 		Utils::Normalize(shotDirection);
 
-		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(50.f, 10.f), sf::Color::Yellow);
 		b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
 		b->SetDirection(shotDirection.x, shotDirection.y);
-		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);
+		b->SetRigidBody(false);
+		b->SetTag(PlatFormerScene::Tag::BOSS_BULLET);
 	}
+
+}
+
+void Boss::Punch(float deltaTime)
+{
+	mLastAttackTime += deltaTime;
+
+	if (mLastAttackTime > mPunchAttackTime)
+	{
+		mLastAttackTime = 0.f;
+
+		sf::Vector2f dronePosition = mDroneTarget->GetPosition();
+		sf::Vector2f myPosition = GetPosition();
+
+		GoToDirection(dronePosition.x, dronePosition.y, 70);
+		
+
+	}
+
 }
