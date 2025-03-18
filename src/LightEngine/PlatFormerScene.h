@@ -30,6 +30,8 @@ class PlatFormerScene : public Scene
 private:
 	
 	Entity* pGround;
+	Entity* pAmovible;
+	Entity* pActivate;
 
 	Camera mCamera;
 
@@ -54,7 +56,7 @@ public:
 		Fallzone,
 		PLAYER_BULLET,
 		ENEMY_BULLET,
-
+		ACTIVATE_ZONE,
 	};
 
 	/*int mLaneLevel[1] = { 0 };

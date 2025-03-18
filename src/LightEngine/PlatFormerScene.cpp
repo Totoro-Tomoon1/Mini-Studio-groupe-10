@@ -1,8 +1,12 @@
 #include "PlatFormerScene.h"
 
+
 #include "Player.h"
 #include "Drone.h"
 #include "DummyEntity.h"
+#include "Platform.h"
+#include "PlatformAmovible.h"
+#include "ActivateZone.h"
 #include "Debug.h"
 #include "Music.h"
 #include "Sound.h"
@@ -81,19 +85,84 @@ void PlatFormerScene::OnInitialize()
 	// 			// Afficher combien de 'x' suivent
 	// 			std::cout << "Nombre de 'x' apr�s l'index " << i << ": " << count << std::endl;
 
-	// 			pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(count * 20, 20), sf::Color::Red);
-	// 			pGround->SetPosition(i * 20, lineNumber * 20);
-	// 			pGround->SetRigidBody(true);
-	// 			pGround->SetStatic(true);
-	// 			pGround->SetTag(Tag::GROUND);
+				pGround = CreateRectangleEntity<Platform>(sf::Vector2f(count * 20, 20), sf::Color::Red);
+				pGround->SetPosition(i * 20, lineNumber * 20);
+				pGround->SetRigidBody(true);
+				pGround->SetStatic(true);
+				pGround->SetTag(Tag::GROUND);
 
-	// 			// Passer apr�s le dernier 'x' trouv�
-	// 			i = j;
-	// 		}
-	// 		else if (line[i] == 'h') 
-	// 		{
-	// 			// Trouv� un 'h', maintenant compter les 'h' suivants
-	// 			size_t count = 1;
+				// Passer apr�s le dernier 'a' trouv�
+				i = j;
+			}
+
+			else if (line[i] == 'a') {
+				// Trouv� un 'a', maintenant compter les 'x' suivants
+				size_t count = 1;
+
+				// Compter les 'a' derri�re le premier trouv�
+				size_t j = i + 1;
+				while (j < line.size() && line[j] == 'a') {
+					count++;
+					j++;
+				}
+
+				// Afficher combien de 'a' suivent
+				std::cout << "Nombre de 'a' apr�s l'index " << i << ": " << count << std::endl;
+
+				pAmovible = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(count * 20, 20), sf::Color::Green);
+				pAmovible->SetPosition(i * 20, lineNumber * 20);
+				pAmovible->SetRigidBody(true);
+				pAmovible->SetStatic(true);
+				pAmovible->SetTag(Tag::GROUND);
+				
+				
+
+				// Passer apr�s le dernier 'a' trouv�
+				i = j;
+			}
+
+			//else if (line[i] == 'i') {
+			//	// Trouv� un 'i', maintenant compter les 'x' suivants
+			//	size_t count = 1;
+
+			//	// Compter les 'i' derri�re le premier trouv�
+			//	size_t j = i + 1;
+			//	while (j < line.size() && line[j] == 'i') {
+			//		count++;
+			//		j++;
+			//	}
+
+			//	// Afficher combien de 'a' suivent
+			//	std::cout << "Nombre de 'i' apr�s l'index " << i << ": " << count << std::endl;
+
+			//	pActivate = CreateRectangleEntity<ActivateZone>(sf::Vector2f(count * 20, 20), sf::Color::Transparent);
+			//	pActivate->SetPosition(i * 20, lineNumber * 20);
+			//	pActivate->SetRigidBody(false);
+			//	pActivate->SetStatic(true);
+			//	pActivate->SetTag(Tag::ACTIVATE);
+
+
+
+			//	// Passer apr�s le dernier 'i' trouv�
+			//	i = j;
+			//}
+
+			else if (line[i] == 'p')
+			{
+				std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
+				pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100, 200), sf::Color::White);
+				pPlayer->SetPosition(i * 20, lineNumber * 20);
+				mCamera.SetPosition(pPlayer->GetPosition());
+				GameManager::Get()->SetCamera(mCamera);
+				i++;
+			}
+			else {
+				// Si ce n'est pas un 'x', simplement avancer
+				i++;
+			}
+		}
+		lineNumber++;
+	}
 
 	// 			// Compter les 'h' derri�re le premier trouv�
 	// 			size_t j = i + 1;
@@ -156,7 +225,10 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 	if (event.type != sf::Event::EventType::JoystickButtonPressed)
 		return;
 
+	
+
 	std::cout << "Mannette connecte" << std::endl;
+
 
 
 }
