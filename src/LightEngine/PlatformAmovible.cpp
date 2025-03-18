@@ -32,6 +32,7 @@ void PlatformAmovible::Move(int x, int y, float speed)
 	{
 		GoToPosition(x, y, speed);
 		mIsMoving = true;
+		SetRigidBody(false);
 	}
 		
 	
