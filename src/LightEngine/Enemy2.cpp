@@ -8,7 +8,7 @@ Enemy2::Enemy2()
 
 void Enemy2::OnInitialize()
 {
-	SetLife(1.f);
+	SetLife(5.f);
 	SetTag(PlatFormerScene::Tag::ENEMY);
 	Enemy::OnInitialize();
 
@@ -20,13 +20,16 @@ void Enemy2::OnUpdate()
 	Enemy::OnUpdate();
 
 	if (mDroneTarget == nullptr)
+	{
+		SetDroneTarget(GetScene<PlatFormerScene>()->GetDrone());
 		return;
+	}
 
 	sf::Vector2f dronePos = mDroneTarget->GetPosition();
 
 	float distance = Utils::GetDistance(dronePos.x, dronePos.y, mShape.getPosition().x, mShape.getPosition().y);
 
-	if (distance < 500.f)
+	if (abs(distance) < 500.f)
 		mIsAttacking = true;
 	else
 		mIsAttacking = false;
@@ -67,7 +70,20 @@ void Enemy2::Shoot(float deltaTime)
 
 		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
 		b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
-		b->SetDirection(shotDirection.x, shotDirection.y);
+		float shootX = shotDirection.x;
+		float shootY = shotDirection.y;
+		float dist = sqrt((shootX * shootX) + (shootY * shootY));
+
+		if (dist != bulletSpeed)
+		{
+			float vect = bulletSpeed / dist;
+
+			shootX *= vect;
+			shootY *= vect;
+		}
+
+
+		b->SetDirection(shootX, shootY);
 		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);
 	}
 }

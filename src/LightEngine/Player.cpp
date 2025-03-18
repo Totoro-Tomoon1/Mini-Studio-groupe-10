@@ -108,6 +108,8 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
 	//std::cout << GetScene()->GetView().getCenter().x << std::endl;
 
+	mShape.move(mDepl);
+
 	mIsMoving = false;
 
 	if (GetHP() <= 0)

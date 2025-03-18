@@ -20,11 +20,6 @@ namespace sf
 class PlatFormerScene : public Scene
 {
 private:
-	
-	Entity* pGround;
-	Entity* pAmovible;
-	Entity* pActivate;
-
 	Camera mCamera;
 
 	Music* mMusic;
@@ -38,6 +33,13 @@ private:
 	ParallaxManager* mParallaxManager;
 
 	bool UpPressed = false;
+
+	//pour background
+	sf::Texture* backgroundTexture1 = new sf::Texture;
+	sf::Texture* backgroundTexture2 = new sf::Texture;
+	sf::Texture* backgroundTexture3 = new sf::Texture;
+	sf::Texture* backgroundTexture4 = new sf::Texture;
+	sf::Texture* backgroundTexture5 = new sf::Texture;
 
 public:
 
@@ -66,6 +68,7 @@ public:
 	Player* GetPlayer();
 	Drone* GetDrone();
 	void CreateBackGround();
+	void Reset();
 
 	void GenerateMap();
 };

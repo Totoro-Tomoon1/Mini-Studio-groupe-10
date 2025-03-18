@@ -2,13 +2,15 @@
 #include "Utils.h"
 #include "Bullet.h"
 
+#include <iostream>
+
 Enemy1::Enemy1()
 {
 }
 
 void Enemy1::OnInitialize()
 {
-	SetLife(1.f);
+	SetLife(5.f);
 	SetTag(PlatFormerScene::Tag::ENEMY);
 	Enemy::OnInitialize();
 
@@ -69,7 +71,20 @@ void Enemy1::Shoot(float deltaTime)
 
 		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
 		b->SetPosition(myPosition.x, myPosition.y);
-		b->SetDirection(shotDirection.x, shotDirection.y);
+		float shootX = shotDirection.x;
+		float shootY = shotDirection.y;
+		float dist = sqrt((shootX * shootX) + (shootY * shootY));
+
+		if (dist != bulletSpeed)
+		{
+			float vect = bulletSpeed / dist;
+
+			shootX *= vect;
+			shootY *= vect;
+		}
+
+
+		b->SetDirection(shootX, shootY);
 		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);
 	}
 }

@@ -33,10 +33,22 @@ void PlatFormerScene::OnInitialize()
 	mSound->Load("../../../res/test.wav");
 	//mSound->Play();
 
-	mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
-	mDrone->Undisplay();
+	//mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
+	//mDrone->Undisplay();
+
+	if (!backgroundTexture1->loadFromFile("../../../res/background/Fond.png") ||
+		!backgroundTexture2->loadFromFile("../../../res/background/4e_plan.png") ||
+		!backgroundTexture3->loadFromFile("../../../res/background/3e_plan.png") ||
+		!backgroundTexture4->loadFromFile("../../../res/background/2e_plan.png") ||
+		!backgroundTexture5->loadFromFile("../../../res/background/1er_plan.png"))
+	{
+
+		std::cout << "Erreur de chargement des fonds d'ecrans." << std::endl;
+	}
 
 	GenerateMap();
+
+	CreateBackGround();
 }
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
@@ -94,6 +106,7 @@ void PlatFormerScene::OnUpdate()
 	{
 		GameManager::Get()->DestroyAllEntities();
 		GenerateMap();
+		Reset();
 	}
 }
 
@@ -122,22 +135,6 @@ void PlatFormerScene::CreateBackGround()
 	mParallaxManager = new ParallaxManager();
 	mParallaxManager->SetPlayer(mPlayer);
 
-	sf::Texture* backgroundTexture1 = new sf::Texture;
-	sf::Texture* backgroundTexture2 = new sf::Texture;
-	sf::Texture* backgroundTexture3 = new sf::Texture;
-	sf::Texture* backgroundTexture4 = new sf::Texture;
-	sf::Texture* backgroundTexture5 = new sf::Texture;
-		
-	if (!backgroundTexture1->loadFromFile("../../../res/background/Fond.png") ||
-		!backgroundTexture2->loadFromFile("../../../res/background/4e_plan.png") ||
-		!backgroundTexture3->loadFromFile("../../../res/background/3e_plan.png") ||
-		!backgroundTexture4->loadFromFile("../../../res/background/2e_plan.png") ||
-		!backgroundTexture5->loadFromFile("../../../res/background/1er_plan.png"))
-	{
-
-		std::cout << "Erreur de chargement des fonds d'ecrans." << std::endl;
-	}
-
 	ParallaxLayer background1(backgroundTexture1, 0.01f);
 	ParallaxLayer background2(backgroundTexture2, 0.1f);
 	ParallaxLayer background3(backgroundTexture3, 0.2f);
@@ -149,6 +146,13 @@ void PlatFormerScene::CreateBackGround()
 	mParallaxManager->AddLayers(background3);
 	mParallaxManager->AddLayers(background4);
 	mParallaxManager->AddLayers(background5);
+}
+
+void PlatFormerScene::Reset()
+{
+	mParallaxManager->SetPlayer(mPlayer);
+	playerSelected = true;
+	UpPressed = false;
 }
 
 void PlatFormerScene::GenerateMap()
@@ -267,19 +271,20 @@ void PlatFormerScene::GenerateMap()
 			else if (line[i] == 'd')
 			{
 				//mDrone->SetPosition(i * 20, lineNumber * 20);
+				mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
 				mDrone->Display(sf::Vector2f(i * 20, lineNumber * 20));
 				i++;
 			}
 			else if (line[i] == 'e')
 			{
-				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Magenta);
+				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(40, 40), sf::Color::Magenta);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
 				//pEnemy->SetTextureAndAnim();
 				i++;
 			}
 			else if (line[i] == 'g')
 			{
-				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Black);
+				Enemy2* pEnemy = CreateRectangleEntity<Enemy2>(sf::Vector2f(40, 40), sf::Color::Black);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
 				//pEnemy->SetTextureAndAnim();
 				//pEnemy->SetGravity(false);
@@ -323,7 +328,7 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 		
-		pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
+		DummyEntity* pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
@@ -421,7 +426,4 @@ void PlatFormerScene::GenerateMap()
 		pHacking->SetToDraw(false);
 		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
-
-	//Creation du fond
-	CreateBackGround();
 }

@@ -3,7 +3,7 @@
 
 class Enemy2 : public Enemy
 {
-
+	int bulletSpeed = 10;
 public:
 	Enemy2();
 
