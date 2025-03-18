@@ -4,15 +4,15 @@
 class Boss : public Enemy
 {
 protected:
-	float mPunchAttackTime = 1.f;
-	float mAttackTimerBoss = 1.f;
+	float mAttackProcess = 0.f;
+	float mAttackTimerBoss = 3.5f;
 	
 
 public:
 	Boss();
 
 	void Shoot(float deltaTime);
-	void Punch(float deltaTime);
+	void Rush(float deltaTime);
 
 protected:
 	void OnInitialize() override;

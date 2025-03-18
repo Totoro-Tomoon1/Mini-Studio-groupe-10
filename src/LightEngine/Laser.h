@@ -1,12 +1,10 @@
 #pragma once
-#include "Entity.h"
-#include "PlatFormerScene.h"
+#include "Bullet.h"
 
-class Bullet : public Entity
+class Laser : public Bullet
 {
-public:
-
-	void SetTag(int tag);
+	float mLifeTime = 2.5f;
+	float mProcess = 0.f;
 
 protected:
 
@@ -14,3 +12,4 @@ protected:
 	void OnCollision(Entity* other) override;
 	void OnUpdate() override;
 };
+
