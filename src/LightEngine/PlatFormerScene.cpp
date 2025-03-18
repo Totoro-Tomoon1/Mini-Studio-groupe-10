@@ -17,8 +17,6 @@
 #include <fstream>
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
-#include "DamageZone.h"
-#include "FallZone.h"
 
 void PlatFormerScene::OnInitialize()
 {
