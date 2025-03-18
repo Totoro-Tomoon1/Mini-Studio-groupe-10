@@ -15,7 +15,7 @@ class ParallaxLayer
 public:
 	ParallaxLayer(sf::Texture* texture, float speed);
 
-	void Update(Player* player);
+	void Update(Player* player, sf::Vector2f oldPos);
 	void SetPosition(sf::Vector2f posPlayer);
 	void SetPositionY(float posY);
 

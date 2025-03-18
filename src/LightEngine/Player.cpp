@@ -264,3 +264,8 @@ void Player::ResetmDepl()
 {
 	mDepl = sf::Vector2f(0, 0);
 }
+
+void Player::ChangeStatic(bool stat)
+{
+	SetStatic(stat);
+}

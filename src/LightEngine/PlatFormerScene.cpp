@@ -52,6 +52,7 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 				mPlayer->ActivateInput();
 				mDrone->ResetmDepl();
 				mDrone->DesactivateInput();
+				//mPlayer->ChangeStatic(false);
 			}
 			else
 			{
@@ -59,6 +60,7 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 				mPlayer->DesactivateInput();
 				mPlayer->ResetmDepl();
 				mDrone->ActivateInput();
+				//mPlayer->ChangeStatic(true);
 			}
 		}
 
@@ -153,7 +155,11 @@ void PlatFormerScene::GenerateMap()
 		size_t i = 0;
 		while (i < line.size())
 		{
-			if (line[i] == 'x')
+			if (line[i] == '-')
+			{
+				i++;
+			}
+			else if (line[i] == 'x')
 			{
 				int startX = i;
 				size_t count = 1;
@@ -198,7 +204,7 @@ void PlatFormerScene::GenerateMap()
 			}
 			else if (line[i] == 'p')
 			{
-				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60, 120), sf::Color::White);
+				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60 / 2, 120 / 2), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mPlayer->SetToDraw(true);
 				mPlayer->ActivateInput();

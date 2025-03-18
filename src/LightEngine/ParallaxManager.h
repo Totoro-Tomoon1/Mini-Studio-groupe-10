@@ -10,6 +10,7 @@ class ParallaxManager
 	std::vector<ParallaxLayer> mLayer;
 
 	Player* mPlayer;
+	sf::Vector2f oldPos;
 
 public:
 	void AddLayers(ParallaxLayer newLayer);

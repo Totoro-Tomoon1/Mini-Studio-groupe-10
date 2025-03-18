@@ -67,6 +67,8 @@ public:
 	bool GetIsInputActivate();
 	void ResetmDepl();
 
+	void ChangeStatic(bool stat);
+
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;

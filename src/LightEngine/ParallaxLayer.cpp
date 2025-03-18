@@ -31,9 +31,9 @@ ParallaxLayer::ParallaxLayer(sf::Texture* texture, float speed)
     mSpeed = speed;
 }
 
-void ParallaxLayer::Update(Player* player)
+void ParallaxLayer::Update(Player* player, sf::Vector2f oldPos)
 {
-    sf::Vector2f offset = *player->GetDepl();
+    sf::Vector2f offset = player->GetPosition() - oldPos;
     sf::Vector2f playerPos = player->GetPosition();
 
     float newX = playerPos.x - player->GetScene()->GetWindowWidth() / 2;
