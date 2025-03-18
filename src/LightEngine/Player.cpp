@@ -155,7 +155,19 @@ void Player::OnCollision(Entity* pCollideWith)
 		return;
 	}
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone) && imuuneProgresse >= immuneTime)
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
+	{
+		TakeDamage(GetHP());
+
+		return;
+	}
+
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone))
 	{
 		std::cout << "Player take damage" << std::endl;
 		TakeDamage(1);
@@ -165,16 +177,18 @@ void Player::OnCollision(Entity* pCollideWith)
 		return;
 	}
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET))
 	{
-		TakeDamage(GetHP());
+		TakeDamage(1.f);
+		imuuneProgresse = 0;
 
 		return;
 	}
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
 	{
-		TakeDamage(1.f);
+		TakeDamage(3.f);
+		imuuneProgresse = 0;
 
 		return;
 	}

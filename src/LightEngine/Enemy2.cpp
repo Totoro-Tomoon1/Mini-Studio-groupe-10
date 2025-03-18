@@ -8,6 +8,8 @@ Enemy2::Enemy2()
 
 void Enemy2::OnInitialize()
 {
+	SetLife(1.f);
+	SetTag(PlatFormerScene::Tag::ENEMY);
 	Enemy::OnInitialize();
 
 	//Setter les textures ici

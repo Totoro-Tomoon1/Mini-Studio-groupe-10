@@ -41,6 +41,9 @@ private:
 
 	sf::Vector2f mDepl;
 
+	float immuneTime = 1.f;
+	float imuuneProgresse = 0.f;
+
 public:
 	Drone();
 

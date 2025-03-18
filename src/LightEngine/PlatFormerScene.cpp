@@ -12,6 +12,7 @@
 #include "Sound.h"
 #include "Enemy1.h"
 #include "Enemy2.h"
+#include "Boss.h"
 #include <iostream>
 
 #include <fstream>
@@ -454,6 +455,13 @@ void PlatFormerScene::GenerateMap()
 				//pEnemy->SetGravity(false);
 				i++;
 			}
+			else if (line[i] == 'b')
+			{
+				Boss * pBoss = CreateRectangleEntity<Boss>(sf::Vector2f(150, 150), sf::Color::Green);
+				pBoss->SetPosition(i * 20, lineNumber * 20);
+				pBoss->SetDroneTarget(mDrone);
+				i++;
+		    }
 			else
 			{
 				i++;

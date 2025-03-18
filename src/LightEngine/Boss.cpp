@@ -1,21 +1,22 @@
-#include "Enemy1.h"
+#include "Boss.h"
 #include "Utils.h"
-#include "Bullet.h"
+#include "Laser.h"
 
-Enemy1::Enemy1()
+Boss::Boss()
 {
 }
 
-void Enemy1::OnInitialize()
+void Boss::OnInitialize()
 {
-	SetLife(1.f);
-	SetTag(PlatFormerScene::Tag::ENEMY);
+	SetLife(5.f);
+	SetTag(PlatFormerScene::Tag::BOSS);
+
 	Enemy::OnInitialize();
 
 	//Setter les textures ici
 }
 
-void Enemy1::OnUpdate()
+void Boss::OnUpdate()
 {
 	Enemy::OnUpdate();
 
@@ -35,15 +36,16 @@ void Enemy1::OnUpdate()
 		mIsAttacking = false;
 }
 
-void Enemy1::OnCollision(Entity* pCollideWith)
+void Boss::OnCollision(Entity* pCollideWith)
 {
 	Enemy::OnCollision(pCollideWith);
 }
 
-void Enemy1::OnFixedUpdate(float deltaTime)
+void Boss::OnFixedUpdate(float deltaTime)
 {
 	if (mIsAttacking)
 	{
+		Rush(deltaTime);
 		Shoot(deltaTime);
 	}
 	else
@@ -52,11 +54,11 @@ void Enemy1::OnFixedUpdate(float deltaTime)
 	}
 }
 
-void Enemy1::Shoot(float deltaTime)
+void Boss::Shoot(float deltaTime)
 {
 	mLastAttackTime += deltaTime;
 
-	if (mLastAttackTime > mAttackTimer)
+	if (mLastAttackTime > mAttackTimerBoss)
 	{
 		mLastAttackTime = 0.f;
 
@@ -65,11 +67,26 @@ void Enemy1::Shoot(float deltaTime)
 
 		sf::Vector2f shotDirection = { dronePosition.x - myPosition.x, dronePosition.y - myPosition.y };
 
-		//Utils::Normalize(shotDirection);
+		Utils::Normalize(shotDirection);
 
-		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
-		b->SetPosition(myPosition.x, myPosition.y);
-		b->SetDirection(shotDirection.x, shotDirection.y);
-		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);
+		float deltaX = 0.f;
+
+		if (dronePosition.x - myPosition.x < 0)
+		{
+			deltaX = 700.f;
+		}
+
+		Laser* b = CreateEntity<Laser>(sf::Vector2f(700.f, 50.f), sf::Color::Yellow);
+		b->SetPosition(myPosition.x - deltaX, myPosition.y);
+		b->SetTag(PlatFormerScene::Tag::BOSS_BULLET);
 	}
+
+}
+
+void Boss::Rush(float deltaTime)
+{
+	sf::Vector2f dronePosition = mDroneTarget->GetPosition();
+	sf::Vector2f myPosition = GetPosition();
+
+	GoToDirection(dronePosition.x, dronePosition.y, 70);
 }

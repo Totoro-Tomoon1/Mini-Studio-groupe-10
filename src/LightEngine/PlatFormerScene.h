@@ -51,12 +51,15 @@ public:
 		GROUND,
 		DRONE,
 		ENEMY,
+		BOSS,
 		HACKING_ZONE,
 		Damagezone,
 		Fallzone,
 		PLAYER_BULLET,
 		ENEMY_BULLET,
 		ACTIVATE_ZONE,
+		BOSS_BULLET
+
 	};
 
 	/*int mLaneLevel[1] = { 0 };

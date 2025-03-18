@@ -113,6 +113,8 @@ void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 		std::cout << "You're dead" << std::endl;
 	}
 
+	imuuneProgresse += GetDeltaTime();
+
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mDroneParameters.mMinSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Drone::State)mStateMachine.GetCurrentState()), sf::Color::Red);
@@ -133,9 +135,25 @@ void Drone::OnCollision(Entity* pCollideWith)
 		mCanHack = true;
 	}
 
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
+
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
 	{
 		TakeDamage(1.f);
+		imuuneProgresse = 0.f;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		TakeDamage(3.f);
+		imuuneProgresse = 0.f;
+
+		return;
 	}
 }
 

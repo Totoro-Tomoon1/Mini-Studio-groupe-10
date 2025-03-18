@@ -21,8 +21,7 @@ void Enemy::SetTextureAndAnim(const char* path)
 
 void Enemy::OnInitialize()
 {
-	SetLife(1.f);
-	SetTag(PlatFormerScene::Tag::ENEMY);
+	
 	SetRigidBody(true);
 	SetGravity(true);
 	mDepl = { 1.f, 0.f };
