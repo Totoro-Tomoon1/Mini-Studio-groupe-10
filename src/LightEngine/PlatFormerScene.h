@@ -6,6 +6,7 @@
 #include "Camera.h"
 
 class Player;
+class Drone;
 class Music;
 class Sound;
 class ParallaxManager;
@@ -19,8 +20,10 @@ namespace sf
 class PlatFormerScene : public Scene
 {
 private:
-	Entity* pPlayer;
+	
 	Entity* pGround;
+	Entity* pAmovible;
+	Entity* pActivate;
 
 	Camera mCamera;
 
@@ -43,9 +46,16 @@ public:
 		PLAYER,
 		GROUND,
 		DRONE,
+		ENEMY,
+		BOSS,
 		HACKING_ZONE,
 		Damagezone,
-		Fallzone
+		Fallzone,
+		PLAYER_BULLET,
+		ENEMY_BULLET,
+		ACTIVATE_ZONE,
+		BOSS_BULLET
+
 	};
 		
 	void OnInitialize() override;
@@ -53,7 +63,8 @@ public:
 	void OnUpdate() override;
 	void OnLateUpdate() override;
 	void Draw(sf::RenderWindow& pRenderWindow) override;
-
+	Player* GetPlayer();
+	Drone* GetDrone();
 	void CreateBackGround();
 
 	void GenerateMap();

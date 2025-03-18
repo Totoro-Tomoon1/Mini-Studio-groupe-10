@@ -15,6 +15,7 @@ void Drone::OnInitialize()
 {
 	SetTag(PlatFormerScene::Tag::DRONE);
 	SetRigidBody(true);
+	SetLife(20.f);
 
 	//Idle
 	{
@@ -106,7 +107,13 @@ void Drone::OnInitialize()
 
 void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 {
-	mShape.move(mDepl);
+	if (GetHP() <= 0)
+	{
+		Destroy();
+		std::cout << "You're dead" << std::endl;
+	}
+
+	imuuneProgresse += GetDeltaTime();
 
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mDroneParameters.mMinSpeed), sf::Color::White);
@@ -130,6 +137,25 @@ void Drone::OnCollision(Entity* pCollideWith)
 	{
 		isUnlocked = true;
 		Undisplay();
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+	{
+		TakeDamage(1.f);
+		imuuneProgresse = 0.f;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		TakeDamage(3.f);
+		imuuneProgresse = 0.f;
+
+		return;
 	}
 }
 
@@ -231,6 +257,9 @@ void Drone::Input()
 		MoveDown(deltaTime);
 		mIsMoving = true;
 	}*/
+	}
+
+	//mShape.move(mDepl);
 }
 
 void Drone::Undisplay()
@@ -274,4 +303,9 @@ bool Drone::GetIsUnlocked()
 void Drone::ChangeIsUnlocked()
 {
 	isUnlocked = !isUnlocked;
+void Drone::Shoot(float deltaTime)
+{		
+	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
+	b->SetTag(PlatFormerScene::Tag::PLAYER_BULLET);
 }

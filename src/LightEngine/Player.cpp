@@ -117,8 +117,6 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 	imuuneProgresse += GetDeltaTime();
 
-	mShape.move(mDepl);
-
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
@@ -142,19 +140,46 @@ void Player::OnCollision(Entity* pCollideWith)
 
 		if (face == 2 || face == 4)
 			mDepl = sf::Vector2f(0, 0);
-	}
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone) && imuuneProgresse >= immuneTime)
-	{
-		std::cout << "Player take damage" << std::endl;
-		TakeDamage(1);
-		std::cout << "Current hp player : " << GetHP() << std::endl;
-		imuuneProgresse = 0;
+		return;
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
 	{
 		TakeDamage(GetHP());
+
+		return;
+	}
+
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone))
+	{
+		std::cout << "Player take damage" << std::endl;
+		TakeDamage(1);
+		std::cout << "Current hp player : " << GetHP() << std::endl;
+		imuuneProgresse = 0;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET))
+	{
+		TakeDamage(1.f);
+		imuuneProgresse = 0;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		TakeDamage(3.f);
+		imuuneProgresse = 0;
+
+		return;
 	}
 }
 

@@ -1,0 +1,75 @@
+#include "Enemy1.h"
+#include "Utils.h"
+#include "Bullet.h"
+
+Enemy1::Enemy1()
+{
+}
+
+void Enemy1::OnInitialize()
+{
+	SetLife(1.f);
+	SetTag(PlatFormerScene::Tag::ENEMY);
+	Enemy::OnInitialize();
+
+	//Setter les textures ici
+}
+
+void Enemy1::OnUpdate()
+{
+	Enemy::OnUpdate();
+
+	if (mDroneTarget == nullptr)
+	{
+		SetDroneTarget(GetScene<PlatFormerScene>()->GetDrone());
+		return;
+	}
+
+	sf::Vector2f dronePos = mDroneTarget->GetPosition();
+
+	float distance = Utils::GetDistance(dronePos.x, dronePos.y, mShape.getPosition().x, mShape.getPosition().y);
+
+	if (abs(distance) < 500.f)
+		mIsAttacking = true;
+	else
+		mIsAttacking = false;
+}
+
+void Enemy1::OnCollision(Entity* pCollideWith)
+{
+	Enemy::OnCollision(pCollideWith);
+}
+
+void Enemy1::OnFixedUpdate(float deltaTime)
+{
+	if (mIsAttacking)
+	{
+		Shoot(deltaTime);
+	}
+	else
+	{
+		Enemy::OnFixedUpdate(deltaTime);
+	}
+}
+
+void Enemy1::Shoot(float deltaTime)
+{
+	mLastAttackTime += deltaTime;
+
+	if (mLastAttackTime > mAttackTimer)
+	{
+		mLastAttackTime = 0.f;
+
+		sf::Vector2f dronePosition = mDroneTarget->GetPosition(0.5f, 0.5f);
+		sf::Vector2f myPosition = GetPosition(0.5f, 0.5f);
+
+		sf::Vector2f shotDirection = { dronePosition.x - myPosition.x, dronePosition.y - myPosition.y };
+
+		//Utils::Normalize(shotDirection);
+
+		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+		b->SetPosition(myPosition.x, myPosition.y);
+		b->SetDirection(shotDirection.x, shotDirection.y);
+		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);
+	}
+}

@@ -1,12 +1,18 @@
 #include "PlatFormerScene.h"
 
+
 #include "Player.h"
 #include "Drone.h"
 #include "DummyEntity.h"
+#include "Platform.h"
+#include "PlatformAmovible.h"
+#include "ActivateZone.h"
 #include "Debug.h"
 #include "Music.h"
 #include "Sound.h"
-
+#include "Enemy1.h"
+#include "Enemy2.h"
+#include "Boss.h"
 #include <iostream>
 
 #include <fstream>
@@ -101,6 +107,16 @@ void PlatFormerScene::Draw(sf::RenderWindow& pRenderWindow)
 	mParallaxManager->Draw(pRenderWindow);
 }
 
+Player* PlatFormerScene::GetPlayer()
+{
+	return mPlayer;
+}
+
+Drone* PlatFormerScene::GetDrone()
+{
+	return mDrone;
+}
+
 void PlatFormerScene::CreateBackGround()
 {
 	mParallaxManager = new ParallaxManager();
@@ -148,6 +164,8 @@ void PlatFormerScene::GenerateMap()
 	std::vector<std::tuple<int, int, int>> ground;// (startX, totalLength, lineNumber)
 	std::vector<std::tuple<int, int, int>> damageZone;
 	std::vector<std::tuple<int, int, int>> fallZone;
+	std::vector<std::tuple<int, int, int>> hackingZone;
+	std::vector<std::tuple<int, int, int>> activatingZone;
 
 	std::string line;
 	while (std::getline(file, line))
@@ -202,6 +220,40 @@ void PlatFormerScene::GenerateMap()
 
 				i = j;
 			}
+			else if (line[i] == 'h')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'h')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
+
+				i = j;
+			}
+			else if (line[i] == 'a')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'a')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				activatingZone.push_back(std::make_tuple(i, count, lineNumber));
+
+				i = j;
+			}
 			else if (line[i] == 'p')
 			{
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60 / 2, 120 / 2), sf::Color::White);
@@ -218,6 +270,28 @@ void PlatFormerScene::GenerateMap()
 				mDrone->Display(sf::Vector2f(i * 20, lineNumber * 20));
 				i++;
 			}
+			else if (line[i] == 'e')
+			{
+				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Magenta);
+				pEnemy->SetPosition(i * 20, lineNumber * 20);
+				//pEnemy->SetTextureAndAnim();
+				i++;
+			}
+			else if (line[i] == 'g')
+			{
+				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Black);
+				pEnemy->SetPosition(i * 20, lineNumber * 20);
+				//pEnemy->SetTextureAndAnim();
+				//pEnemy->SetGravity(false);
+				i++;
+			}
+			else if (line[i] == 'b')
+			{
+				Boss * pBoss = CreateRectangleEntity<Boss>(sf::Vector2f(150, 150), sf::Color::Green);
+				pBoss->SetPosition(i * 20, lineNumber * 20);
+				pBoss->SetDroneTarget(mDrone);
+				i++;
+		    }
 			else
 			{
 				i++;
@@ -310,5 +384,44 @@ void PlatFormerScene::GenerateMap()
 		pFall->SetTag(Tag::Fallzone);
 	}
 
+	for (int i = 0; i < activatingZone.size(); i++)
+	{
+		int start = std::get<0>(activatingZone[i]);
+		int totalLenght = std::get<1>(activatingZone[i]);
+		int entityLine = std::get<2>(activatingZone[i]);
+
+		if (i > 0)
+		{
+			if (start == std::get<0>(activatingZone[i - 1]) && totalLenght == std::get<1>(activatingZone[i - 1]))
+				continue;
+		}
+		//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < activatingZone.size() && start == std::get<0>(activatingZone[j]) && totalLenght == std::get<1>(activatingZone[j]))
+		{
+			j++;
+			countLigne++;
+		}
+
+		Entity* pActivating = CreateRectangleEntity<ActivateZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
+		pActivating->SetPosition(start * 20, entityLine * 20);
+		pActivating->SetTag(Tag::ACTIVATE_ZONE);
+	}
+
+	for (const auto& entity : hackingZone)
+	{
+		int start = std::get<0>(entity);
+		int totalLenght = std::get<1>(entity);
+		int entityLine = std::get<2>(entity);
+
+		Entity* pHacking = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
+		pHacking->SetPosition(start * 20, entityLine * 20);
+		pHacking->SetToDraw(false);
+		pHacking->SetTag(Tag::HACKING_ZONE);
+	}
+
+	//Creation du fond
 	CreateBackGround();
 }
