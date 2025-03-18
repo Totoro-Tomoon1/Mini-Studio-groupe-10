@@ -85,41 +85,41 @@ void PlatFormerScene::OnInitialize()
 	// 			// Afficher combien de 'x' suivent
 	// 			std::cout << "Nombre de 'x' apr�s l'index " << i << ": " << count << std::endl;
 
-				pGround = CreateRectangleEntity<Platform>(sf::Vector2f(count * 20, 20), sf::Color::Red);
+				/*pGround = CreateRectangleEntity<Platform>(sf::Vector2f(count * 20, 20), sf::Color::Red);
 				pGround->SetPosition(i * 20, lineNumber * 20);
 				pGround->SetRigidBody(true);
 				pGround->SetStatic(true);
-				pGround->SetTag(Tag::GROUND);
+				pGround->SetTag(Tag::GROUND);*/
 
 				// Passer apr�s le dernier 'a' trouv�
-				i = j;
-			}
+			//	i = j;
+			//}
 
-			else if (line[i] == 'a') {
-				// Trouv� un 'a', maintenant compter les 'x' suivants
-				size_t count = 1;
+			//else if (line[i] == 'a') {
+			//	// Trouv� un 'a', maintenant compter les 'x' suivants
+			//	size_t count = 1;
 
-				// Compter les 'a' derri�re le premier trouv�
-				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'a') {
-					count++;
-					j++;
-				}
+			//	// Compter les 'a' derri�re le premier trouv�
+			//	size_t j = i + 1;
+			//	while (j < line.size() && line[j] == 'a') {
+			//		count++;
+			//		j++;
+			//	}
 
-				// Afficher combien de 'a' suivent
-				std::cout << "Nombre de 'a' apr�s l'index " << i << ": " << count << std::endl;
+			//	// Afficher combien de 'a' suivent
+			//	std::cout << "Nombre de 'a' apr�s l'index " << i << ": " << count << std::endl;
 
-				pAmovible = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(count * 20, 20), sf::Color::Green);
-				pAmovible->SetPosition(i * 20, lineNumber * 20);
-				pAmovible->SetRigidBody(true);
-				pAmovible->SetStatic(true);
-				pAmovible->SetTag(Tag::GROUND);
-				
-				
+			//	pAmovible = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(count * 20, 20), sf::Color::Green);
+			//	pAmovible->SetPosition(i * 20, lineNumber * 20);
+			//	pAmovible->SetRigidBody(true);
+			//	pAmovible->SetStatic(true);
+			//	pAmovible->SetTag(Tag::GROUND);
+			//	
+			//	
 
-				// Passer apr�s le dernier 'a' trouv�
-				i = j;
-			}
+			//	// Passer apr�s le dernier 'a' trouv�
+			//	i = j;
+			//}
 
 			//else if (line[i] == 'i') {
 			//	// Trouv� un 'i', maintenant compter les 'x' suivants
@@ -147,22 +147,22 @@ void PlatFormerScene::OnInitialize()
 			//	i = j;
 			//}
 
-			else if (line[i] == 'p')
-			{
-				std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
-				pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100, 200), sf::Color::White);
-				pPlayer->SetPosition(i * 20, lineNumber * 20);
-				mCamera.SetPosition(pPlayer->GetPosition());
-				GameManager::Get()->SetCamera(mCamera);
-				i++;
-			}
-			else {
-				// Si ce n'est pas un 'x', simplement avancer
-				i++;
-			}
-		}
-		lineNumber++;
-	}
+	//		else if (line[i] == 'p')
+	//		{
+	//			std::cout << "p a la ligne :" << lineNumber * 20 << "    et a l'index : " << i * 20 << std::endl;
+	//			pPlayer = CreateRectangleEntity<Player>(sf::Vector2f(100, 200), sf::Color::White);
+	//			pPlayer->SetPosition(i * 20, lineNumber * 20);
+	//			mCamera.SetPosition(pPlayer->GetPosition());
+	//			GameManager::Get()->SetCamera(mCamera);
+	//			i++;
+	//		}
+	//		else {
+	//			// Si ce n'est pas un 'x', simplement avancer
+	//			i++;
+	//		}
+	//	}
+	//	lineNumber++;
+	//}
 
 	// 			// Compter les 'h' derri�re le premier trouv�
 	// 			size_t j = i + 1;
@@ -321,6 +321,7 @@ void PlatFormerScene::GenerateMap()
 	std::vector<std::tuple<int, int, int>> damageZone;
 	std::vector<std::tuple<int, int, int>> fallZone;
 	std::vector<std::tuple<int, int, int>> hackingZone;
+	std::vector<std::tuple<int, int, int>> activatingZone;
 
 	std::string line;
 	while (std::getline(file, line))
@@ -399,6 +400,23 @@ void PlatFormerScene::GenerateMap()
 
 				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
+
+				i = j;
+			}
+			else if (line[i] == 'a')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'a')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				activatingZone.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
 			}
@@ -543,6 +561,32 @@ void PlatFormerScene::GenerateMap()
 		pFall->SetPosition(start * 20, entityLine * 20);
 		pFall->SetToDraw(false);
 		pFall->SetTag(Tag::Fallzone);
+	}
+
+	for (int i = 0; i < activatingZone.size(); i++)
+	{
+		int start = std::get<0>(activatingZone[i]);
+		int totalLenght = std::get<1>(activatingZone[i]);
+		int entityLine = std::get<2>(activatingZone[i]);
+
+		if (i > 0)
+		{
+			if (start == std::get<0>(activatingZone[i - 1]) && totalLenght == std::get<1>(activatingZone[i - 1]))
+				continue;
+		}
+		//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < activatingZone.size() && start == std::get<0>(activatingZone[j]) && totalLenght == std::get<1>(activatingZone[j]))
+		{
+			j++;
+			countLigne++;
+		}
+
+		Entity* pActivating = CreateRectangleEntity<ActivateZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
+		pActivating->SetPosition(start * 20, entityLine * 20);
+		pActivating->SetTag(Tag::ACTIVATE_ZONE);
 	}
 
 	for (const auto& entity : hackingZone)
