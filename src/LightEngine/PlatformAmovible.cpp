@@ -7,7 +7,7 @@
 void PlatformAmovible::OnUpdate()
 {
 	std::cout << GetPosition().x << " / " << GetPosition().y << std::endl;
-	Move(GetPosition().x, GetPosition().y -500 , 50);
+	Move(GetPosition().x, GetPosition().y +200 , 50);
 }
 
 void PlatformAmovible::OnCollision(Entity* other)
@@ -28,12 +28,19 @@ bool PlatformAmovible::IsActive()
 
 void PlatformAmovible::Move(int x, int y, float speed)
 {
-	if (mActive == true)
+	if (mActive == true && IsTag(PlatFormerScene::Tag::ACTIVATE_ZONE))
 	{
-		GoToPosition(x, y, speed);
-		mIsMoving = true;
-	}
+	     mIsStatic = false;
 		
+		
+	}
+
+	if (mActive == true && IsTag(PlatFormerScene::Tag::HACKING_ZONE))
+	{
+		GoToPosition(x, y, 50);
+		mIsMoving = true;
+		
+	}
 	
 	mActive = false;
 }

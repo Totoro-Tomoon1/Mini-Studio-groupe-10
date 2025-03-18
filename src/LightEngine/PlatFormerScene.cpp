@@ -6,7 +6,6 @@
 #include "DummyEntity.h"
 #include "Platform.h"
 #include "PlatformAmovible.h"
-#include "ActivateZone.h"
 #include "Debug.h"
 #include "Music.h"
 #include "Sound.h"
@@ -18,8 +17,6 @@
 #include <fstream>
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
-#include "DamageZone.h"
-#include "FallZone.h"
 
 void PlatFormerScene::OnInitialize()
 {
@@ -258,6 +255,24 @@ void PlatFormerScene::GenerateMap()
 
 				i = j;
 			}
+
+			else if (line[i] == 'h')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'a')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
+
+				i = j;
+			}
 			else if (line[i] == 'p')
 			{
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60 / 2, 120 / 2), sf::Color::White);
@@ -328,7 +343,7 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 		
-		DummyEntity* pGround = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
+		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
@@ -356,7 +371,7 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 
-		Entity* pDamage = CreateRectangleEntity<DamageZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::White);
+		Entity* pDamage = CreateRectangleEntity<Platform>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::White);
 		pDamage->SetPosition(start * 20, entityLine * 20);
 		pDamage->SetToDraw(false);
 		pDamage->SetTag(Tag::Damagezone);
@@ -383,7 +398,7 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 
-		Entity* pFall = CreateRectangleEntity<FallZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::White);
+		Entity* pFall = CreateRectangleEntity<Platform>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::White);
 		pFall->SetPosition(start * 20, entityLine * 20);
 		pFall->SetToDraw(false);
 		pFall->SetTag(Tag::Fallzone);
@@ -410,7 +425,10 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 
-		Entity* pActivating = CreateRectangleEntity<ActivateZone>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
+		Entity* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
+		/*pActivating->SetStatic(true);*/
+		pActivating->SetStatic(true);
+		pActivating->SetRigidBody(true);                                       
 		pActivating->SetPosition(start * 20, entityLine * 20);
 		pActivating->SetTag(Tag::ACTIVATE_ZONE);
 	}
@@ -421,9 +439,9 @@ void PlatFormerScene::GenerateMap()
 		int totalLenght = std::get<1>(entity);
 		int entityLine = std::get<2>(entity);
 
-		Entity* pHacking = CreateRectangleEntity<DummyEntity>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
+		Entity* pHacking = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
 		pHacking->SetPosition(start * 20, entityLine * 20);
-		pHacking->SetToDraw(false);
+		//pHacking->SetToDraw(false);
 		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
 }
