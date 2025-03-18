@@ -130,9 +130,16 @@ void Drone::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
+
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::HACKING_ZONE))
 	{
 		mCanHack = true;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	{
+		hasKey = true;
+		pCollideWith->Destroy();
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::PLAYER) && !isUnlocked)

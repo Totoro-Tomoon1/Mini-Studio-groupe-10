@@ -44,6 +44,8 @@ private:
 
 	Burrefly* mButterfly;
 
+	bool hasKey = false;
+
 public:
 
 	enum Tag
@@ -59,7 +61,8 @@ public:
 		PLAYER_BULLET,
 		ENEMY_BULLET,
 		ACTIVATE_ZONE,
-		BOSS_BULLET
+		BOSS_BULLET,
+		Key
 
 	};
 		

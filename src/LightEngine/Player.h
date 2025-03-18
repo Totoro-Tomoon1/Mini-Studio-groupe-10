@@ -43,6 +43,7 @@ private:
 	float imuuneProgresse = 0.f;
 
 	bool isInputActive = false;
+	bool haseKey = false;
 
 public:
 	Player();
@@ -66,6 +67,7 @@ public:
 	void ResetmDepl();
 
 	void ChangeStatic(bool stat);
+	bool HaseKey();
 
 protected:
 	void OnInitialize() override;

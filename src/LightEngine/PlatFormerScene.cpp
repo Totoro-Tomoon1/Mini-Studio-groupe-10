@@ -114,6 +114,11 @@ void PlatFormerScene::OnUpdate()
 		GenerateMap();
 		Reset();
 	}
+
+	if (mPlayer->HaseKey() || mDrone->HaseKey())
+	{
+		hasKey = true;
+	}
 }
 
 void PlatFormerScene::OnLateUpdate()
@@ -323,6 +328,13 @@ void PlatFormerScene::GenerateMap()
 				pBoss->SetDroneTarget(mDrone);
 				i++;
 		    }
+			else if (line[i] == 'k')
+			{
+				Entity* pKey = CreateRectangleEntity<DummyEntity>(sf::Vector2f(20, 20), sf::Color::Yellow);
+				pKey->SetPosition(i * 20, lineNumber * 20);
+				pKey->SetTag(Tag::Key);
+				i++;
+				}
 			else
 			{
 				i++;

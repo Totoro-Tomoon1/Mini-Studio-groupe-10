@@ -35,6 +35,8 @@ private:
 	bool mIsShooting = false;
 	bool mCanHack = false;
 
+	bool hasKey = false;
+
 	sf::Vector2f* mDronePosition;
 	Animation* mDroneAnimation;
 	sf::Texture* mCurrentTexture;
@@ -71,6 +73,8 @@ public:
 
 	bool GetIsUnlocked();
 	void ChangeIsUnlocked();
+
+	bool HaseKey() { return hasKey; }
 
 protected:
 	void OnInitialize() override;

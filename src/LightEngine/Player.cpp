@@ -183,6 +183,11 @@ void Player::OnCollision(Entity* pCollideWith)
 
 		return;
 	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	{
+		haseKey = true;
+	}
 }
 
 //void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -297,4 +302,9 @@ void Player::ResetmDepl()
 void Player::ChangeStatic(bool stat)
 {
 	SetStatic(stat);
+}
+
+bool Player::HaseKey()
+{
+	return haseKey;
 }
