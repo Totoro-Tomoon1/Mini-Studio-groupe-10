@@ -3,7 +3,9 @@
 
 void Bullet::OnInitialize()
 {
+	
 	mDirection = { 3.0f, 0.f };
+	mSpeed = 1.f;
 }
 
 void Bullet::OnCollision(Entity* other)
@@ -35,12 +37,15 @@ void Bullet::OnCollision(Entity* other)
 
 void Bullet::OnUpdate()
 {
-	mShape.move(mDirection);
-
 	if (GetPosition().x > GetScene()->GetWindowWidth()) //à modifier
 	{
 		Destroy();
 	}
+}
+
+void Bullet::OnFixedUpdate(float deltaTime)
+{
+	mShape.move(mDirection * mSpeed * deltaTime);
 }
 
 void Bullet::SetTag(int tag)

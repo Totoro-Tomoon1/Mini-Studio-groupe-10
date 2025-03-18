@@ -58,15 +58,15 @@ void Enemy1::Shoot(float deltaTime)
 	{
 		mLastAttackTime = 0.f;
 
-		sf::Vector2f dronePosition = mDroneTarget->GetPosition();
-		sf::Vector2f myPosition = GetPosition();
+		sf::Vector2f dronePosition = mDroneTarget->GetPosition(0.5f, 0.5f);
+		sf::Vector2f myPosition = GetPosition(0.5f, 0.5f);
 
 		sf::Vector2f shotDirection = { dronePosition.x - myPosition.x, dronePosition.y - myPosition.y };
 
-		Utils::Normalize(shotDirection);
+		//Utils::Normalize(shotDirection);
 
 		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
-		b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
+		b->SetPosition(myPosition.x, myPosition.y);
 		b->SetDirection(shotDirection.x, shotDirection.y);
 		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);
 	}

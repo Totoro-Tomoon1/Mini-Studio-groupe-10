@@ -9,5 +9,6 @@ public:
 	void OnInitialize() override;
 	void OnCollision(Entity* other) override;
 	void OnUpdate() override;
+	void OnFixedUpdate(float deltaTime	) override;
 	void SetTag(int tag);
 };
