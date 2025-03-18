@@ -231,7 +231,7 @@ void Drone::Input()
 	if (std::abs(stickY) < 10)
 		stickY = 0;
 
-	std::cout << 10 * stickX / 100 << std::endl;
+	//std::cout << 10 * stickX / 100 << std::endl;
 
 	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);
 

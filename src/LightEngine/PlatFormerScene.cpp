@@ -18,6 +18,10 @@
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
 
+#include "Burrefly.h"
+
+#define Butterfly_Path "../../../res/MODELSHEET_PAPILLON.png"
+
 void PlatFormerScene::OnInitialize()
 {
 	mMusic = new Music();
@@ -29,6 +33,10 @@ void PlatFormerScene::OnInitialize()
 
 	mSound->Load("../../../res/test.wav");
 	//mSound->Play();
+
+	mButterfly = new Burrefly();
+	mButterfly->SetTexture();
+	
 
 	//mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
 	//mDrone->Undisplay();
@@ -98,6 +106,7 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 void PlatFormerScene::OnUpdate()
 {
 	mParallaxManager->Update(GetDeltaTime());
+	mButterfly->Update(GetDeltaTime());
 
 	if (mPlayer->GetHP() <= 0)
 	{
@@ -115,6 +124,8 @@ void PlatFormerScene::OnLateUpdate()
 void PlatFormerScene::Draw(sf::RenderWindow& pRenderWindow)
 {
 	mParallaxManager->Draw(pRenderWindow);
+	mButterfly->Draw(pRenderWindow);
+	mButterfly->SetView(GetView());
 }
 
 Player* PlatFormerScene::GetPlayer()

@@ -6,7 +6,7 @@
 
 void PlatformAmovible::OnUpdate()
 {
-	std::cout << GetPosition().x << " / " << GetPosition().y << std::endl;
+	//std::cout << GetPosition().x << " / " << GetPosition().y << std::endl;
 	Move(GetPosition().x, GetPosition().y +200 , 50);
 }
 

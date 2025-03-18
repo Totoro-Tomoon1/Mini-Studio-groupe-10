@@ -11,6 +11,7 @@ class Music;
 class Sound;
 class ParallaxManager;
 class Drone;
+class Burrefly;
 
 namespace sf
 {
@@ -40,6 +41,8 @@ private:
 	sf::Texture* backgroundTexture3 = new sf::Texture;
 	sf::Texture* backgroundTexture4 = new sf::Texture;
 	sf::Texture* backgroundTexture5 = new sf::Texture;
+
+	Burrefly* mButterfly;
 
 public:
 

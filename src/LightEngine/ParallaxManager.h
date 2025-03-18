@@ -2,6 +2,7 @@
 
 class ParallaxLayer;
 class Player;
+class Burrerfly;
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
