@@ -7,7 +7,7 @@
 void PlatformAmovible::OnUpdate()
 {
 	std::cout << GetPosition().x << " / " << GetPosition().y << std::endl;
-	Move(GetPosition().x, GetPosition().y +100 , 50);
+	Move(GetPosition().x, GetPosition().y +200 , 50);
 }
 
 void PlatformAmovible::OnCollision(Entity* other)
@@ -39,6 +39,7 @@ void PlatformAmovible::Move(int x, int y, float speed)
 	{
 		GoToPosition(x, y, 50);
 		mIsMoving = true;
+		
 	}
 	
 	mActive = false;
