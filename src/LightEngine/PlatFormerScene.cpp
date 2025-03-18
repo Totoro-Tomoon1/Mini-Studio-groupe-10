@@ -584,9 +584,10 @@ void PlatFormerScene::GenerateMap()
 
 		Entity* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
 		/*pActivating->SetStatic(true);*/
+		pActivating->SetStatic(true);
 		pActivating->SetRigidBody(true);                                       
 		pActivating->SetPosition(start * 20, entityLine * 20);
-		pActivating->SetTag(Tag::HACKING_ZONE);
+		pActivating->SetTag(Tag::ACTIVATE_ZONE);
 	}
 
 	for (const auto& entity : hackingZone)
@@ -598,7 +599,7 @@ void PlatFormerScene::GenerateMap()
 		Entity* pHacking = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
 		pHacking->SetPosition(start * 20, entityLine * 20);
 		pHacking->SetToDraw(false);
-		pHacking->SetTag(Tag::Damagezone);
+		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
 
 	//Creation du fond
