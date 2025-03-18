@@ -6,7 +6,6 @@
 #include "DummyEntity.h"
 #include "Platform.h"
 #include "PlatformAmovible.h"
-#include "ActivateZone.h"
 #include "Debug.h"
 #include "Music.h"
 #include "Sound.h"
@@ -418,6 +417,24 @@ void PlatFormerScene::GenerateMap()
 
 				i = j;
 			}
+
+			else if (line[i] == 'h')
+			{
+				size_t count = 1;
+				size_t j = i + 1;
+				std::cout << i << std::endl;
+				while (j < line.size() && line[j] == 'a')
+				{
+					//std::cout << "beug " << j << std::endl;
+					count++;
+					j++;
+				}
+
+				// Enregistrer l'entité (startX, totalLength, lineNumber)
+				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
+
+				i = j;
+			}
 			else if (line[i] == 'p')
 			{
 				//std::cout << "p à la ligne :" << lineNumber * 20 << "    et à l'index : " << i * 20 << std::endl;
@@ -598,7 +615,7 @@ void PlatFormerScene::GenerateMap()
 
 		Entity* pHacking = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
 		pHacking->SetPosition(start * 20, entityLine * 20);
-		pHacking->SetToDraw(false);
+		//pHacking->SetToDraw(false);
 		pHacking->SetTag(Tag::HACKING_ZONE);
 	}
 
