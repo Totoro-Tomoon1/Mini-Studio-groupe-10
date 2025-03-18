@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "PlatFormerScene.h"
+#include "AssetManager.h"
 
 Enemy::Enemy()
 {
@@ -8,6 +9,14 @@ Enemy::Enemy()
 void Enemy::SetDroneTarget(Drone* drone)
 {
 	mDroneTarget = drone;
+}
+
+void Enemy::SetTextureAndAnim(const char* path)
+{
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH); //à modifier avec le bon path
+	mShape.setTexture(mCurrentTexture);
+	mAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 123, 100), 8, true); //pareil ici
+	mAnimation->SetStartSize(0, 0, 123, 100);
 }
 
 void Enemy::OnInitialize()

@@ -11,7 +11,7 @@ protected:
 	Animation* mAnimation;
 	sf::Texture* mCurrentTexture;
 	sf::Vector2f mDepl;
-	Drone* mDroneTarget;
+	Drone* mDroneTarget = nullptr;
 	bool mIsAttacking = false;
 	float mChangeDirectionTimer = 4.f;
 	float mChangeDirectionProcess = 0.f;
@@ -23,6 +23,7 @@ public:
 	Enemy();
 
 	void SetDroneTarget(Drone* drone);
+	void SetTextureAndAnim(const char* path);
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;

@@ -18,13 +18,16 @@ void Enemy1::OnUpdate()
 	Enemy::OnUpdate();
 
 	if (mDroneTarget == nullptr)
+	{
+		SetDroneTarget(GetScene<PlatFormerScene>()->GetDrone());
 		return;
+	}
 
 	sf::Vector2f dronePos = mDroneTarget->GetPosition();
 
 	float distance = Utils::GetDistance(dronePos.x, dronePos.y, mShape.getPosition().x, mShape.getPosition().y);
 
-	if (distance < 500.f)
+	if (abs(distance) < 500.f)
 		mIsAttacking = true;
 	else
 		mIsAttacking = false;

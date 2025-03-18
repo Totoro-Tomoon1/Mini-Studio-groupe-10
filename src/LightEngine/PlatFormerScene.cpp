@@ -353,14 +353,15 @@ void PlatFormerScene::GenerateMap()
 			{
 				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Magenta);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
-				pEnemy->SetDroneTarget(mDrone);
+				//pEnemy->SetTextureAndAnim();
 				i++;
 			}
 			else if (line[i] == 'g')
 			{
-				Enemy2* pEnemy = CreateRectangleEntity<Enemy2>(sf::Vector2f(150, 150), sf::Color::Black);
+				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(150, 150), sf::Color::Black);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
-				pEnemy->SetDroneTarget(mDrone);
+				//pEnemy->SetTextureAndAnim();
+				//pEnemy->SetGravity(false);
 				i++;
 			}
 			else
