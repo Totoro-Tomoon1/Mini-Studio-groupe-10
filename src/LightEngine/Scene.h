@@ -32,6 +32,8 @@ public:
 	int GetWindowWidth() const;
 	int GetWindowHeight() const;
 
+	sf::View* GetView();
+
 	friend GameManager;
 };
 

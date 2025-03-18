@@ -18,7 +18,7 @@ void Bullet::OnUpdate()
 {
 	mShape.move(mDirection);
 
-	if (GetPosition().x > GetScene()->GetWindowWidth()) //à modifier
+	if (GetPosition().x > GetScene()->GetView()->getViewport().top) //à modifier
 	{
 		Destroy();
 	}
