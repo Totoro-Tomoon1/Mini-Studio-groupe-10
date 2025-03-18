@@ -106,6 +106,8 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	mIsMoving = false;
+
 	if (GetHP() <= 0)
 	{
 		std::cout << "You're dead" << std::endl;
@@ -154,18 +156,14 @@ void Player::OnCollision(Entity* pCollideWith)
 	}
 }
 
-void Player::OnFixedUpdate(float deltaTime) //Update physique
-{
-	mIsMoving = false;
-
-
-
-	if (IsGravityOn())
-	{
-		OnFall(deltaTime);
-	}
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
-}
+//void Player::OnFixedUpdate(float deltaTime) //Update physique
+//{
+//	mIsMoving = false;
+//
+//	OnFall(deltaTime);
+//
+//	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
+//}
 
 //Pour l'affichage debug
 const char* Player::GetStateName(State state) const

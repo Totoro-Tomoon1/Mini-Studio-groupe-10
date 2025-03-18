@@ -37,7 +37,7 @@ private:
 	sf::Vector2f* mPlayerPosition;
 	Animation* mPlayerAnimation;
 	sf::Texture* mCurrentTexture;
-	float mGravitySpeed = 0;
+	
 
 	sf::Vector2f mDepl;
 
@@ -71,7 +71,7 @@ protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
-	void OnFixedUpdate(float deltaTime) override;
+	//void OnFixedUpdate(float deltaTime) override;
 
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Moving;
