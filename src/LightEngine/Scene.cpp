@@ -13,9 +13,9 @@ int Scene::GetWindowHeight() const
 	return mpGameManager->mWindowHeight;
 }
 
-sf::View* Scene::GetView()
+sf::View Scene::GetView()
 {
-	return &mpGameManager->cam->GetView();
+	return mpGameManager->mpWindow->getView();
 }
 
 float Scene::GetDeltaTime() const

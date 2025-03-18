@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "PlatFormerScene.h"
+#include <iostream>
 
 void Bullet::OnInitialize()
 {
@@ -18,8 +19,15 @@ void Bullet::OnUpdate()
 {
 	mShape.move(mDirection);
 
-	if (GetPosition().x > GetScene()->GetView()->getViewport().top) //à modifier
+	float left = GetScene()->GetView().getCenter().x - GetScene()->GetWindowWidth() / 2;
+
+	float right = GetScene()->GetView().getCenter().x + GetScene()->GetWindowWidth() / 2;
+
+	//std::cout << "Bullet x : " << GetPosition().x << "    right : " << right << std::endl;
+
+	if (GetPosition().x > right || GetPosition().x < left) //à modifier
 	{
+		std::cout << "Destroy" << std::endl;
 		Destroy();
 	}
 }
