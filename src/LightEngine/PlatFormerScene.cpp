@@ -27,10 +27,10 @@ void PlatFormerScene::OnInitialize()
 	mSound->Load("../../../res/test.wav");
 	//mSound->Play();
 
-	GenerateMap();
-	
 	mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
 	mDrone->Undisplay();
+
+	GenerateMap();
 }
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
@@ -41,7 +41,7 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 	/*if (event.type == sf::Event::KeyPressed)
 	{*/
 	
-		if (sf::Joystick::isButtonPressed(0, 3) && !UpPressed)
+		if (sf::Joystick::isButtonPressed(0, 3) && !UpPressed && mDrone->GetIsUnlocked())
 		{
 			UpPressed = true;
 			std::cout << UpPressed << std::endl;
@@ -198,12 +198,18 @@ void PlatFormerScene::GenerateMap()
 			}
 			else if (line[i] == 'p')
 			{
-				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(123, 100), sf::Color::White);
+				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60, 120), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
-				mPlayer->SetToDraw(false);
+				mPlayer->SetToDraw(true);
 				mPlayer->ActivateInput();
 				mCamera.SetPosition(mPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);
+				i++;
+			}
+			else if (line[i] == 'd')
+			{
+				//mDrone->SetPosition(i * 20, lineNumber * 20);
+				mDrone->Display(sf::Vector2f(i * 20, lineNumber * 20));
 				i++;
 			}
 			else

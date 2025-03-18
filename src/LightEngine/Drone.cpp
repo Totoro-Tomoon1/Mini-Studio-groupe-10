@@ -125,6 +125,12 @@ void Drone::OnCollision(Entity* pCollideWith)
 	{
 		mCanHack = true;
 	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::PLAYER) && !isUnlocked)
+	{
+		isUnlocked = true;
+		Undisplay();
+	}
 }
 
 void Drone::OnFixedUpdate(float deltaTime) //Update physique
@@ -237,7 +243,7 @@ void Drone::Display(sf::Vector2f posPlayer)
 {
 	SetToDraw(true);
 	SetRigidBody(true);
-	SetPosition(posPlayer.x - 20, posPlayer.y - 20);
+	SetPosition(posPlayer.x - 50, posPlayer.y - 50);
 }
 
 void Drone::ActivateInput()
@@ -258,4 +264,14 @@ bool Drone::GetIsInputActivate()
 void Drone::ResetmDepl()
 {
 	mDepl = sf::Vector2f(0, 0);
+}
+
+bool Drone::GetIsUnlocked()
+{
+	return isUnlocked;
+}
+
+void Drone::ChangeIsUnlocked()
+{
+	isUnlocked = !isUnlocked;
 }

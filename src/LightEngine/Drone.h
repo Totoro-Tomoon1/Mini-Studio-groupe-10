@@ -41,6 +41,7 @@ private:
 	sf::Vector2f mDepl;
 
 	bool isInputActive = false;
+	bool isUnlocked = false;
 
 public:
 	Drone();
@@ -64,6 +65,9 @@ public:
 
 	bool GetIsInputActivate();
 	void ResetmDepl();
+
+	bool GetIsUnlocked();
+	void ChangeIsUnlocked();
 
 protected:
 	void OnInitialize() override;
