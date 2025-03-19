@@ -12,4 +12,3 @@ public:
 
 	sf::Sound* GetSound();
 };
-

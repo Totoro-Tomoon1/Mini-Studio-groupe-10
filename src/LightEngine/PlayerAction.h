@@ -35,4 +35,3 @@ public:
 	void OnUpdate(Player* pPlayer) override {}
 	void OnEnd(Player* pPlayer) override {}
 };
-

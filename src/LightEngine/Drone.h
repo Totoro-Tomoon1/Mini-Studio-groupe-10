@@ -87,5 +87,3 @@ protected:
 	friend class PlayerAction_Jump;
 	friend class PlayerAction_Fall;
 };
-
-

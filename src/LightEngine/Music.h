@@ -11,4 +11,3 @@ public:
 
 	sf::Music* GetMusic();
 };
-

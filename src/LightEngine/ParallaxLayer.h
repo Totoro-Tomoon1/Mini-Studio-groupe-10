@@ -21,4 +21,3 @@ public:
 
 	void Draw(sf::RenderWindow& window);
 };
-

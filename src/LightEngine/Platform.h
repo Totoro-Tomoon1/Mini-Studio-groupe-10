@@ -6,4 +6,3 @@ class Platform : public Entity
 public:
  virtual void OnCollision(Entity* other) override;
 };
-

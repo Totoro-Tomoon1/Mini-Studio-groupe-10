@@ -22,4 +22,3 @@ public:
 	void Update(float deltaTime);
 	void Draw(sf::RenderWindow& pWindow);
 };
-

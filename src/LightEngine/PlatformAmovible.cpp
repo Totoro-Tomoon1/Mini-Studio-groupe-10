@@ -44,4 +44,3 @@ void PlatformAmovible::Move(int x, int y, float speed)
 	
 	mActive = false;
 }
-

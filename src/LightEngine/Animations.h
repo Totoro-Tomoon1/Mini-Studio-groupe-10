@@ -25,4 +25,3 @@ public:
 
 	sf::IntRect* GetTextureRect();
 };
-

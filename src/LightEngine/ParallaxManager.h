@@ -20,4 +20,3 @@ public:
 	void Update(float dt);
 	void Draw(sf::RenderWindow& pRenderWindow);
 };
-
