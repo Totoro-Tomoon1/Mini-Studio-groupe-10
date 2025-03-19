@@ -193,7 +193,7 @@ void PlatFormerScene::GenerateMap()
 		{
 			/*if (line[i] == 'c')
 			{
-				std::cout << "c" << std::endl;
+				//std::cout << "c" << std::endl;
 				Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
 				pPlateform->SetTexture(3);
 				pPlateform->SetPosition(i * 20, lineNumber * 20 - 4);
@@ -211,7 +211,7 @@ void PlatFormerScene::GenerateMap()
 
 				if (line[i] == 'c') 
 				{
-					std::cout << "c" << std::endl;
+					//std::cout << "c" << std::endl;
 					Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
 					pPlateform->SetTexture(3);
 					pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
@@ -220,7 +220,7 @@ void PlatFormerScene::GenerateMap()
 				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
 				{
 					if (line[j] == 'c') {
-						std::cout << "c" << std::endl;
+						//std::cout << "c" << std::endl;
 						Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
 						pPlateform->SetTexture(3);
 						pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
@@ -283,7 +283,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				std::cout << i << std::endl;
+				//std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'a')
 				{
 					//std::cout << "beug " << j << std::endl;
@@ -300,7 +300,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				std::cout << i << std::endl;
+				//std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'm')
 				{
 					//std::cout << "beug " << j << std::endl;
@@ -390,7 +390,7 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 		
-		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 40 * countLigne), sf::Color::White);
+		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 40 * countLigne), sf::Color::Green);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);

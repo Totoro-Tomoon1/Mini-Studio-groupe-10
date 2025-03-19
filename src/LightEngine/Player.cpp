@@ -257,7 +257,7 @@ void Player::Input()
 	if (std::abs(stickX) < 10)
 		stickX = 0;
 
-	std::cout << 10 * stickX / 100 << std::endl;
+	//std::cout << 10 * stickX / 100 << std::endl;
 
 	mDepl = sf::Vector2f(10 * stickX / 100, 0);
 
