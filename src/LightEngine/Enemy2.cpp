@@ -1,6 +1,9 @@
 #include "Enemy2.h"
 #include "Utils.h"
 #include "Bullet.h"
+#include "AssetManager.h"
+
+#define Mob2_Path "../../../res/MODELSHEET_MOB_VOLANT_ANIM_VOLE.png"
 
 Enemy2::Enemy2()
 {
@@ -12,7 +15,11 @@ void Enemy2::OnInitialize()
 	SetTag(PlatFormerScene::Tag::ENEMY);
 	Enemy::OnInitialize();
 
-	//Setter les textures ici
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(Mob2_Path);
+	mAnimation = new Animation(Mob2_Path, sf::IntRect(0, 0, 125, 90), 8, true);
+	mAnimation->SetStartSize(0, 15, 125, 90);
+	mShape.setTexture(mCurrentTexture);
+	mShape.setSize(sf::Vector2f(125 / 2, 90 / 2));
 }
 
 void Enemy2::OnUpdate()
@@ -33,6 +40,18 @@ void Enemy2::OnUpdate()
 		mIsAttacking = true;
 	else
 		mIsAttacking = false;
+
+	mAnimation->Update(GetDeltaTime());
+	mShape.setTextureRect(*mAnimation->GetTextureRect());
+
+	if (reverse)
+	{
+		mShape.setScale(sf::Vector2f(-1, 1));
+	}
+	else
+	{
+		mShape.setScale(sf::Vector2f(1, 1));
+	}
 }
 
 void Enemy2::OnCollision(Entity* pCollideWith)

@@ -42,6 +42,7 @@ void Enemy::OnUpdate()
 	{
 		mDepl = -mDepl;
 		mChangeDirectionProcess = 0.f;
+		reverse = !reverse;
 	}
 }
 

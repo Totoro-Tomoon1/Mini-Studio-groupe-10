@@ -1,8 +1,12 @@
 #include "Enemy1.h"
 #include "Utils.h"
 #include "Bullet.h"
+#include "AssetManager.h"
+#include "Animations.h"
 
 #include <iostream>
+
+#define Mob1_Path "../../../res/MODELSHEET_MOB_TERRESTRE_MARCHE.png"
 
 Enemy1::Enemy1()
 {
@@ -14,7 +18,12 @@ void Enemy1::OnInitialize()
 	SetTag(PlatFormerScene::Tag::ENEMY);
 	Enemy::OnInitialize();
 
-	//Setter les textures ici
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(Mob1_Path);
+	mAnimation = new Animation(Mob1_Path, sf::IntRect(0,0,195,220), 6, false);
+	mAnimation->SetStartSize(0, 30, 195, 220);
+	mShape.setTexture(mCurrentTexture);
+	mShape.setSize(sf::Vector2f(195/2, 220/2));
+
 }
 
 void Enemy1::OnUpdate()
@@ -35,6 +44,18 @@ void Enemy1::OnUpdate()
 		mIsAttacking = true;
 	else
 		mIsAttacking = false;
+
+	mAnimation->Update(GetDeltaTime());
+	mShape.setTextureRect(*mAnimation->GetTextureRect());
+
+	if (reverse)
+	{
+		mShape.setScale(sf::Vector2f(-1, 1));
+	}
+	else
+	{
+		mShape.setScale(sf::Vector2f(1, 1));
+	}
 }
 
 void Enemy1::OnCollision(Entity* pCollideWith)
