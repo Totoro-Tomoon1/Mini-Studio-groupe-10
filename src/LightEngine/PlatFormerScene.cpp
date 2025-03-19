@@ -191,20 +191,44 @@ void PlatFormerScene::GenerateMap()
 		size_t i = 0;
 		while (i < line.size())
 		{
+			/*if (line[i] == 'c')
+			{
+				std::cout << "c" << std::endl;
+				Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+				pPlateform->SetTexture(3);
+				pPlateform->SetPosition(i * 20, lineNumber * 20 - 4);
+			}*/
+
 			if (line[i] == '-')
 			{
 				i++;
 			}
-			else if (line[i] == 'x')
+			else if (line[i] == 'c' || line[i] == 'x') // Ajouter 'c' ici
 			{
 				int startX = i;
 				size_t count = 1;
 				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'x')
+
+				if (line[i] == 'c') 
 				{
+					std::cout << "c" << std::endl;
+					Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+					pPlateform->SetTexture(3);
+					pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
+				}
+
+				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
+				{
+					if (line[j] == 'c') {
+						std::cout << "c" << std::endl;
+						Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+						pPlateform->SetTexture(3);
+						pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
+					}
 					count++;
 					j++;
 				}
+
 
 				ground.push_back(std::make_tuple(startX, count, lineNumber));
 
@@ -366,10 +390,11 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 		
-		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
+		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 40 * countLigne), sf::Color::White);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
+		pGround->SetToDraw(false);
 		pGround->SetTag(Tag::GROUND);
 	}
 
