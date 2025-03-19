@@ -139,26 +139,28 @@ void Drone::OnCollision(Entity* pCollideWith)
 	{
 		isUnlocked = true;
 		Undisplay();
-		if (imuuneProgresse < immuneTime)
-		{
-			return;
-		}
+		
+	}
 
-		if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
-		{
-			TakeDamage(1.f);
-			imuuneProgresse = 0.f;
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
 
-			return;
-		}
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+	{
+		TakeDamage(1.f);
+		imuuneProgresse = 0.f;
 
-		if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
-		{
-			TakeDamage(3.f);
-			imuuneProgresse = 0.f;
+		return;
+	}
 
-			return;
-		}
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		TakeDamage(3.f);
+		imuuneProgresse = 0.f;
+
+		return;
 	}
 }
 
