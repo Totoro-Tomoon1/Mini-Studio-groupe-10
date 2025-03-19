@@ -1,5 +1,5 @@
 #include "Entity.h"
-
+#include <iostream>
 #include "GameManager.h"
 #include "Utils.h"
 #include "Debug.h"
@@ -8,19 +8,6 @@
 #include <SFML/Graphics/CircleShape.hpp>
 
 #include <algorithm>
-
-//void Entity::Initialize(float radius, const sf::Color& color)
-//{
-//	mDirection = sf::Vector2f(0.0f, 0.0f);
-//
-//	mShape.setOrigin(0.f, 0.f);
-//	mShape.setRadius(radius);
-//	mShape.setFillColor(color);
-//	
-//	mTarget.isSet = false;
-//
-//	OnInitialize();
-//}
 
 void Entity::Initialize(sf::Vector2f size, const sf::Color& color)
 {
@@ -45,41 +32,49 @@ void Entity::Repulse(Entity* other)
 	float changeX = 0;
 	float changeY = 0;
 
-	// Si il y a un overlap sur l'axe X
-	if (overlapX > 0) {
-		// Si l'overlap sur X est plus important que sur Y, on déplace selon l'axe X
-		if (overlapX >= overlapY) {
-			// Calculer le déplacement nécessaire sur l'axe Y
-			if (c2.xMax > c1.xMin) {
-				// Pousser c1 à gauche
-				changeY = overlapY;
-			}
-			else {
-				// Pousser c1 à droite
+	if (overlapX > 0)
+	{
+		if (overlapX >= overlapY) 
+		{
+			int face = Utils::GetFace(c1, c2);
+			if (face == 3)
+				overlapY = -overlapY;
+		
+			if (c2.xMax > c1.xMin) 
+			{
 				changeY = -overlapY;
 			}
+			else 
+			{
+				changeY = overlapY;
+			}
 		}
 	}
 
-	// Si il y a un overlap sur l'axe Y
-	if (overlapY > 0) {
-		// Si l'overlap sur Y est plus important que sur X, on déplace selon l'axe Y
-		if (overlapY > overlapX) {
-			// Calculer le déplacement nécessaire sur l'axe Y
-			if (c2.yMax > c1.yMin) {
-				// Pousser c1 vers le bas
+	if (overlapY > 0) 
+	{
+		if (overlapY >= overlapX) 
+		{
+			AABBCollider c1 = GetAABBCollider();
+			AABBCollider c2 = other->GetAABBCollider();
+
+			int face = Utils::GetFace(c1, c2);
+			if (face == 4)
+				overlapX = -overlapX;
+
+			if (c2.yMax > c1.yMin) 
+			{
 				changeX = overlapX;
 			}
-			else {
-				// Pousser c1 vers le haut
-				changeX = -overlapX;
+			else 
+			{
+				changeX = overlapX;
 			}
 		}
 	}
 
-	// Appliquer le changement de position à c1 et c2
-	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x + changeX, mShape.getPosition().y + changeY) * 1.1f;
-	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x - changeX, other->GetPosition().y - changeY) * 1.1f;
+	sf::Vector2f position1 = sf::Vector2f(mShape.getPosition().x - changeX, mShape.getPosition().y - changeY);
+	sf::Vector2f position2 = sf::Vector2f(other->GetPosition().x + changeX, other->GetPosition().y + changeY);
 
 	if (!mIsStatic)
 		mShape.setPosition(position1.x, position1.y);
@@ -90,17 +85,6 @@ void Entity::Repulse(Entity* other)
 
 bool Entity::IsColliding(Entity* other)
 {
-	/*sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-
-	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
-
-	float radius1 = mShape.getRadius();
-	float radius2 = other->mShape.getRadius();
-
-	float sqrRadius = (radius1 + radius2) * (radius1 + radius2);
-
-	return sqrLength < sqrRadius;*/
-
 	AABBCollider c1 = GetAABBCollider();
 	AABBCollider c2 = other->GetAABBCollider();
 
@@ -112,15 +96,6 @@ bool Entity::IsColliding(Entity* other)
 
 bool Entity::IsInside(float x, float y)
 {
-	/*sf::Vector2f position = GetPosition(0.5f, 0.5f);
-
-	float dx = x - position.x;
-	float dy = y - position.y;
-
-	float radius = mShape.getRadius();
-
-	return (dx * dx + dy * dy) < (radius * radius);*/
-
 	AABBCollider c = GetAABBCollider();
 
 	if (x >= c.xMin && x <= c.xMax && y >= c.yMin && y <= c.yMax)
@@ -149,11 +124,6 @@ AABBCollider Entity::GetAABBCollider()
 
 void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 {
-	//float size = mShape.getRadius() * 2;
-	/*sf::Vector2f size = mShape.getSize();
-
-	x -= size.x * ratioX;
-	y -= size.y * ratioY;*/
 
 	mShape.setPosition(x, y);
 
@@ -169,7 +139,6 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
-	//float size = mShape.getRadius() * 2;
 	float sizeX = mShape.getSize().x / 2;
 	float sizeY = mShape.getSize().y / 2;
 	sf::Vector2f position = mShape.getPosition();

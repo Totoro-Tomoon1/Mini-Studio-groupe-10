@@ -2,16 +2,30 @@
 
 bool DroneCondition_IsMoving::OnTest(Drone* owner)
 {
-    return owner->IsMoving();
+	return owner->IsMoving();
 }
 
 bool DroneCondition_IsShooting::OnTest(Drone* owner)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-    {
-        owner->IsShooting();
-        return true;
-    }
+	if (/*sf::Keyboard::isKeyPressed(sf::Keyboard::Space)*/ sf::Joystick::isButtonPressed(0, 7) && owner->GetIsInputActivate())
+	{
+		return true;
+	}
 
-    return false;
+	return false;
+}
+
+bool DroneCondition_TryHacking::OnTest(Drone* owner)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool DroneCondition_CanHack::OnTest(Drone* owner)
+{
+	return owner->CanHack();
 }

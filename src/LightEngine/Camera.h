@@ -9,7 +9,7 @@ class Camera
 public:
 	Camera();
 
-	void SetPosition(const sf::Vector2f& pos) //?
+	void SetPosition(const sf::Vector2f& pos)
 	{
 		mView.setCenter(pos);
 	}
@@ -19,4 +19,3 @@ public:
 		return mView;
 	}
 };
-

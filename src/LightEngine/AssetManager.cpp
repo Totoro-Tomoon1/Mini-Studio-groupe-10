@@ -1,5 +1,6 @@
 #include "AssetManager.h"
 #include "GameManager.h"
+#include <SFML/Audio.hpp>
 
 sf::Texture* AssetManager::LoadTexture(const char* path)
 {

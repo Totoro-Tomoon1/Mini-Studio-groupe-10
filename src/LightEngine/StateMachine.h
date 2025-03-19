@@ -25,4 +25,3 @@ public:
 };
 
 #include "StateMachine.inl"
-

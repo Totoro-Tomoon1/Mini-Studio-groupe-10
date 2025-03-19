@@ -19,12 +19,24 @@ public:
 	void OnEnd(Drone* pDrone) override {}
 };
 
-class DroneAction_Shooting : public Action<Drone>
+class DroneAction_Shoot : public Action<Drone>
 {
+	float mShootInterval;
+	float mLastShotTime;
+
 public:
 	void OnStart(Drone* pDrone) override;
-	void OnUpdate(Drone* pDrone) override {}
+	void OnUpdate(Drone* pDrone) override;
 	void OnEnd(Drone* pDrone) override {}
-
 };
 
+class DroneAction_Hacking : public Action<Drone>
+{
+	float mHackingTime;
+	float mHackingProcess;
+
+public:
+	void OnStart(Drone* pDrone) override;
+	void OnUpdate(Drone* pDrone) override;
+	void OnEnd(Drone* pDrone) override;
+};

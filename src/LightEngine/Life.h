@@ -12,4 +12,3 @@ public:
 	void TakeDamage(float damage);
 	float GetHP();
 };
-

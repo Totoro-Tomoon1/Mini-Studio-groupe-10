@@ -4,7 +4,6 @@
 
 class Animation
 {
-	//sf::Texture* mSpriteSheet;
 	int mNumberFrames;
 	int mCurrentIndex = 0;
 	float mDuration = 0.1f;
@@ -14,8 +13,11 @@ class Animation
 	int mXSize;
 	int mYSize;
 
+	bool mIsReapated = false;
+	bool mReverse = false;
+
 public:
-	Animation(const char* path, sf::IntRect rect, int nbFrame);
+	Animation(const char* path, sf::IntRect rect, int nbFrame, bool isReapated);
 
 	void SetStartSize(int xStart, int yStart, int xSize, int ySize);
 
@@ -23,4 +25,3 @@ public:
 
 	sf::IntRect* GetTextureRect();
 };
-

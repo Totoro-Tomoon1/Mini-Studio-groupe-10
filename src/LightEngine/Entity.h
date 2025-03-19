@@ -36,6 +36,7 @@ protected:
     int mTag = -1;
 	bool mRigidBody = false;
 	bool mIsStatic = false;
+	bool ToDraw = true;
 
 public:
 	bool GoToDirection(int x, int y, float speed = -1.f);
@@ -45,10 +46,11 @@ public:
 	void SetSpeed(float speed) { mSpeed = speed; }
 	void SetTag(int tag) { mTag = tag; }
 	void SetStatic(bool stati) { mIsStatic = stati; }
-	//float GetRadius() const { return mShape.getRadius(); }
+
 	sf::Vector2f GetSize() const { return mShape.getSize(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
 	bool IsRigidBody() const { return mRigidBody; }
+	void SetToDraw(bool draw) { ToDraw = draw; }
 
     sf::Vector2f GetPosition(float ratioX = 0.f, float ratioY = 0.f) const;
 	sf::Shape* GetShape() { return &mShape; }
@@ -67,9 +69,6 @@ public:
 
     Scene* GetScene() const;
 	float GetDeltaTime() const;
-
-    /*template<typename T>
-    T* CreateEntity(float radius, const sf::Color& color);*/
 
 	template<typename T>
 	T* CreateEntity(sf::Vector2f size, const sf::Color& color);

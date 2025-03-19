@@ -1,27 +1,21 @@
+#include "Drone.h"
 #include "PlatFormerScene.h"
+#include "AssetManager.h"
 #include "DroneAction.h"
 #include "DroneCondition.h"
-#include "Drone.h"
-#include "Projectile.h"
 #include "Debug.h"
-#include "AssetManager.h"
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include "Utils.h"
+#include "Bullet.h"
 
 Drone::Drone() : mStateMachine(this, (int)State::Count)
 {
-
 }
+
 void Drone::OnInitialize()
 {
 	SetTag(PlatFormerScene::Tag::DRONE);
 	SetRigidBody(true);
-
-	//SetPosition(600.f, 400.f);
-	//mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
-	//mShape.setTexture(mCurrentTexture);
-	//mDroneAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //? modifier
-	//mDroneAnimation->SetStartSize(0, 0, 1750, 2200);
+	SetLife(20.f);
 
 	//Idle
 	{
@@ -34,13 +28,20 @@ void Drone::OnInitialize()
 			transition->AddCondition<DroneCondition_IsMoving>();
 		}
 
-		//-> Attack
+		//-> Shooting
 		{
 			auto transition = pIdle->CreateTransition(State::Shooting);
 
-		    transition->AddCondition<DroneCondition_IsShooting>();
+			transition->AddCondition<DroneCondition_IsShooting>();
 		}
 
+		//-> Hacking
+		{
+			auto transition = pIdle->CreateTransition(State::Hacking);
+
+			transition->AddCondition<DroneCondition_TryHacking>();
+			transition->AddCondition<DroneCondition_CanHack>();
+		}
 	}
 
 	//Moving
@@ -54,45 +55,194 @@ void Drone::OnInitialize()
 			transition->AddCondition<DroneCondition_IsMoving>(false);
 		}
 
-		
+		//-> Shooting
+		{
+			auto transition = pMoving->CreateTransition(State::Shooting);
 
+			transition->AddCondition<DroneCondition_IsShooting>();
+		}
 	}
 
-	//Shooting
+	//Shooting	
 	{
-		DroneAction_Shooting* pShooting = mStateMachine.CreateAction<DroneAction_Shooting>(State::Shooting);
+		DroneAction_Shoot* pJumping = mStateMachine.CreateAction<DroneAction_Shoot>(State::Shooting);
 
 		//-> Idle
 		{
-			auto transition = pShooting->CreateTransition(State::Idle);
+			auto transition = pJumping->CreateTransition(State::Idle);
 
 			transition->AddCondition<DroneCondition_IsShooting>(false);
 		}
+
+		//-> Moving
+		{
+			auto transition = pJumping->CreateTransition(State::Moving);
+
+			transition->AddCondition<DroneCondition_IsShooting>(false);
+			transition->AddCondition<DroneCondition_IsMoving>();
+		}
 	}
+
+	//Hacking
+	{
+		DroneAction_Hacking* pFalling = mStateMachine.CreateAction<DroneAction_Hacking>(State::Hacking);
+
+		//-> Idle
+		{
+			auto transition = pFalling->CreateTransition(State::Idle);
+
+			transition->AddCondition<DroneCondition_TryHacking>(false);
+		}
+
+		//-> Moving
+		{
+			auto transition = pFalling->CreateTransition(State::Moving);
+
+			transition->AddCondition<DroneCondition_IsMoving>();
+		}
+	}
+
+	mStateMachine.SetState(State::Idle);
 }
 
-void Drone::OnUpdate()
+void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	mShape.move(mDepl);
 
+	if (GetHP() <= 0)
+	{
+		Destroy();
+		std::cout << "You're dead" << std::endl;
+	}
+
+	imuuneProgresse += GetDeltaTime();
+
+	mStateMachine.Update();
+	Debug::DrawText(0, 0, std::to_string(mDroneParameters.mMinSpeed), sf::Color::White);
+	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Drone::State)mStateMachine.GetCurrentState()), sf::Color::Red);
 }
 
 void Drone::OnCollision(Entity* pCollideWith)
 {
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+	AABBCollider c1 = GetAABBCollider();
+
+	AABBCollider c2 = pCollideWith->GetAABBCollider();
+
+	int face = Utils::GetFace(c1, c2);
+
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::HACKING_ZONE))
 	{
-		SetGravity(false);
-		mGravitySpeed = 0.f;
+		mCanHack = true;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	{
+		hasKey = true;
+		pCollideWith->Destroy();
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::PLAYER) && !isUnlocked)
+	{
+		isUnlocked = true;
+		Undisplay();
+		if (imuuneProgresse < immuneTime)
+		{
+			return;
+		}
+
+		if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+		{
+			TakeDamage(1.f);
+			imuuneProgresse = 0.f;
+
+			return;
+		}
+
+		if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+		{
+			TakeDamage(3.f);
+			imuuneProgresse = 0.f;
+
+			return;
+		}
 	}
 }
 
-void Drone::OnFixedUpdate(float deltaTime)
+void Drone::OnFixedUpdate(float deltaTime) //Update physique
 {
 	mIsMoving = false;
+	mIsShooting = false;
+	mCanHack = false;
+}
+
+//Pour l'affichage debug
+const char* Drone::GetStateName(State state) const
+{
+	switch (state)
+	{
+	case Idle: return "Idle";
+	case Moving: return "Moving";
+	case Shooting: return "Shooting";
+	case Hacking: return "Hacking";
+	default: return "Unknown";
+	}
+}
+
+void Drone::MoveRight(float deltaTime)
+{
+	mDepl.x += mDroneParameters.mMinSpeed * deltaTime;
+}
+
+void Drone::MoveLeft(float deltaTime)
+{
+	mDepl.x -= mDroneParameters.mMinSpeed * deltaTime;
+}
+
+void Drone::MoveUp(float deltaTime)
+{
+	mDepl.y -= mDroneParameters.mMinSpeed * deltaTime;
+}
+
+void Drone::MoveDown(float deltaTime)
+{
+	mDepl.y += mDroneParameters.mMinSpeed * deltaTime;
+}
+
+bool Drone::IsMoving()
+{
+	return mIsMoving;
+}
+
+bool Drone::CanHack()
+{
+	return mCanHack;
+}
+
+//void Drone::Shoot(float deltaTime)
+//{		
+//	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+//	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
+//}
+
+void Drone::Input()
+{
+	float deltaTime = GetDeltaTime();
 
 	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
-	bool A = sf::Joystick::isButtonPressed(0, 0);
+	if (std::abs(stickX) < 10)
+		stickX = 0;
+
+	if (std::abs(stickY) < 10)
+		stickY = 0;
+
+	//std::cout << 10 * stickX / 100 << std::endl;
+
+	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);
+
+	/*mDepl = sf::Vector2f(0, 0);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
@@ -111,88 +261,64 @@ void Drone::OnFixedUpdate(float deltaTime)
 		MoveUp(deltaTime);
 		mIsMoving = true;
 	}
-	
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		MoveDown(deltaTime);
 		mIsMoving = true;
-	}
+	}*/
+	
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		Shoot(deltaTime);
-		mIsShooting = true;
-	}
+	//mShape.move(mDepl);
 }
 
-const char* Drone::GetStateName(State state) const
+void Drone::Undisplay()
 {
-	switch (state)
-	{
-	case Idle: return "Idle";
-	case Moving: return "Moving";
-	case Shooting: return "Shooting";
+	SetToDraw(false);
+	SetRigidBody(false);
+}
 
-	default: return "Unknown";
-	}
+void Drone::Display(sf::Vector2f posPlayer)
+{
+	SetToDraw(true);
+	SetRigidBody(true);
+	SetPosition(posPlayer.x - 50, posPlayer.y - 50);
+}
+
+void Drone::ActivateInput()
+{
+	isInputActive = true;
+}
+
+void Drone::DesactivateInput()
+{
+	isInputActive = false;
+}
+
+bool Drone::GetIsInputActivate()
+{
+	return isInputActive;
+}
+
+void Drone::ResetmDepl()
+{
+	mDepl = sf::Vector2f(0, 0);
+}
+
+bool Drone::GetIsUnlocked()
+{
+	return isUnlocked;
+}
+
+void Drone::ChangeIsUnlocked()
+{
+	isUnlocked = !isUnlocked;
 }
 
 void Drone::Shoot(float deltaTime)
-{
-
-	/*PlatFormerScene* pScene = ->GetScene<>();
-	Projectile* pProjectile = ->CreateEntity<Projectile>(5.0f, sf::Color::Red);
-	pProjectile->SetPosition(position.x, position.y);*/
-}
-
-void Drone::MoveRight(float deltaTime)
-{
-	mSpeed += mDroneParameters.mAcceleration * deltaTime;
-	if (mSpeed > mDroneParameters.mMaxSpeed)
-		mSpeed = mDroneParameters.mMaxSpeed;
-
-	mDronePosition->x += mDroneParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
-}
-
-void Drone::MoveLeft(float deltaTime)
-{
-
-	mSpeed += mDroneParameters.mAcceleration * deltaTime;
-	if (mSpeed > mDroneParameters.mMaxSpeed)
-		mSpeed = mDroneParameters.mMaxSpeed;
-
-	mDronePosition->x -= mDroneParameters.mMinSpeed * deltaTime;
-    mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
-}
-
-void Drone::MoveUp(float deltaTime)
-{
-	mSpeed += mDroneParameters.mAcceleration * deltaTime;
-	if (mSpeed > mDroneParameters.mMaxSpeed)
-		mSpeed = mDroneParameters.mMaxSpeed;
-
-	mDronePosition->y += mDroneParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
-}
-
-void Drone::MoveDown(float deltaTime)
-{
-	mSpeed += mDroneParameters.mAcceleration * deltaTime;
-	if (mSpeed > mDroneParameters.mMaxSpeed)
-		mSpeed = mDroneParameters.mMaxSpeed;
-
-	mDronePosition->y -= mDroneParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mDroneParameters.mMinSpeed * deltaTime, mShape.getPosition().y));
-}
-
-
-bool Drone::IsMoving()
-{
-	return mIsMoving;
-}
-
-bool Drone::IsShooting()
-{
-	return mIsShooting;
+{		
+	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
+	b->SetDirection(7,0);
+	b->SetTag(PlatFormerScene::Tag::PLAYER_BULLET);
 }

@@ -2,34 +2,27 @@
 #include "PlatFormerScene.h"
 #include "PlayerAction.h"
 #include "PlayerCondition.h"
-#include "Drone.h"
 #include "Debug.h"
 #include "AssetManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Utils.h"
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
+	mDepl = sf::Vector2f(0, 0);
 }
-
-
-//void Player::SetPosition(float x, float y, float ratioX, float ratioY)
-//{
-//	Entity::SetPosition(x, y, ratioX, ratioY);
-//	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
-//	mShape->setTexture(mCurrentTexture);
-//}
 
 void Player::OnInitialize()
 {
+	SetLife(20);
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
 	SetGravity(true);
-	//SetPosition(600.f, 400.f);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 1750, 2200), 9); //� modifier
-	mPlayerAnimation->SetStartSize(0, 0, 1750, 2200);
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,123,100), 8, true);
+	mPlayerAnimation->SetStartSize(0, 0, 123, 100);
 
 	//Idle
 	{
@@ -113,6 +106,19 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
+	//std::cout << GetScene()->GetView().getCenter().x << std::endl;
+
+	mShape.move(mDepl);
+
+	mIsMoving = false;
+
+	if (GetHP() <= 0)
+	{
+		std::cout << "You're dead" << std::endl;
+	}
+
+	imuuneProgresse += GetDeltaTime();
+
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
@@ -123,57 +129,75 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 void Player::OnCollision(Entity* pCollideWith)
 {
+	AABBCollider c1 = GetAABBCollider();
+
+	AABBCollider c2 = pCollideWith->GetAABBCollider();
+
+	int face = Utils::GetFace(c1, c2);
+
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
 	{
-		SetGravity(false);
-		mGravitySpeed = 0.f;
+		if (face == 1 || face == 3)
+			mGravitySpeed = 0.f;
+
+		if (face == 2 || face == 4)
+			mDepl = sf::Vector2f(0, 0);
+
+		return;
 	}
-	
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Fallzone))
+	{
+		TakeDamage(GetHP());
+
+		return;
+	}
+
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone))
+	{
+		std::cout << "Player take damage" << std::endl;
+		TakeDamage(1);
+		std::cout << "Current hp player : " << GetHP() << std::endl;
+		imuuneProgresse = 0;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET))
+	{
+		TakeDamage(1.f);
+		imuuneProgresse = 0;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		TakeDamage(3.f);
+		imuuneProgresse = 0;
+
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	{
+		haseKey = true;
+	}
 }
 
-void Player::OnFixedUpdate(float deltaTime) //Update physique
-{
-	mIsMoving = false;
-
-	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-	bool A = sf::Joystick::isButtonPressed(0, 0);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		MoveRight(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		MoveLeft(deltaTime);
-		mIsMoving = true;
-	}
-
-	/*if (stickX < 0)
-		MoveLeft(deltaTime);
-
-	if (stickX > 0)
-		MoveRight(deltaTime);*/
-
-	/*if (A == true)
-	{
-		OnJump(deltaTime);
-	}*/
-	//SetGravity(true); //Marche mais fait des sables mouvants maintenant
-
-	if (IsGravityOn()) //C'est un test du fall
-	{
-		OnFall(deltaTime);
-	}
-
-	//Update de la position en fonction de si y'a eu Jump ou Fall
-	//mPlayerPosition.y += mGravitySpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
-	//SetPosition(mPlayerPosition.x, mPlayerPosition.y);
-}
+//void Player::OnFixedUpdate(float deltaTime) //Update physique
+//{
+//	mIsMoving = false;
+//
+//	OnFall(deltaTime);
+//
+//	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
+//}
 
 //Pour l'affichage debug
 const char* Player::GetStateName(State state) const
@@ -188,26 +212,14 @@ const char* Player::GetStateName(State state) const
 	}
 }
 
-
 void Player::MoveRight(float deltaTime)
 {
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;
-
-	mPlayerPosition.x += mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x + mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));*/
+	mDepl = sf::Vector2f(mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::MoveLeft(float deltaTime)
 {
-	
-	/*mSpeed += mAcceleration * deltaTime;
-	if (mSpeed > mMaxSpeed)
-		mSpeed = mMaxSpeed;
-
-	mPlayerPosition.x -= mPlayerParameters.mMinSpeed * deltaTime;
-	mShape.setPosition(sf::Vector2f(mShape.getPosition().x - mPlayerParameters.mMinSpeed * deltaTime, mShape.getPosition().y));*/
+	mDepl = sf::Vector2f(-mPlayerParameters.mMinSpeed * deltaTime, 0);
 }
 
 void Player::OnFall(float deltaTime)
@@ -217,11 +229,82 @@ void Player::OnFall(float deltaTime)
 
 void Player::OnJump()
 {
-	mGravitySpeed -= 500.f;
+	mGravitySpeed -= 300.f;
 	SetGravity(true);
 }
 
 bool Player::IsMoving()
 {
 	return mIsMoving;
+}
+
+float Player::GetGravitySpeed()
+{
+	return mGravitySpeed;
+}
+
+sf::Vector2f* Player::GetDepl()
+{
+	return &mDepl;
+}
+
+void Player::Input()
+{
+	float deltaTime = GetDeltaTime();
+
+	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+
+	if (std::abs(stickX) < 10)
+		stickX = 0;
+
+	std::cout << 10 * stickX / 100 << std::endl;
+
+	mDepl = sf::Vector2f(10 * stickX / 100, 0);
+
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		MoveRight(deltaTime);
+		mIsMoving = true;
+	}
+
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		MoveLeft(deltaTime);
+		mIsMoving = true;
+	}
+
+	else
+	{
+		mDepl = sf::Vector2f(0, 0);
+	}*/
+}
+
+void Player::ActivateInput()
+{
+	isInputActive = true;
+}
+
+void Player::DesactivateInput()
+{
+	isInputActive = false;
+}
+
+bool Player::GetIsInputActivate()
+{
+	return isInputActive;
+}
+
+void Player::ResetmDepl()
+{
+	mDepl = sf::Vector2f(0, 0);
+}
+
+void Player::ChangeStatic(bool stat)
+{
+	SetStatic(stat);
+}
+
+bool Player::HaseKey()
+{
+	return haseKey;
 }

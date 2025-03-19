@@ -2,7 +2,7 @@
 
 bool PlayerCondition_IsJumping::OnTest(Player* owner)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (/*sf::Keyboard::isKeyPressed(sf::Keyboard::Space)*/ sf::Joystick::isButtonPressed(0, 1) && owner->GetIsInputActivate())
     {
         owner->OnJump();
         return true;
@@ -18,5 +18,5 @@ bool PlayerCondition_IsMoving::OnTest(Player * owner)
 
 bool PlayerCondition_IsTouchingGround::OnTest(Player* owner)
 {
-    return !owner->IsGravityOn();
+    return owner->GetGravitySpeed() == 0;
 }

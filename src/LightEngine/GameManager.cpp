@@ -57,11 +57,20 @@ void GameManager::SetCamera(Camera& camera)
 	mpWindow->setView(cam->GetView());
 }
 
+void GameManager::DestroyAllEntities()
+{
+	for (auto it = mEntities.begin(); it != mEntities.end(); )
+	{
+		delete* it;           // Supprimer l'entité pointée par l'itérateur
+		it = mEntities.erase(it);  // Incrémenter l'itérateur après la suppression
+	}
+}
+
 void GameManager::Run()
 {
 	if (mpWindow == nullptr) 
 	{
-		std::cout << "Window not created, creating default window" << std::endl;
+		//std::cout << "Window not created, creating default window" << std::endl;
 		CreateWindow(1280, 720, "Default window");
 	}
 
@@ -162,11 +171,11 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 
 			if (entity->IsColliding(otherEntity))
 			{
-				if (entity->IsRigidBody() && otherEntity->IsRigidBody())
-					entity->Repulse(otherEntity);
-
 				entity->OnCollision(otherEntity);
 				otherEntity->OnCollision(entity);
+
+				if (entity->IsRigidBody() && otherEntity->IsRigidBody())
+					entity->Repulse(otherEntity);
 			}
 		}
 	}
@@ -174,14 +183,18 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 
 void GameManager::Draw()
 {
-	//std::cout << mpWindow->getView().getCenter().y << std::endl;
 	mpWindow->setView(cam->GetView());
 
 	mpWindow->clear(mClearColor);
+
+	mpScene->Draw(*mpWindow);
 	
 	for (Entity* entity : mEntities)
 	{
-		mpWindow->draw(*entity->GetShape());
+		if (entity->ToDraw)
+		{
+			mpWindow->draw(*entity->GetShape());
+		}
 	}
 	
 	Debug::Get()->Draw(mpWindow);

@@ -2,6 +2,7 @@
 #include "PhysicalEntity.h"
 #include "Animations.h"
 #include "StateMachine.h"
+#include "Life.h"
 
 struct PlayerParameter
 {
@@ -11,7 +12,7 @@ struct PlayerParameter
 	float mDeceleration = 200.f;
 };
 
-class Player : public PhysicalEntity
+class Player : public PhysicalEntity, public Life
 {
 public:
 
@@ -32,19 +33,22 @@ private:
 	PlayerParameter mPlayerParameters;
 	bool mIsMoving = false;
 
-	float mJumpDuration = 1.0f;
-
-	int mAreaIndex;
-	sf::Vector2f* mPlayerPosition;
 	Animation* mPlayerAnimation;
 	sf::Texture* mCurrentTexture;
-	float mGravitySpeed = 0;
+	
+
+	sf::Vector2f mDepl;
+
+	float immuneTime = 1.f;
+	float imuuneProgresse = 0.f;
+
+	bool isInputActive = false;
+	bool haseKey = false;
 
 public:
 	Player();
 	
 	const char* GetStateName(State state) const;
-	//void SetPosition(float x, float y, float ratioX = 0.5f, float ratioY = 0.5f) override; //?
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
@@ -52,15 +56,27 @@ public:
 	void OnJump();
 	bool IsMoving();
 
+	float GetGravitySpeed();
+	sf::Vector2f* GetDepl();
+
+	void Input();
+	void ActivateInput();
+	void DesactivateInput();
+
+	bool GetIsInputActivate();
+	void ResetmDepl();
+
+	void ChangeStatic(bool stat);
+	bool HaseKey();
+
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
-	void OnFixedUpdate(float deltaTime) override;
+	//void OnFixedUpdate(float deltaTime) override;
 
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Moving;
 	friend class PlayerAction_Jump;
 	friend class PlayerAction_Fall;
 };
-
