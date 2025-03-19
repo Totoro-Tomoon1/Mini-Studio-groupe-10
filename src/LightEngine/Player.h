@@ -33,7 +33,7 @@ private:
 	PlayerParameter mPlayerParameters;
 	bool mIsMoving = false;
 
-	Animation* mPlayerAnimation;
+	
 	sf::Texture* mCurrentTexture;
 	
 
@@ -74,6 +74,7 @@ protected:
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	//void OnFixedUpdate(float deltaTime) override;
+	Animation* mPlayerAnimation;
 
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Moving;

@@ -21,8 +21,8 @@ void Player::OnInitialize()
 	SetGravity(true);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,123,100), 8, true);
-	mPlayerAnimation->SetStartSize(0, 0, 123, 100);
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,165,130), 6, true);
+	mPlayerAnimation->SetStartSize(15, 0, 165, 130);
 
 	//Idle
 	{
