@@ -26,10 +26,8 @@ void PlatFormerScene::OnInitialize()
 {
 	mMusic = new Music();
 
-	mMusic->Load("../../../res/blood.wav");
-	//mMusic->Play();
-
-
+	mMusic->Load("../../../res/Test solarpunk2.wav");
+	mMusic->Play();
 
 	mSound = new Sound();
 
