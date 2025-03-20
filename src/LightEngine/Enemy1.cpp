@@ -17,7 +17,6 @@ void Enemy1::OnInitialize()
 	SetLife(5.f);
 	SetTag(PlatFormerScene::Tag::ENEMY);
 	
-
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(Mob1_Path);
 	mAnimation = new Animation(Mob1_Path, sf::IntRect(0,0,195,220), 6, false);
 	mAnimation->SetStartSize(0, 30, 195, 220);
@@ -51,13 +50,11 @@ void Enemy1::OnUpdate()
 	if (!reverse && mDepl.x < 0)
 	{
 		reverse = true;
-		//mPlayerAnimation->SetNewY(135);
 		mAnimation->SetReverseSprite(true);
 	}
 	else if (reverse && mDepl.x > 0)
 	{
 		reverse = false;
-		//mPlayerAnimation->SetNewY(0);
 		mAnimation->SetReverseSprite(false);
 	}
 }
@@ -92,8 +89,6 @@ void Enemy1::Shoot(float deltaTime)
 
 		sf::Vector2f shotDirection = { dronePosition.x - myPosition.x, dronePosition.y - myPosition.y };
 
-		//Utils::Normalize(shotDirection);
-
 		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
 		b->SetPosition(myPosition.x, myPosition.y);
 		float shootX = shotDirection.x;
@@ -107,7 +102,6 @@ void Enemy1::Shoot(float deltaTime)
 			shootX *= vect;
 			shootY *= vect;
 		}
-
 
 		b->SetDirection(shootX, shootY);
 		b->SetTag(PlatFormerScene::Tag::ENEMY_BULLET);

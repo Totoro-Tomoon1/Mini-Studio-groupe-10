@@ -6,10 +6,7 @@
 
 struct PlayerParameter
 {
-	float mMinSpeed = 800.f;
-	float mMaxSpeed = 200.f;
-	float mAcceleration = 200.f;
-	float mDeceleration = 200.f;
+	float mPlayerSpeed = 800.f;
 };
 
 class Player : public PhysicalEntity, public Life
@@ -40,7 +37,7 @@ private:
 	sf::Vector2f mDepl;
 
 	float immuneTime = 1.f;
-	float imuuneProgresse = 0.f;
+	float immuneProgress = 0.f;
 
 	bool isInputActive = false;
 	bool haseKey = false;
@@ -53,7 +50,6 @@ public:
 
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
-	void OnFall(float deltaTime);
 	void OnJump();
 	bool IsMoving();
 
@@ -74,7 +70,7 @@ protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
-	//void OnFixedUpdate(float deltaTime) override;
+
 	Animation* mPlayerAnimation;
 
 	friend class PlayerAction_Idle;

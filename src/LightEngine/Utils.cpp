@@ -43,21 +43,21 @@ namespace Utils
 
 		float overlapY = std::min(c1.yMax, c2.yMax) - std::max(c1.yMin, c2.yMin);
 
-		if (overlapX > overlapY) //Collision vertical
+		if (overlapX > overlapY)
 		{
 			if (c1.yMin > c2.yMax && c1.yMin < c2.yMin)
-				return 1; //Collision avec le haut
+				return 1;
 			else if (c1.yMax > c2.yMin && c1.yMax < c2.yMax)
-				return 3; //Collision avec le bas
+				return 3; 
 		}
-		else //Collision horizontale
+		else
 		{
 			if (c1.xMax < c2.xMax && c1.xMax > c2.xMin)
-				return 2; //Collision avec la droite
+				return 2;
 			else if (c1.xMin < c2.xMax && c1.xMin > c2.xMin)
-				return 4; //Collision avec la gauche
+				return 4;
 		}
 
-		return 0; //Si probleme
+		return 0;
 	}
 }

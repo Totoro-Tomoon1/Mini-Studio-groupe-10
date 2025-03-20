@@ -34,19 +34,6 @@ void Platform::SetTexture(int type)
 
 void Platform::OnUpdate()
 {
-	float dist = sqrt((GetPosition().x - GetScene()->GetView().getCenter().x) * (GetPosition().x - GetScene()->GetView().getCenter().x) + (GetPosition().y - GetScene()->GetView().getCenter().y) * (GetPosition().y - GetScene()->GetView().getCenter().y));
-
-	if (dist > 660)
-	{
-		//SetToDraw(false);
-		//mShape.setTexture(nullptr);
-		//SetToDraw(false);
-	}
-	else
-	{
-		//SetToDraw(true);
-		//mShape.setTexture(mTexture);
-	}
 }
 
 void Platform::OnCollision(Entity* other)

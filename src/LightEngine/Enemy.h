@@ -24,7 +24,6 @@ public:
 	Enemy();
 
 	void SetDroneTarget(Drone* drone);
-	void SetTextureAndAnim(const char* path);
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;

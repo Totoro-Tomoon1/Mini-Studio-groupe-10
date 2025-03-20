@@ -61,8 +61,8 @@ void GameManager::DestroyAllEntities()
 {
 	for (auto it = mEntities.begin(); it != mEntities.end(); )
 	{
-		delete* it;           // Supprimer l'entité pointée par l'itérateur
-		it = mEntities.erase(it);  // Incrémenter l'itérateur après la suppression
+		delete* it;        
+		it = mEntities.erase(it);  
 	}
 }
 
@@ -70,7 +70,6 @@ void GameManager::Run()
 {
 	if (mpWindow == nullptr) 
 	{
-		//std::cout << "Window not created, creating default window" << std::endl;
 		CreateWindow(1280, 720, "Default window");
 	}
 
@@ -153,17 +152,13 @@ void GameManager::Update()
 }
 
 
-void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physique (d�placements etc...)
+void GameManager::FixedUpdate()
 {
-	//Physic update 
 	for (Entity* entity : mEntities)
 	{
 		entity->FixedUpdate(FIXED_DT);
 	}
 
-	int col = 0;
-
-	//Collision
  	for (auto it1 = mEntities.begin(); it1 != mEntities.end(); ++it1)
 	{
 		auto it2 = it1;
@@ -179,10 +174,7 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 			
 			if (entity->IsTag(PlatFormerScene::Tag::GROUND) && (otherEntity->IsTag(PlatFormerScene::Tag::HACKING_ZONE) || otherEntity->IsTag(PlatFormerScene::Tag::Damagezone) || otherEntity->IsTag(PlatFormerScene::Tag::Fallzone) || otherEntity->IsTag(PlatFormerScene::Tag::ACTIVATE_ZONE)))
 				continue;
-			if (entity->IsTag(-1));
-				//std::cout << "Helppp" << std::endl;
-			//std::cout << entity->GetTag() << " and " << otherEntity->GetTag() << std::endl;
-			col++;
+
 			if (entity->IsColliding(otherEntity))
 			{
 				entity->OnCollision(otherEntity);
@@ -193,8 +185,6 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 			}
 		}
 	}
-
-	std::cout << col << std::endl;
 }
 
 void GameManager::Draw()

@@ -6,10 +6,7 @@
 
 struct DroneParameter
 {
-	float mMinSpeed = 600.f;
-	float mMaxSpeed = 200.f;
-	float mAcceleration = 200.f;
-	float mDeceleration = 200.f;
+	float mSpeed = 600.f;
 };
 
 class Drone : public Entity, public Life
@@ -23,7 +20,6 @@ public:
 		Idle,
 		Moving,
 		Shooting,
-		Hacking,
 
 		Count
 	};
@@ -34,7 +30,6 @@ private:
 	bool mIsMoving = false;
 	bool mIsShooting = false;
 	bool mCanHack = false;
-
 	bool hasKey = false;
 
 	sf::Vector2f* mDronePosition;

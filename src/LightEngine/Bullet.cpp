@@ -44,11 +44,8 @@ void Bullet::OnUpdate()
 
 	float right = GetScene()->GetView().getCenter().x + GetScene()->GetWindowWidth() / 2;
 
-	//std::cout << "Bullet x : " << GetPosition().x << "    right : " << right << std::endl;
-
 	if (GetPosition().x > right || GetPosition().x < left)
 	{
-		std::cout << "Destroy" << std::endl;
 		Destroy();
 	}
 }

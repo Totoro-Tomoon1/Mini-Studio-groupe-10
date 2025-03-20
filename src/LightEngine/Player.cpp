@@ -10,7 +10,7 @@
 
 Player::Player() : mStateMachine(this, (int)State::Count)
 {
-	mDepl = sf::Vector2f(0, 0);
+	
 }
 
 void Player::OnInitialize()
@@ -19,6 +19,7 @@ void Player::OnInitialize()
 	SetTag(PlatFormerScene::Tag::PLAYER);
 	SetRigidBody(true);
 	SetGravity(true);
+	mDepl = sf::Vector2f(0, 0);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
 	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,40,120), 4, false);
@@ -104,18 +105,11 @@ void Player::OnInitialize()
 	mStateMachine.SetState(State::Idle);
 }
 
-void Player::OnUpdate() //Update non physique (pour les timers etc...)
+void Player::OnUpdate()
 {
-	//std::cout << GetScene()->GetView().getCenter().x << std::endl;
-
 	mShape.move(mDepl);
 
-	if (GetHP() <= 0)
-	{
-		std::cout << "You're dead" << std::endl;
-	}
-
-	imuuneProgresse += GetDeltaTime();
+	immuneProgress += GetDeltaTime();
 
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
@@ -123,19 +117,15 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 	if (!reverse && mDepl.x < 0)
 	{
 		reverse = true;
-		//mPlayerAnimation->SetNewY(135);
 		mPlayerAnimation->SetReverseSprite(true);
 	}
 	else if (reverse && mDepl.x > 0)
 	{
 		reverse = false;
-		//mPlayerAnimation->SetNewY(0);
 		mPlayerAnimation->SetReverseSprite(false);
 	}
 
 	mStateMachine.Update();
-	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
-	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);
 }
 
 void Player::OnCollision(Entity* pCollideWith)
@@ -164,17 +154,15 @@ void Player::OnCollision(Entity* pCollideWith)
 		return;
 	}
 
-	if (imuuneProgresse < immuneTime)
+	if (immuneProgress < immuneTime)
 	{
 		return;
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::Damagezone))
 	{
-		std::cout << "Player take damage" << std::endl;
 		TakeDamage(1);
-		std::cout << "Current hp player : " << GetHP() << std::endl;
-		imuuneProgresse = 0;
+		immuneProgress = 0;
 
 		return;
 	}
@@ -182,7 +170,8 @@ void Player::OnCollision(Entity* pCollideWith)
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET))
 	{
 		TakeDamage(1.f);
-		imuuneProgresse = 0;
+		std::cout << "HP : " << GetHP() << std::endl;
+		immuneProgress = 0;
 
 		return;
 	}
@@ -190,7 +179,7 @@ void Player::OnCollision(Entity* pCollideWith)
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
 	{
 		TakeDamage(3.f);
-		imuuneProgresse = 0;
+		immuneProgress = 0;
 
 		return;
 	}
@@ -201,16 +190,6 @@ void Player::OnCollision(Entity* pCollideWith)
 	}
 }
 
-//void Player::OnFixedUpdate(float deltaTime) //Update physique
-//{
-//	mIsMoving = false;
-//
-//	OnFall(deltaTime);
-//
-//	mShape.setPosition(sf::Vector2f(mShape.getPosition().x, mShape.getPosition().y + mGravitySpeed * deltaTime));
-//}
-
-//Pour l'affichage debug
 const char* Player::GetStateName(State state) const
 {
 	switch (state)
@@ -225,18 +204,13 @@ const char* Player::GetStateName(State state) const
 
 void Player::MoveRight(float deltaTime)
 {
-	mDepl = sf::Vector2f(mPlayerParameters.mMinSpeed * deltaTime, 0);
+	mDepl = sf::Vector2f(mPlayerParameters.mPlayerSpeed * deltaTime, 0);
 }
 
 void Player::MoveLeft(float deltaTime)
 {
-	mDepl = sf::Vector2f(-mPlayerParameters.mMinSpeed * deltaTime, 0);
+	mDepl = sf::Vector2f(-mPlayerParameters.mPlayerSpeed * deltaTime, 0);
 }
-
-//void Player::OnFall(float deltaTime)
-//{
-//	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime * 200.f;
-//}
 
 void Player::OnJump()
 {
@@ -268,31 +242,12 @@ void Player::Input()
 	if (std::abs(stickX) < 10)
 		stickX = 0;
 
-	//std::cout << 10 * stickX / 100 << std::endl;
-
 	mDepl = sf::Vector2f(10 * stickX / 100, 0);
 
 	if (mDepl.x != 0.f)
 		mIsMoving = true;
 	else
 		mIsMoving = false;
-
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		MoveRight(deltaTime);
-		mIsMoving = true;
-	}
-
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		MoveLeft(deltaTime);
-		mIsMoving = true;
-	}
-	
-	else
-	{
-		mDepl = sf::Vector2f(0, 0);
-	}*/
 }
 
 void Player::ActivateInput()
@@ -313,6 +268,7 @@ bool Player::GetIsInputActivate()
 void Player::ResetmDepl()
 {
 	mDepl = sf::Vector2f(0, 0);
+	mIsMoving = false;
 }
 
 void Player::ChangeStatic(bool stat)

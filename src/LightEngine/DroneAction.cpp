@@ -11,7 +11,6 @@ void DroneAction_Moving::OnStart(Drone* pDrone)
 
 void DroneAction_Shoot::OnStart(Drone* pDrone)
 {
-	//Init des timers 
 	mShootInterval = 0.3f;
 	mLastShotTime = 0.f;
 
@@ -28,26 +27,4 @@ void DroneAction_Shoot::OnUpdate(Drone* pDrone)
 
 	mLastShotTime = 0.f;
 	pDrone->Shoot(dt);
-}
-
-void DroneAction_Hacking::OnStart(Drone* pDrone)
-{
-	mHackingTime = 3.f;
-	mHackingProcess = 0.f;
-}
-
-void DroneAction_Hacking::OnUpdate(Drone* pDrone)
-{
-	float dt = GameManager::Get()->GetDeltaTime();
-
-	mHackingProcess += dt;
-
-	if (mHackingProcess > mHackingTime)
-		std::cout << "Hacked !" << std::endl;
-}
-
-void DroneAction_Hacking::OnEnd(Drone* pDrone)
-{
-	if (mHackingProcess < mHackingTime)
-		std::cout << "Hacking canceled ! " << std::endl;
 }

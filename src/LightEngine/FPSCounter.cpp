@@ -24,8 +24,6 @@ bool FPSCounter::loadFont() {
 void FPSCounter::update(sf::Vector2f pos) {
     frameCount++;
     float currentTime = clock.getElapsedTime().asSeconds();
-
-    std::cout << pos.x << " " << pos.y << std::endl;
     fpsText.setPosition(pos);
 
     if (currentTime - lastTime >= 1.0f) { // Mise   jour chaque seconde

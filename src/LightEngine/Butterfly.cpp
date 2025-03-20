@@ -1,4 +1,4 @@
-#include "Burrefly.h"
+#include "Butterfly.h"
 #include <iostream>
 #include "Animations.h"
 #include "AssetManager.h"
@@ -13,7 +13,7 @@ void Burrefly::SetTexture()
 	mButterflyAnimation->SetStartSize(0,6,50,44);
 	mShape.setTexture(mTexture);
 	mShape.setSize(sf::Vector2f(50 / 2, 44 / 2));
-	srand(time(NULL)); //max only
+	srand(time(NULL));
 }
 
 void Burrefly::Update(float deltaTime)

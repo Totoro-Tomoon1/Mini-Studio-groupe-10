@@ -14,18 +14,3 @@ bool DroneCondition_IsShooting::OnTest(Drone* owner)
 
 	return false;
 }
-
-bool DroneCondition_TryHacking::OnTest(Drone* owner)
-{
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool DroneCondition_CanHack::OnTest(Drone* owner)
-{
-	return owner->CanHack();
-}

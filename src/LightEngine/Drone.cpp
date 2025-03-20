@@ -41,14 +41,6 @@ void Drone::OnInitialize()
 
 			transition->AddCondition<DroneCondition_IsShooting>();
 		}
-
-		//-> Hacking
-		{
-			auto transition = pIdle->CreateTransition(State::Hacking);
-
-			transition->AddCondition<DroneCondition_TryHacking>();
-			transition->AddCondition<DroneCondition_CanHack>();
-		}
 	}
 
 	//Moving
@@ -90,31 +82,11 @@ void Drone::OnInitialize()
 		}
 	}
 
-	//Hacking
-	{
-		DroneAction_Hacking* pFalling = mStateMachine.CreateAction<DroneAction_Hacking>(State::Hacking);
-
-		//-> Idle
-		{
-			auto transition = pFalling->CreateTransition(State::Idle);
-
-			transition->AddCondition<DroneCondition_TryHacking>(false);
-		}
-
-		//-> Moving
-		{
-			auto transition = pFalling->CreateTransition(State::Moving);
-
-			transition->AddCondition<DroneCondition_IsMoving>();
-		}
-	}
-
 	mStateMachine.SetState(State::Idle);
 }
 
-void Drone::OnUpdate() //Update non physique (pour les timers etc...)
+void Drone::OnUpdate()
 {
-	mShape.move(mDepl);
 	mShape.setTextureRect(*mDroneAnimation->GetTextureRect());
 
 	if (GetHP() <= 0)
@@ -128,19 +100,15 @@ void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 	if (!reverse && mDepl.x < 0)
 	{
 		reverse = true;
-		//mPlayerAnimation->SetNewY(135);
 		mDroneAnimation->SetReverseSprite(true);
 	}
 	else if (reverse && mDepl.x > 0)
 	{
 		reverse = false;
-		//mPlayerAnimation->SetNewY(0);
 		mDroneAnimation->SetReverseSprite(false);
 	}
 
 	mStateMachine.Update();
-	Debug::DrawText(0, 0, std::to_string(mDroneParameters.mMinSpeed), sf::Color::White);
-	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Drone::State)mStateMachine.GetCurrentState()), sf::Color::Red);
 }
 
 void Drone::OnCollision(Entity* pCollideWith)
@@ -151,8 +119,7 @@ void Drone::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::HACKING_ZONE))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
 	{
 		mCanHack = true;
 	}
@@ -192,11 +159,11 @@ void Drone::OnCollision(Entity* pCollideWith)
 	}
 }
 
-void Drone::OnFixedUpdate(float deltaTime) //Update physique
+void Drone::OnFixedUpdate(float deltaTime)
 {
+	mShape.move(mDepl);
 	mIsMoving = false;
 	mIsShooting = false;
-	mCanHack = false;
 }
 
 //Pour l'affichage debug
@@ -207,29 +174,28 @@ const char* Drone::GetStateName(State state) const
 	case Idle: return "Idle";
 	case Moving: return "Moving";
 	case Shooting: return "Shooting";
-	case Hacking: return "Hacking";
 	default: return "Unknown";
 	}
 }
 
 void Drone::MoveRight(float deltaTime)
 {
-	mDepl.x += mDroneParameters.mMinSpeed * deltaTime;
+	mDepl.x += mDroneParameters.mSpeed * deltaTime;
 }
 
 void Drone::MoveLeft(float deltaTime)
 {
-	mDepl.x -= mDroneParameters.mMinSpeed * deltaTime;
+	mDepl.x -= mDroneParameters.mSpeed * deltaTime;
 }
 
 void Drone::MoveUp(float deltaTime)
 {
-	mDepl.y -= mDroneParameters.mMinSpeed * deltaTime;
+	mDepl.y -= mDroneParameters.mSpeed * deltaTime;
 }
 
 void Drone::MoveDown(float deltaTime)
 {
-	mDepl.y += mDroneParameters.mMinSpeed * deltaTime;
+	mDepl.y += mDroneParameters.mSpeed * deltaTime;
 }
 
 bool Drone::IsMoving()
@@ -241,12 +207,6 @@ bool Drone::CanHack()
 {
 	return mCanHack;
 }
-
-//void Drone::Shoot(float deltaTime)
-//{		
-//	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
-//	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
-//}
 
 void Drone::Input()
 {
@@ -261,36 +221,7 @@ void Drone::Input()
 	if (std::abs(stickY) < 10)
 		stickY = 0;
 
-	//std::cout << 10 * stickX / 100 << std::endl;
-
 	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);
-
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-	{
-		MoveRight(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-	{
-		MoveLeft(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-	{
-		MoveUp(deltaTime);
-		mIsMoving = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-	{
-		MoveDown(deltaTime);
-		mIsMoving = true;
-	}*/
-	
-
-	//mShape.move(mDepl);
 }
 
 void Drone::Undisplay()

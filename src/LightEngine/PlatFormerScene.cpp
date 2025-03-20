@@ -17,7 +17,7 @@
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
 
-#include "Burrefly.h"
+#include "Butterfly.h"
 
 #define Butterfly_Path "../../../res/MODELSHEET_PAPILLON.png"
 
@@ -35,10 +35,6 @@ void PlatFormerScene::OnInitialize()
 
 	mButterfly = new Burrefly();
 	mButterfly->SetTexture();
-	
-
-	//mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
-	//mDrone->Undisplay();
 
 	if (!backgroundTexture1->loadFromFile("../../../res/background/Fond.png") ||
 		!backgroundTexture2->loadFromFile("../../../res/background/4e_plan.png") ||
@@ -59,40 +55,31 @@ void PlatFormerScene::OnInitialize()
 
 void PlatFormerScene::OnEvent(const sf::Event& event)
 {
-	if (event.type == sf::Event::EventType::JoystickButtonPressed)
-		std::cout << "Mannette connecte" << std::endl;
+	if (sf::Joystick::isButtonPressed(0, 3) && !UpPressed && mDrone->GetIsUnlocked())
+	{
+		UpPressed = true;
 
-	/*if (event.type == sf::Event::KeyPressed)
-	{*/
-	
-		if (sf::Joystick::isButtonPressed(0, 3) && !UpPressed && mDrone->GetIsUnlocked())
+		playerSelected = !playerSelected;
+		if (playerSelected)
 		{
-			UpPressed = true;
-			std::cout << UpPressed << std::endl;
-			playerSelected = !playerSelected;
-			if (playerSelected)
-			{
-				mDrone->Undisplay();
-				mPlayer->ActivateInput();
-				mDrone->ResetmDepl();
-				mDrone->DesactivateInput();
-				//mPlayer->ChangeStatic(false);
-			}
-			else
-			{
-				mDrone->Display(mPlayer->GetPosition());
-				mPlayer->DesactivateInput();
-				mPlayer->ResetmDepl();
-				mDrone->ActivateInput();
-				//mPlayer->ChangeStatic(true);
-			}
+			mDrone->Undisplay();
+			mPlayer->ActivateInput();
+			mDrone->ResetmDepl();
+			mDrone->DesactivateInput();
 		}
+		else
+		{
+			mDrone->Display(mPlayer->GetPosition());
+			mPlayer->DesactivateInput();
+			mPlayer->ResetmDepl();
+			mDrone->ActivateInput();
+		}
+	}
 
-		else if (!sf::Joystick::isButtonPressed(0, 3))
-		{
-			UpPressed = false;
-		}
-	//}
+	else if (!sf::Joystick::isButtonPressed(0, 3))
+	{
+		UpPressed = false;
+	}
 
 	if (playerSelected)
 	{
@@ -183,7 +170,7 @@ void PlatFormerScene::GenerateMap()
 	}
 
 	int lineNumber = 0;
-	std::vector<std::tuple<int, int, int>> ground;// (startX, totalLength, lineNumber)
+	std::vector<std::tuple<int, int, int>> ground;
 	std::vector<std::tuple<int, int, int>> damageZone;
 	std::vector<std::tuple<int, int, int>> fallZone;
 	std::vector<std::tuple<int, int, int>> hackingZone;
@@ -196,42 +183,18 @@ void PlatFormerScene::GenerateMap()
 		size_t i = 0;
 		while (i < line.size())
 		{
-			/*if (line[i] == 'c')
-			{
-				//std::cout << "c" << std::endl;
-				Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-				pPlateform->SetTexture(3);
-				pPlateform->SetPosition(i * 20, lineNumber * 20 - 4);
-			}*/
-
 			if (line[i] == '-')
 			{
 				i++;
 			}
-			else if (line[i] == 'c' || line[i] == 'x') // Ajouter 'c' ici
+			else if (line[i] == 'c' || line[i] == 'x')
 			{
 				int startX = i;
 				size_t count = 1;
 				size_t j = i + 1;
 
-				//if (line[i] == 'x') 
-				//{
-				//	//std::cout << "c" << std::endl;
-				//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-				//	pPlateform->SetTexture(3);
-				//	pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
-				//	pPlateform->SetTag(Tag::GROUND);
-				//}
-
 				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
 				{
-					//if (line[j] == 'x') {
-					//	//std::cout << "c" << std::endl;
-					//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-					//	pPlateform->SetTexture(3);
-					//	pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
-					//	pPlateform->SetTag(Tag::GROUND);
-					//}
 					count++;
 					j++;
 				}
@@ -272,15 +235,12 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'h')
 				{
-					//std::cout << "beug " << j << std::endl;
 					count++;
 					j++;
 				}
 
-				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				hackingZone.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
@@ -289,15 +249,12 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				//std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'a')
 				{
-					//std::cout << "beug " << j << std::endl;
 					count++;
 					j++;
 				}
 
-				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				activatingZone.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
@@ -306,15 +263,12 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				//std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'm')
 				{
-					//std::cout << "beug " << j << std::endl;
 					count++;
 					j++;
 				}
 
-				// Enregistrer l'entité (startX, totalLength, lineNumber)
 				platformAmovible.push_back(std::make_tuple(i, count, lineNumber));
 
 				i = j;
@@ -331,7 +285,6 @@ void PlatFormerScene::GenerateMap()
 			}
 			else if (line[i] == 'd')
 			{
-				//mDrone->SetPosition(i * 20, lineNumber * 20);
 				mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::White);
 				mDrone->Display(sf::Vector2f(i * 20, lineNumber * 20));
 				i++;
@@ -341,15 +294,12 @@ void PlatFormerScene::GenerateMap()
 				Enemy1* pEnemy = CreateRectangleEntity<Enemy1>(sf::Vector2f(40, 40), sf::Color::White);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
 				pEnemy->SetGravity(true);
-				//pEnemy->SetTextureAndAnim();
 				i++;
 			}
 			else if (line[i] == 'g')
 			{
 				Enemy2* pEnemy = CreateRectangleEntity<Enemy2>(sf::Vector2f(40, 40), sf::Color::White);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
-				//pEnemy->SetTextureAndAnim();
-				//pEnemy->SetGravity(false);
 				i++;
 			}
 			else if (line[i] == 'b')
@@ -386,7 +336,6 @@ void PlatFormerScene::GenerateMap()
 				continue;
 			}
 		}
-		// Pas de ligne au-dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
@@ -402,7 +351,6 @@ void PlatFormerScene::GenerateMap()
 		pGround->SetTag(Tag::GROUND);
 		pGround->SetToDraw(true);
 
-		// Vérifier si une ligne au-dessus contient un 'X'
 		bool hasXAbove = false;
 		for (const auto& elem : ground) {
 			int aboveX = std::get<0>(elem);
@@ -416,10 +364,10 @@ void PlatFormerScene::GenerateMap()
 		}
 
 		if (hasXAbove) {
-			pGround->SetTexture(2); // Si une ligne au-dessus contient un X
+			pGround->SetTexture(2); 
 		}
 		else {
-			pGround->SetTexture(3); // Sinon, texture normale
+			pGround->SetTexture(3); 
 		}
 	}
 
@@ -435,7 +383,6 @@ void PlatFormerScene::GenerateMap()
 			if (start == std::get<0>(damageZone[i - 1]) && totalLenght == std::get<1>(damageZone[i - 1]))
 				continue;
 		}
-		//pas de ligne au dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
@@ -462,7 +409,6 @@ void PlatFormerScene::GenerateMap()
 			if (start == std::get<0>(fallZone[i - 1]) && totalLenght == std::get<1>(fallZone[i - 1]))
 				continue;
 		}
-		//pas de ligne au dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
@@ -489,7 +435,6 @@ void PlatFormerScene::GenerateMap()
 			if (start == std::get<0>(activatingZone[i - 1]) && totalLenght == std::get<1>(activatingZone[i - 1]))
 				continue;
 		}
-		//pas de ligne au dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
@@ -500,7 +445,6 @@ void PlatFormerScene::GenerateMap()
 		}
 
 		Entity* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
-		/*pActivating->SetStatic(true);*/
 		pActivating->SetStatic(true);
 		pActivating->SetRigidBody(true);                                       
 		pActivating->SetPosition(start * 20, entityLine * 20);
@@ -518,7 +462,6 @@ void PlatFormerScene::GenerateMap()
 			if (start == std::get<0>(platformAmovible[i - 1]) && totalLenght == std::get<1>(platformAmovible[i - 1]))
 				continue;
 		}
-		//pas de ligne au dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
@@ -529,7 +472,6 @@ void PlatFormerScene::GenerateMap()
 		}
 
 		PlatformAmovible* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
-		/*pActivating->SetStatic(true);*/
 		pActivating->SetPosition(start * 20, entityLine * 20);
 		pActivating->SetRigidBody(true);
 		pActivating->SetTag(Tag::Amovible);
@@ -546,7 +488,6 @@ void PlatFormerScene::GenerateMap()
 			if (start == std::get<0>(hackingZone[i - 1]) && totalLenght == std::get<1>(hackingZone[i - 1]))
 				continue;
 		}
-		//pas de ligne au dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
@@ -557,22 +498,9 @@ void PlatFormerScene::GenerateMap()
 		}
 
 		PlatformAmovible* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
-		/*pActivating->SetStatic(true);*/
 		pActivating->SetPosition(start * 20, entityLine * 20);
 		pActivating->SetRigidBody(true);
 		pActivating->SetStatic(true);
 		pActivating->SetTag(Tag::HACKING_ZONE);
 	}
-
-	//for (const auto& entity : hackingZone)
-	//{
-	//	int start = std::get<0>(entity);
-	//	int totalLenght = std::get<1>(entity);
-	//	int entityLine = std::get<2>(entity);
-
-	//	Entity* pHacking = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
-	//	pHacking->SetPosition(start * 20, entityLine * 20);
-	//	//pHacking->SetToDraw(false);
-	//	pHacking->SetTag(Tag::HACKING_ZONE);
-	//}
 }

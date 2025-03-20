@@ -35,7 +35,6 @@ private:
 
 	bool UpPressed = false;
 
-	//pour background
 	sf::Texture* backgroundTexture1 = new sf::Texture;
 	sf::Texture* backgroundTexture2 = new sf::Texture;
 	sf::Texture* backgroundTexture3 = new sf::Texture;

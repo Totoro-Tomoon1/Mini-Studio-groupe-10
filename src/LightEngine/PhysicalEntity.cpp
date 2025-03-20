@@ -8,7 +8,6 @@ void PhysicalEntity::SetGravity(bool targetState)
 
 void PhysicalEntity::OnCollision(Entity* collidedWith)
 {
-	//std::cout << "test" << std::endl;
 }
 
 void PhysicalEntity::OnFixedUpdate(float deltaTime)
