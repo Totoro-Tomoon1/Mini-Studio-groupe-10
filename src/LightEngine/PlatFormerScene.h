@@ -12,6 +12,7 @@ class Sound;
 class ParallaxManager;
 class Drone;
 class Burrefly;
+class Chest;
 
 namespace sf
 {
@@ -28,6 +29,7 @@ private:
 
 	Player* mPlayer;
 	Drone* mDrone;
+	Chest* mChest;
 
 	bool playerSelected = true;
 
@@ -43,8 +45,6 @@ private:
 	sf::Texture* backgroundTexture5 = new sf::Texture;
 
 	Burrefly* mButterfly;
-
-	bool hasKey = false;
 
 public:
 

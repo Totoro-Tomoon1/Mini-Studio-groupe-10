@@ -29,6 +29,8 @@ void PlatFormerScene::OnInitialize()
 	mMusic->Load("../../../res/blood.wav");
 	//mMusic->Play();
 
+
+
 	mSound = new Sound();
 
 	mSound->Load("../../../res/test.wav");
@@ -113,11 +115,6 @@ void PlatFormerScene::OnUpdate()
 		GameManager::Get()->DestroyAllEntities();
 		GenerateMap();
 		Reset();
-	}
-
-	if (mPlayer->HaseKey() || mDrone->HaseKey())
-	{
-		hasKey = true;
 	}
 }
 
