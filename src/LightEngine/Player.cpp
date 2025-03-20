@@ -263,19 +263,20 @@ void Player::Input()
 {
 	float deltaTime = GetDeltaTime();
 
-	/*float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 
 	if (std::abs(stickX) < 10)
 		stickX = 0;
 
 	//std::cout << 10 * stickX / 100 << std::endl;
 
-	mDepl = sf::Vector2f(10 * stickX / 100, 0);*/
+	mDepl = sf::Vector2f(10 * stickX / 100, 0);
 
 	if (mDepl.x != 0.f)
 		mIsMoving = true;
 	else
 		mIsMoving = false;
+
 	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		MoveRight(deltaTime);
@@ -287,11 +288,11 @@ void Player::Input()
 		MoveLeft(deltaTime);
 		mIsMoving = true;
 	}
-
+	
 	else
 	{
 		mDepl = sf::Vector2f(0, 0);
-	}
+	}*/
 }
 
 void Player::ActivateInput()

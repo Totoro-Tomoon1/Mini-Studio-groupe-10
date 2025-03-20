@@ -19,6 +19,7 @@ void Boss::OnInitialize()
 	mShape.setTextureRect(sf::IntRect(80,9, 148, 192));
 	Enemy::OnInitialize();
 
+	mAttackTimer = 3.5f;
 	//Setter les textures ici
 }
 
