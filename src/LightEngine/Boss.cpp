@@ -26,6 +26,11 @@ void Boss::OnUpdate()
 {
 	Enemy::OnUpdate();
 
+	mLastAttackTime += GameManager::Get()->GetDeltaTime();
+
+	if(mLastAttackTime > 2.5f)
+		mIsMovable = true;
+
 	if (mDroneTarget == nullptr)
 	{
 		SetDroneTarget(GetScene<PlatFormerScene>()->GetDrone());
@@ -60,14 +65,27 @@ void Boss::OnUpdate()
 void Boss::OnCollision(Entity* pCollideWith)
 {
 	Enemy::OnCollision(pCollideWith);
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		mIsMovable = false;
+	}
 }
 
 void Boss::OnFixedUpdate(float deltaTime)
 {
 	if (mIsAttacking)
 	{
-		Rush(deltaTime);
-		Shoot(deltaTime);
+		if (mLastAttackTime > mAttackTimer)
+		{
+			mLastAttackTime = 0.f;
+			Shoot(deltaTime);
+		}
+
+		if (mIsMovable)
+		{
+			Rush(deltaTime);
+		}
 	}
 	else
 	{
@@ -77,12 +95,6 @@ void Boss::OnFixedUpdate(float deltaTime)
 
 void Boss::Shoot(float deltaTime)
 {
-	mLastAttackTime += deltaTime;
-
-	if (mLastAttackTime > mAttackTimerBoss)
-	{
-		mLastAttackTime = 0.f;
-
 		sf::Vector2f dronePosition = mDroneTarget->GetPosition(0.5f, 0.5f);
 		sf::Vector2f myPosition = GetPosition(0.5f, 0.5f);
 
@@ -100,8 +112,6 @@ void Boss::Shoot(float deltaTime)
 		Laser* b = CreateEntity<Laser>(sf::Vector2f(700.f, 50.f), sf::Color::Yellow);
 		b->SetPosition(myPosition.x - deltaX, myPosition.y);
 		b->SetTag(PlatFormerScene::Tag::BOSS_BULLET);
-	}
-
 }
 
 void Boss::Rush(float deltaTime)
@@ -109,5 +119,9 @@ void Boss::Rush(float deltaTime)
 	sf::Vector2f dronePosition = mDroneTarget->GetPosition();
 	sf::Vector2f myPosition = GetPosition();
 
-	GoToDirection(dronePosition.x, dronePosition.y, 70);
+	mDepl = { dronePosition.x - myPosition.x, dronePosition.y - myPosition.y };
+	
+	Utils::Normalize(mDepl);
+
+	mShape.move(mDepl * mSpeed * deltaTime);
 }

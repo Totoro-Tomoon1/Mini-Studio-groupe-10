@@ -164,7 +164,7 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 	int col = 0;
 
 	//Collision
-	for (auto it1 = mEntities.begin(); it1 != mEntities.end(); ++it1)
+ 	for (auto it1 = mEntities.begin(); it1 != mEntities.end(); ++it1)
 	{
 		auto it2 = it1;
 		++it2;

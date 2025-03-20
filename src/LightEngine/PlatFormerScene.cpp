@@ -1,6 +1,5 @@
 #include "PlatFormerScene.h"
 
-
 #include "Player.h"
 #include "Drone.h"
 #include "DummyEntity.h"
@@ -64,7 +63,7 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 	/*if (event.type == sf::Event::KeyPressed)
 	{*/
 	
-		if (sf::Joystick::isButtonPressed(0, 3) && !UpPressed && mDrone->GetIsUnlocked())
+		if (/*sf::Joystick::isButtonPressed(0, 3)*/sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !UpPressed && mDrone->GetIsUnlocked())
 		{
 			UpPressed = true;
 			std::cout << UpPressed << std::endl;
@@ -342,6 +341,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				Enemy2* pEnemy = CreateRectangleEntity<Enemy2>(sf::Vector2f(40, 40), sf::Color::Black);
 				pEnemy->SetPosition(i * 20, lineNumber * 20);
+				pEnemy->SetGravity(true);
 				//pEnemy->SetTextureAndAnim();
 				//pEnemy->SetGravity(false);
 				i++;

@@ -167,26 +167,28 @@ void Drone::OnCollision(Entity* pCollideWith)
 	{
 		isUnlocked = true;
 		Undisplay();
-		if (imuuneProgresse < immuneTime)
-		{
-			return;
-		}
+		
+	}
 
-		if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
-		{
-			TakeDamage(1.f);
-			imuuneProgresse = 0.f;
+	if (imuuneProgresse < immuneTime)
+	{
+		return;
+	}
 
-			return;
-		}
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY_BULLET) || pCollideWith->IsTag(PlatFormerScene::Tag::ENEMY))
+	{
+		TakeDamage(1.f);
+		imuuneProgresse = 0.f;
 
-		if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
-		{
-			TakeDamage(3.f);
-			imuuneProgresse = 0.f;
+		return;
+	}
 
-			return;
-		}
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::BOSS) || pCollideWith->IsTag(PlatFormerScene::Tag::BOSS_BULLET))
+	{
+		TakeDamage(3.f);
+		imuuneProgresse = 0.f;
+
+		return;
 	}
 }
 
@@ -250,7 +252,7 @@ void Drone::Input()
 {
 	float deltaTime = GetDeltaTime();
 
-	float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+	/*float stickX = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 	float stickY = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
 	if (std::abs(stickX) < 10)
@@ -261,9 +263,9 @@ void Drone::Input()
 
 	//std::cout << 10 * stickX / 100 << std::endl;
 
-	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);
+	mDepl = sf::Vector2f(10 * stickX / 100, 10 * stickY / 100);*/
 
-	/*mDepl = sf::Vector2f(0, 0);
+	mDepl = sf::Vector2f(0, 0);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
@@ -287,7 +289,7 @@ void Drone::Input()
 	{
 		MoveDown(deltaTime);
 		mIsMoving = true;
-	}*/
+	}
 	
 
 	//mShape.move(mDepl);
