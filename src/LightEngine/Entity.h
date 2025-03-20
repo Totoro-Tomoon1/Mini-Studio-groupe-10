@@ -54,6 +54,7 @@ public:
 
     sf::Vector2f GetPosition(float ratioX = 0.f, float ratioY = 0.f) const;
 	sf::Shape* GetShape() { return &mShape; }
+	int GetTag() { return mTag; }
 
 	bool IsTag(int tag) const { return mTag == tag; }
     bool IsColliding(Entity* other);

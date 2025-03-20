@@ -1,6 +1,6 @@
 #include "GameManager.h"
 #include "AssetManager.h"
-
+#include "PlatFormerScene.h"
 #include "Entity.h"
 #include "Debug.h"
 
@@ -152,6 +152,7 @@ void GameManager::Update()
 	mEntitiesToAdd.clear();
 }
 
+
 void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physique (d�placements etc...)
 {
 	//Physic update 
@@ -159,6 +160,9 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 	{
 		entity->FixedUpdate(FIXED_DT);
 	}
+
+	int col =0;
+
 	//Collision
 	for (auto it1 = mEntities.begin(); it1 != mEntities.end(); ++it1)
 	{
@@ -169,6 +173,15 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 			Entity* entity = *it1;
 			Entity* otherEntity = *it2;
 
+			if (entity->IsTag(otherEntity->GetTag()))
+				continue;
+			
+			if (entity->IsTag(PlatFormerScene::Tag::GROUND) && (otherEntity->IsTag(PlatFormerScene::Tag::HACKING_ZONE) || otherEntity->IsTag(PlatFormerScene::Tag::Damagezone) || otherEntity->IsTag(PlatFormerScene::Tag::Fallzone) || otherEntity->IsTag(PlatFormerScene::Tag::ACTIVATE_ZONE)))
+				continue;
+			if (entity->IsTag(-1));
+				//std::cout << "Helppp" << std::endl;
+			//std::cout << entity->GetTag() << " and " << otherEntity->GetTag() << std::endl;
+			col++;
 			if (entity->IsColliding(otherEntity))
 			{
 				entity->OnCollision(otherEntity);
@@ -179,6 +192,8 @@ void GameManager::FixedUpdate() //Remplace le Update pour tout ce qui est physiq
 			}
 		}
 	}
+
+	std::cout << col << std::endl;
 }
 
 void GameManager::Draw()

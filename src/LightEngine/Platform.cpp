@@ -14,7 +14,9 @@ void Platform::OnInitialize()
 void Platform::SetTexture(int type)
 {
 	mTexture = GameManager::Get()->GetAssetManager()->GetTexture(Platform_Path);
+
 	mShape.setTexture(mTexture);
+
 	switch (type)
 	{
 	case 3:
