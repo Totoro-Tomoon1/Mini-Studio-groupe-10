@@ -209,31 +209,27 @@ void PlatFormerScene::GenerateMap()
 				size_t count = 1;
 				size_t j = i + 1;
 
-				if (line[i] == 'c') 
-				{
-					//std::cout << "c" << std::endl;
-					Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-					//pPlateform->SetTexture(3);
-					pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
-				}
+				//if (line[i] == 'x') 
+				//{
+				//	//std::cout << "c" << std::endl;
+				//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+				//	pPlateform->SetTexture(3);
+				//	pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
+				//	pPlateform->SetTag(Tag::GROUND);
+				//}
 
 				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
 				{
-					if (line[j] == 'c') {
-						//std::cout << "c" << std::endl;
-						Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-						//pPlateform->SetTexture(3);
-						pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
-					}
+					//if (line[j] == 'x') {
+					//	//std::cout << "c" << std::endl;
+					//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+					//	pPlateform->SetTexture(3);
+					//	pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
+					//	pPlateform->SetTag(Tag::GROUND);
+					//}
 					count++;
 					j++;
 				}
-
-				/*while (j < line.size() && (line[i] == 'c' || line[i] == 'x'))
-				{
-					count++;
-					j++;
-				}*/
 
 				ground.push_back(std::make_tuple(startX, count, lineNumber));
 
@@ -374,33 +370,53 @@ void PlatFormerScene::GenerateMap()
 
 	file.close();
 
-	for (int i = 0; i < ground.size(); i++)
-	{
+	for (int i = 0; i < ground.size(); i++) {
 		int startX = std::get<0>(ground[i]);
 		int totalLength = std::get<1>(ground[i]);
 		int entityLine = std::get<2>(ground[i]);
 
-		if (i > 0)
-		{
-			if (startX == std::get<0>(ground[i - 1]) && totalLength == std::get<1>(ground[i - 1]))
+		if (i > 0) {
+			if (startX == std::get<0>(ground[i - 1]) && totalLength == std::get<1>(ground[i - 1])) {
 				continue;
+			}
 		}
-			//pas de ligne au dessus identique
+		// Pas de ligne au-dessus identique
 
 		int countLigne = 1;
 		int j = i + 1;
-		while (j < ground.size() && startX == std::get<0>(ground[j]) && totalLength == std::get<1>(ground[j]))
-		{
+		while (j < ground.size() && startX == std::get<0>(ground[j]) && totalLength == std::get<1>(ground[j])) {
 			j++;
 			countLigne++;
 		}
-		
-		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 40 * countLigne), sf::Color::Green);
+
+		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 40 * countLigne), sf::Color::White);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
 		pGround->SetTag(Tag::GROUND);
+		pGround->SetToDraw(true);
+
+		// Vérifier si une ligne au-dessus contient un 'X'
+		bool hasXAbove = false;
+		for (const auto& elem : ground) {
+			int aboveX = std::get<0>(elem);
+			int aboveLength = std::get<1>(elem);
+			int aboveLine = std::get<2>(elem);
+
+			if (aboveX == startX && aboveLength == totalLength && aboveLine == entityLine - 1) {
+				hasXAbove = true;
+				break;
+			}
+		}
+
+		if (hasXAbove) {
+			pGround->SetTexture(2); // Si une ligne au-dessus contient un X
+		}
+		else {
+			pGround->SetTexture(3); // Sinon, texture normale
+		}
 	}
+
 
 	for (int i = 0; i < damageZone.size(); i++)
 	{
