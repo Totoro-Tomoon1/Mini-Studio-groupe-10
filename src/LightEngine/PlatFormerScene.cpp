@@ -11,6 +11,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Boss.h"
+#include "Chest.h"
 #include <iostream>
 
 #include <fstream>
@@ -360,6 +361,15 @@ void PlatFormerScene::GenerateMap()
 				pKey->SetTag(Tag::Key);
 				i++;
 				}
+
+			else if (line[i] == 't')
+			{
+				Chest* pChest = CreateRectangleEntity<Chest>(sf::Vector2f(20, 20), sf::Color::Yellow);
+				pChest->SetPosition(i * 20, lineNumber * 20);
+				pChest->SetTag(Tag::CHEST);
+				i++;
+				}
+
 			else
 			{
 				i++;

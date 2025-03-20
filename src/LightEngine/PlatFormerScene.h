@@ -55,6 +55,7 @@ public:
 		DRONE,
 		ENEMY,
 		BOSS,
+		CHEST,
 		HACKING_ZONE,
 		Damagezone,
 		Fallzone,
