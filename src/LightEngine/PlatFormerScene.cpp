@@ -361,7 +361,7 @@ void PlatFormerScene::GenerateMap()
 
 			else if (line[i] == 't')
 			{
-				Chest* pChest = CreateRectangleEntity<Chest>(sf::Vector2f(20, 20), sf::Color::Yellow);
+				Chest* pChest = CreateRectangleEntity<Chest>(sf::Vector2f(20, 20), sf::Color::Blue);
 				pChest->SetPosition(i * 20, lineNumber * 20);
 				pChest->SetTag(Tag::CHEST);
 				i++;

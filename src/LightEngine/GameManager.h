@@ -9,6 +9,7 @@
 #define FIXED_DT 0.01667f
 #define GRAVITY_ACCELERATION 9.81f
 #define PLAYER_PATH "../../../res/MODELSHEET_ANIM_MIRA.png"
+#define CHEST_PATH "../../../res/MODELSHEET_OUVERTURE_COFFRE.png"
 
 class Entity;
 class Scene;
