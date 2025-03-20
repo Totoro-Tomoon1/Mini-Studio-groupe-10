@@ -12,6 +12,7 @@ void Music::Load(const char* path)
 void Music::Play()
 {
 	mMusic.play();
+	mMusic.setLoop(true);
 }
 
 sf::Music* Music::GetMusic()
