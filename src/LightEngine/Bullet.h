@@ -2,10 +2,14 @@
 #include "Entity.h"
 #include "PlatFormerScene.h"
 
+class Sound;
+
 class Bullet : public Entity
 {
 	sf::Texture* mTexture;
 	bool isPlayer = false;
+
+	Sound* mSound;
 
 public:
 	//void SetTag(int tag);

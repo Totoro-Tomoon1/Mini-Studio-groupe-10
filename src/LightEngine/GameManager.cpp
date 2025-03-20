@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include "Camera.h"
+#include "Sound.h"
 
 GameManager::GameManager()
 {
@@ -18,6 +19,9 @@ GameManager::GameManager()
 	mWindowWidth = -1;
 	mWindowHeight = -1;
 	mAssetManager = new AssetManager();
+
+	mSound = new Sound;
+	mSound->Load("../../../res/sf_laser_13.wav");
 }
 
 GameManager* GameManager::Get()

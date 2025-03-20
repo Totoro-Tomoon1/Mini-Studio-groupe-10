@@ -2,6 +2,7 @@
 #include "PlatFormerScene.h"
 #include <iostream>
 #include "AssetManager.h"
+#include "Sound.h"
 
 #define Bullet_Path "../../../res/MODEL_SHEET_FX_TIRE_MOB.png"
 
@@ -22,6 +23,9 @@ void Bullet::OnInitialize()
 	{
 		mShape.setTextureRect(sf::IntRect(302, 94, 48, 13));
 	}
+
+	mSound = GameManager::Get()->GetSound();
+	mSound->Play();
 }
 
 void Bullet::OnCollision(Entity* other)

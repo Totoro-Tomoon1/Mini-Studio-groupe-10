@@ -16,6 +16,7 @@ class Scene;
 class Debug;
 class Camera;
 class AssetManager;
+class Sound;
 
 namespace sf 
 {
@@ -46,6 +47,8 @@ class GameManager
 
 	Camera* cam;
 
+	Sound* mSound;
+
 private:
 	GameManager();
 
@@ -73,6 +76,7 @@ public:
 	Scene* GetScene() const { return mpScene; }
 	sf::Font* GetFont() { return &mFont; };
 	AssetManager* GetAssetManager() { return mAssetManager; };
+	Sound* GetSound() { return mSound; }
 
 	void SetCamera(Camera& camera);
 	void DestroyAllEntities();

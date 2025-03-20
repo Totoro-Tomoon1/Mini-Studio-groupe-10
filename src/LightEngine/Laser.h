@@ -3,7 +3,7 @@
 
 class Laser : public Bullet
 {
-	float mLifeTime = 2.5f;
+	float mLifeTime = 1.f;
 	float mProcess = 0.f;
 
 	sf::Texture* mTexture;
