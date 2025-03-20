@@ -16,8 +16,9 @@ void PlayerAction_Idle::OnStart(Player* pPlayer)
 void PlayerAction_Moving::OnStart(Player* pPlayer)
 {
 	std::cout << "Moving" << std::endl;
-	pPlayer->mPlayerAnimation->SetNewY(240);
+	pPlayer->mPlayerAnimation->SetNewY(244);
 	pPlayer->mPlayerAnimation->SetNBFrame(6);
+	pPlayer->mPlayerAnimation->SetNewXsize(50);
 }
 
 void PlayerAction_Jump::OnStart(Player* pPlayer)
