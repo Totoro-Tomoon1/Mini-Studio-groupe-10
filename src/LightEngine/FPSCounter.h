@@ -14,7 +14,7 @@ class FPSCounter
 public:
     FPSCounter();
 
-    bool loadFont(const std::string& fontPath);
+    bool loadFont();
     void update(sf::Vector2f pos);
     void draw(sf::RenderWindow& window);
 };

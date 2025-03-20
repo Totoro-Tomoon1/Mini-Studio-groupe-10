@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameManager.h"
-
+#include "FPSCounter.h"
 #include <list>
 #include "Camera.h"
 
@@ -28,7 +28,7 @@ private:
 
 	Player* mPlayer;
 	Drone* mDrone;
-
+	FPSCounter fpsCounter;
 	bool playerSelected = true;
 
 	ParallaxManager* mParallaxManager;

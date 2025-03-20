@@ -50,6 +50,8 @@ void PlatFormerScene::OnInitialize()
 		std::cout << "Erreur de chargement des fonds d'ecrans." << std::endl;
 	}
 
+	fpsCounter.loadFont();
+
 	GenerateMap();
 
 	CreateBackGround();
@@ -133,6 +135,7 @@ void PlatFormerScene::Draw(sf::RenderWindow& pRenderWindow)
 	mParallaxManager->Draw(pRenderWindow);
 	mButterfly->Draw(pRenderWindow);
 	mButterfly->SetView(GetView());
+	fpsCounter.draw(pRenderWindow);
 }
 
 Player* PlatFormerScene::GetPlayer()
@@ -329,7 +332,7 @@ void PlatFormerScene::GenerateMap()
 			else if (line[i] == 'd')
 			{
 				//mDrone->SetPosition(i * 20, lineNumber * 20);
-				mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
+				mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::White);
 				mDrone->Display(sf::Vector2f(i * 20, lineNumber * 20));
 				i++;
 			}

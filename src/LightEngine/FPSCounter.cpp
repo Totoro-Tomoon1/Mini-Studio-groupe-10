@@ -5,11 +5,11 @@
 
 FPSCounter::FPSCounter() : frameCount(0), fps(0), lastTime(0) {}
 
-bool FPSCounter::loadFont(const std::string& fontPath) {
-    /*if (!font.loadFromFile(fontPath)) {
-        std::cerr << "Erreur : Impossible de charger la police " << fontPath << std::endl;
-        return false;
-    }*/
+bool FPSCounter::loadFont() {
+    //if (!font.loadFromFile(fontPath)) {
+    //    std::cerr << "Erreur : Impossible de charger la police " << fontPath << std::endl;
+    //    return false;
+    //}
 
     font = GameManager::Get()->GetFont();
 
