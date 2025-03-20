@@ -9,18 +9,24 @@ void PlayerAction_Idle::OnStart(Player* pPlayer)
 {
 	std::cout << "Idle" << std::endl;
 	pPlayer->mPlayerAnimation->SetNewY(0);
+	pPlayer->mPlayerAnimation->SetNBFrame(4);
+	pPlayer->mPlayerAnimation->SetNewXsize(40);
 }
 
 void PlayerAction_Moving::OnStart(Player* pPlayer)
 {
 	std::cout << "Moving" << std::endl;
-	pPlayer->mPlayerAnimation->SetNewY(0);
+	pPlayer->mPlayerAnimation->SetNewY(240);
+	pPlayer->mPlayerAnimation->SetNBFrame(6);
 }
 
 void PlayerAction_Jump::OnStart(Player* pPlayer)
 {
 	std::cout << "Jump" << std::endl;
-	pPlayer->mPlayerAnimation->SetNewY(261);
+	pPlayer->mPlayerAnimation->SetNewY(121);
+	pPlayer->mPlayerAnimation->SetNBFrame(6);
+	pPlayer->mPlayerAnimation->SetNewXsize(50);
+
 }
 
 void PlayerAction_Jump::OnUpdate(Player* pPlayer)

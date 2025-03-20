@@ -316,7 +316,7 @@ void PlatFormerScene::GenerateMap()
 			}
 			else if (line[i] == 'p')
 			{
-				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(120/2, 120/2), sf::Color::White);
+				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(40/1.5f, 120/1.5f), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mPlayer->SetToDraw(true);
 				mPlayer->ActivateInput();

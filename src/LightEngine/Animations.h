@@ -27,5 +27,7 @@ public:
 	sf::IntRect* GetTextureRect();
 
 	void SetNewY(int y) { mYStart = y; };
+	void SetNewXsize(int x) { mXSize = x; }
 	void SetReverseSprite(bool reverse) { reverseSprite = reverse; }
+	void SetNBFrame(int frame) { mNumberFrames = frame; }
 };
