@@ -7,7 +7,7 @@ protected:
 	float mAttackProcess = 0.f;
 	float mAttackTimerBoss = 3.5f;
 	
-
+	sf::Texture* mTexture;
 public:
 	Boss();
 

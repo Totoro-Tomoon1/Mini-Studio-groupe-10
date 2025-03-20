@@ -348,7 +348,7 @@ void PlatFormerScene::GenerateMap()
 			}
 			else if (line[i] == 'b')
 			{
-				Boss * pBoss = CreateRectangleEntity<Boss>(sf::Vector2f(150, 150), sf::Color::Green);
+				Boss * pBoss = CreateRectangleEntity<Boss>(sf::Vector2f(150, 150), sf::Color::White);
 				pBoss->SetPosition(i * 20, lineNumber * 20);
 				pBoss->SetDroneTarget(mDrone);
 				i++;
@@ -526,7 +526,7 @@ void PlatFormerScene::GenerateMap()
 		/*pActivating->SetStatic(true);*/
 		pActivating->SetPosition(start * 20, entityLine * 20);
 		pActivating->SetRigidBody(true);
-		pActivating->SetTag(Tag::GROUND);
+		pActivating->SetTag(Tag::Amovible);
 	}
 
 	for (int i = 0; i < hackingZone.size(); i++)

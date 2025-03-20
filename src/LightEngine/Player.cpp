@@ -146,7 +146,7 @@ void Player::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::GROUND) || pCollideWith->IsTag(PlatFormerScene::Tag::Amovible))
 	{
 		if (face == 1 || face == 3)
 			mGravitySpeed = 0.f;

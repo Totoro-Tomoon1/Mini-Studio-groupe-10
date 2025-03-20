@@ -48,6 +48,8 @@ private:
 	float immuneTime = 1.f;
 	float imuuneProgresse = 0.f;
 
+	bool reverse = false;
+
 public:
 	Drone();
 

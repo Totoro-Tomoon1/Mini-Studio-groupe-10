@@ -62,7 +62,8 @@ public:
 		ENEMY_BULLET,
 		ACTIVATE_ZONE,
 		BOSS_BULLET,
-		Key
+		Key,
+		Amovible
 
 	};
 		

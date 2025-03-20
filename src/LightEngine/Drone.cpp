@@ -7,6 +7,8 @@
 #include "Utils.h"
 #include "Bullet.h"
 
+#define Drone_Path "../../../res/MODELSHEET_FRED_BULLE.png"
+
 Drone::Drone() : mStateMachine(this, (int)State::Count)
 {
 }
@@ -16,6 +18,11 @@ void Drone::OnInitialize()
 	SetTag(PlatFormerScene::Tag::DRONE);
 	SetRigidBody(true);
 	SetLife(20.f);
+
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(Drone_Path);
+	mShape.setTexture(mCurrentTexture);
+	mDroneAnimation = new Animation(Drone_Path, sf::IntRect(50, 0, 50, 60), 10, true);
+	mDroneAnimation->SetStartSize(20, 0, 50, 60);
 
 	//Idle
 	{
@@ -108,6 +115,7 @@ void Drone::OnInitialize()
 void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 {
 	mShape.move(mDepl);
+	mShape.setTextureRect(*mDroneAnimation->GetTextureRect());
 
 	if (GetHP() <= 0)
 	{
@@ -116,6 +124,19 @@ void Drone::OnUpdate() //Update non physique (pour les timers etc...)
 	}
 
 	imuuneProgresse += GetDeltaTime();
+
+	if (!reverse && mDepl.x < 0)
+	{
+		reverse = true;
+		//mPlayerAnimation->SetNewY(135);
+		mDroneAnimation->SetReverseSprite(true);
+	}
+	else if (reverse && mDepl.x > 0)
+	{
+		reverse = false;
+		//mPlayerAnimation->SetNewY(0);
+		mDroneAnimation->SetReverseSprite(false);
+	}
 
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mDroneParameters.mMinSpeed), sf::Color::White);

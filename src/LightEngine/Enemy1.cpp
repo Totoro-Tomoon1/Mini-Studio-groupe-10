@@ -16,14 +16,14 @@ void Enemy1::OnInitialize()
 {
 	SetLife(5.f);
 	SetTag(PlatFormerScene::Tag::ENEMY);
-	Enemy::OnInitialize();
+	
 
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(Mob1_Path);
 	mAnimation = new Animation(Mob1_Path, sf::IntRect(0,0,195,220), 6, false);
 	mAnimation->SetStartSize(0, 30, 195, 220);
 	mShape.setTexture(mCurrentTexture);
 	mShape.setSize(sf::Vector2f(195/2, 220/2));
-
+	Enemy::OnInitialize();
 }
 
 void Enemy1::OnUpdate()
@@ -48,13 +48,17 @@ void Enemy1::OnUpdate()
 	mAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mAnimation->GetTextureRect());
 
-	if (reverse)
+	if (!reverse && mDepl.x < 0)
 	{
-		mShape.setScale(sf::Vector2f(-1, 1));
+		reverse = true;
+		//mPlayerAnimation->SetNewY(135);
+		mAnimation->SetReverseSprite(true);
 	}
-	else
+	else if (reverse && mDepl.x > 0)
 	{
-		mShape.setScale(sf::Vector2f(1, 1));
+		reverse = false;
+		//mPlayerAnimation->SetNewY(0);
+		mAnimation->SetReverseSprite(false);
 	}
 }
 

@@ -1,6 +1,9 @@
 #include "Boss.h"
 #include "Utils.h"
 #include "Laser.h"
+#include "AssetManager.h"
+
+#define Boss_Path "../../../res/MODELSHEET_BOSSE_COUP.png"
 
 Boss::Boss()
 {
@@ -11,6 +14,9 @@ void Boss::OnInitialize()
 	SetLife(5.f);
 	SetTag(PlatFormerScene::Tag::BOSS);
 
+	mTexture = GameManager::Get()->GetAssetManager()->GetTexture(Boss_Path);
+	mShape.setTexture(mTexture);
+	mShape.setTextureRect(sf::IntRect(80,9, 148, 192));
 	Enemy::OnInitialize();
 
 	//Setter les textures ici
@@ -34,6 +40,21 @@ void Boss::OnUpdate()
 		mIsAttacking = true;
 	else
 		mIsAttacking = false;
+
+	if (!reverse && mDepl.x < 0)
+	{
+		reverse = true;
+		mShape.setTextureRect(sf::IntRect(80 + 148, 9, -148, 192));
+		//mPlayerAnimation->SetNewY(135);
+		//mAnimation->SetReverseSprite(true);
+	}
+	else if (reverse && mDepl.x > 0)
+	{
+		reverse = false;
+		mShape.setTextureRect(sf::IntRect(80, 9, 148, 192));
+		//mPlayerAnimation->SetNewY(0);
+		//mAnimation->SetReverseSprite(false);
+	}
 }
 
 void Boss::OnCollision(Entity* pCollideWith)

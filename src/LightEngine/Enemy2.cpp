@@ -44,13 +44,17 @@ void Enemy2::OnUpdate()
 	mAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mAnimation->GetTextureRect());
 
-	if (reverse)
+	if (!reverse && mDepl.x < 0)
 	{
-		mShape.setScale(sf::Vector2f(-1, 1));
+		reverse = true;
+		//mPlayerAnimation->SetNewY(135);
+		mAnimation->SetReverseSprite(true);
 	}
-	else
+	else if (reverse && mDepl.x > 0)
 	{
-		mShape.setScale(sf::Vector2f(1, 1));
+		reverse = false;
+		//mPlayerAnimation->SetNewY(0);
+		mAnimation->SetReverseSprite(false);
 	}
 }
 
