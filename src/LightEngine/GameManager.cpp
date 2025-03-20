@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "AssetManager.h"
+#include "FPSCounter.h"
 
 #include "Entity.h"
 #include "Debug.h"

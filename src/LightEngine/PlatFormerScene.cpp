@@ -51,6 +51,14 @@ void PlatFormerScene::OnInitialize()
 		std::cout << "Erreur de chargement des fonds d'ecrans." << std::endl;
 	}
 
+	
+     if (!fpsCounter.loadFont("C:/Users/plume/Documents/GitHub/Mini-Studio-groupe-10/res/Hack-Regular.ttf")) 
+	 { // Charge la police
+			std::cerr << "Erreur : Impossible de charger la police pour le compteur FPS !" << std::endl;
+	 }
+	
+
+
 	GenerateMap();
 
 	CreateBackGround();
@@ -107,6 +115,7 @@ void PlatFormerScene::OnUpdate()
 {
 	mParallaxManager->Update(GetDeltaTime());
 	mButterfly->Update(GetDeltaTime());
+	fpsCounter.update();
 
 	if (mPlayer->GetHP() <= 0)
 	{
@@ -131,6 +140,7 @@ void PlatFormerScene::Draw(sf::RenderWindow& pRenderWindow)
 	mParallaxManager->Draw(pRenderWindow);
 	mButterfly->Draw(pRenderWindow);
 	mButterfly->SetView(GetView());
+	fpsCounter.draw(pRenderWindow);
 }
 
 Player* PlatFormerScene::GetPlayer()

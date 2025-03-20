@@ -4,6 +4,7 @@
 
 #include <list>
 #include "Camera.h"
+#include "FPSCounter.h"
 
 class Player;
 class Drone;
@@ -22,6 +23,8 @@ class PlatFormerScene : public Scene
 {
 private:
 	Camera mCamera;
+
+	FPSCounter fpsCounter;
 
 	Music* mMusic;
 	Sound* mSound;
