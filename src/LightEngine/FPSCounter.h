@@ -8,13 +8,13 @@ private:
     int frameCount;
     float fps;
     float lastTime;
-    sf::Font font;
+    sf::Font* font;
     sf::Text fpsText;
 
 public:
     FPSCounter();
 
     bool loadFont(const std::string& fontPath);
-    void update();
+    void update(sf::Vector2f pos);
     void draw(sf::RenderWindow& window);
 };

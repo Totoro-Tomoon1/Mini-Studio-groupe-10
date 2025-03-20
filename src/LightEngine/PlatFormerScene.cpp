@@ -115,7 +115,8 @@ void PlatFormerScene::OnUpdate()
 {
 	mParallaxManager->Update(GetDeltaTime());
 	mButterfly->Update(GetDeltaTime());
-	fpsCounter.update();
+	sf::Vector2f fpsPos = { mCamera.GetView().getCenter().x - 640.f, mCamera.GetView().getCenter().y - 360.f };
+	fpsCounter.update(fpsPos);
 
 	if (mPlayer->GetHP() <= 0)
 	{
@@ -219,22 +220,22 @@ void PlatFormerScene::GenerateMap()
 				size_t count = 1;
 				size_t j = i + 1;
 
-				if (line[i] == 'c') 
-				{
-					std::cout << "c" << std::endl;
-					Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-					pPlateform->SetTexture(3);
-					pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
-				}
+				//if (line[i] == 'c') 
+				//{
+				//	std::cout << "c" << std::endl;
+				//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+				//	pPlateform->SetTexture(3);
+				//	pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
+				//}
 
 				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
 				{
-					if (line[j] == 'c') {
-						std::cout << "c" << std::endl;
-						Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-						pPlateform->SetTexture(3);
-						pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
-					}
+					//if (line[j] == 'c') {
+					//	std::cout << "c" << std::endl;
+					//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+					//	pPlateform->SetTexture(3);
+					//	pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
+					//}
 					count++;
 					j++;
 				}
@@ -327,7 +328,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60 / 2, 120 / 2), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
-				mPlayer->SetToDraw(true);
+				mPlayer->SetToDraw(false);
 				mPlayer->ActivateInput();
 				mCamera.SetPosition(mPlayer->GetPosition());
 				GameManager::Get()->SetCamera(mCamera);

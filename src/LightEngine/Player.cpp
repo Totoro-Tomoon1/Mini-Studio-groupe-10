@@ -125,7 +125,7 @@ void Player::OnInitialize()
 
 void Player::OnUpdate() //Update non physique (pour les timers etc...)
 {
-	//std::cout << GetScene()->GetView().getCenter().x << std::endl;
+	std::cout << mShape.getPosition().x << " " << mShape.getPosition().y << std::endl;
 
 	mShape.move(mDepl);
 

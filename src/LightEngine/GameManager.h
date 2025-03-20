@@ -70,7 +70,7 @@ public:
 
 	float GetDeltaTime() const { return mDeltaTime; }
 	Scene* GetScene() const { return mpScene; }
-	sf::Font& GetFont() { return mFont; };
+	sf::Font* GetFont() { return &mFont; };
 	AssetManager* GetAssetManager() { return mAssetManager; };
 
 	void SetCamera(Camera& camera);
