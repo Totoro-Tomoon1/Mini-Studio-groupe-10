@@ -17,4 +17,3 @@ protected:
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 };
-

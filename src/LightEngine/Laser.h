@@ -12,4 +12,3 @@ protected:
 	void OnCollision(Entity* other) override;
 	void OnUpdate() override;
 };
-

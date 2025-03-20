@@ -15,4 +15,3 @@ public:
 	void OnCollision(Entity* collidedWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 };
-

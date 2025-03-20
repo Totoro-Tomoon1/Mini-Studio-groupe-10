@@ -15,6 +15,7 @@ protected:
 	bool mIsAttacking = false;
 	float mChangeDirectionTimer = 4.f;
 	float mChangeDirectionProcess = 0.f;
+	bool reverse = false;
 
 	float mAttackTimer = 1.f;
 	float mLastAttackTime = 0.f;
@@ -31,4 +32,3 @@ protected:
 	void OnFixedUpdate(float deltaTime) override;
 
 };
-

@@ -24,5 +24,6 @@ public:
 	void Update(float deltaTime);
 
 	sf::IntRect* GetTextureRect();
-};
 
+	void SetNewY(int y) { mYStart = y; };
+};

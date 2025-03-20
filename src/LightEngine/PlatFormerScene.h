@@ -11,6 +11,7 @@ class Music;
 class Sound;
 class ParallaxManager;
 class Drone;
+class Burrefly;
 
 namespace sf
 {
@@ -41,6 +42,10 @@ private:
 	sf::Texture* backgroundTexture4 = new sf::Texture;
 	sf::Texture* backgroundTexture5 = new sf::Texture;
 
+	Burrefly* mButterfly;
+
+	bool hasKey = false;
+
 public:
 
 	enum Tag
@@ -56,7 +61,8 @@ public:
 		PLAYER_BULLET,
 		ENEMY_BULLET,
 		ACTIVATE_ZONE,
-		BOSS_BULLET
+		BOSS_BULLET,
+		Key
 
 	};
 		
@@ -72,4 +78,3 @@ public:
 
 	void GenerateMap();
 };
-

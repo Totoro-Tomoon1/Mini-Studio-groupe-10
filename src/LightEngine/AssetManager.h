@@ -15,4 +15,3 @@ public:
 	sf::Texture* GetTexture(const char* path);
 
 };
-

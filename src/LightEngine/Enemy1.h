@@ -1,6 +1,8 @@
 #pragma once
 #include "Enemy.h"
 
+class Animation;
+
 class Enemy1 : public Enemy
 {
 	int bulletSpeed = 10;
@@ -16,4 +18,3 @@ protected:
 	void OnCollision(Entity* pCollideWith) override;
 	void OnFixedUpdate(float deltaTime) override;
 };
-

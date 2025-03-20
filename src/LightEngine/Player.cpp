@@ -21,8 +21,8 @@ void Player::OnInitialize()
 	SetGravity(true);
 	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH);
 	mShape.setTexture(mCurrentTexture);
-	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,123,100), 8, true);
-	mPlayerAnimation->SetStartSize(0, 0, 123, 100);
+	mPlayerAnimation = new Animation(PLAYER_PATH, sf::IntRect(0,0,165,130), 6, true);
+	mPlayerAnimation->SetStartSize(15, 0, 165, 130);
 
 	//Idle
 	{
@@ -183,6 +183,11 @@ void Player::OnCollision(Entity* pCollideWith)
 
 		return;
 	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	{
+		haseKey = true;
+	}
 }
 
 //void Player::OnFixedUpdate(float deltaTime) //Update physique
@@ -252,7 +257,7 @@ void Player::Input()
 	if (std::abs(stickX) < 10)
 		stickX = 0;
 
-	std::cout << 10 * stickX / 100 << std::endl;
+	//std::cout << 10 * stickX / 100 << std::endl;
 
 	mDepl = sf::Vector2f(10 * stickX / 100, 0);*/
 
@@ -297,4 +302,9 @@ void Player::ResetmDepl()
 void Player::ChangeStatic(bool stat)
 {
 	SetStatic(stat);
+}
+
+bool Player::HaseKey()
+{
+	return haseKey;
 }

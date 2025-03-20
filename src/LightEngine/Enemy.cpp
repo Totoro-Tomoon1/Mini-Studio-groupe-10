@@ -13,7 +13,7 @@ void Enemy::SetDroneTarget(Drone* drone)
 
 void Enemy::SetTextureAndAnim(const char* path)
 {
-	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH); //à modifier avec le bon path
+	mCurrentTexture = GameManager::Get()->GetAssetManager()->GetTexture(PLAYER_PATH); //Ã  modifier avec le bon path
 	mShape.setTexture(mCurrentTexture);
 	mAnimation = new Animation(PLAYER_PATH, sf::IntRect(0, 0, 123, 100), 8, true); //pareil ici
 	mAnimation->SetStartSize(0, 0, 123, 100);
@@ -41,6 +41,7 @@ void Enemy::OnUpdate()
 	{
 		mDepl = -mDepl;
 		mChangeDirectionProcess = 0.f;
+		reverse = !reverse;
 	}
 }
 

@@ -22,5 +22,3 @@ float Scene::GetDeltaTime() const
 {
 	return mpGameManager->mDeltaTime;
 }
-
-

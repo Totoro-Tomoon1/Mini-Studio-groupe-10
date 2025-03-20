@@ -17,6 +17,10 @@
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
 
+#include "Burrefly.h"
+
+#define Butterfly_Path "../../../res/MODELSHEET_PAPILLON.png"
+
 void PlatFormerScene::OnInitialize()
 {
 	mMusic = new Music();
@@ -28,6 +32,10 @@ void PlatFormerScene::OnInitialize()
 
 	mSound->Load("../../../res/test.wav");
 	//mSound->Play();
+
+	mButterfly = new Burrefly();
+	mButterfly->SetTexture();
+	
 
 	//mDrone = CreateRectangleEntity<Drone>(sf::Vector2f(50, 50), sf::Color::Blue);
 	//mDrone->Undisplay();
@@ -97,12 +105,18 @@ void PlatFormerScene::OnEvent(const sf::Event& event)
 void PlatFormerScene::OnUpdate()
 {
 	mParallaxManager->Update(GetDeltaTime());
+	mButterfly->Update(GetDeltaTime());
 
 	if (mPlayer->GetHP() <= 0)
 	{
 		GameManager::Get()->DestroyAllEntities();
 		GenerateMap();
 		Reset();
+	}
+
+	if (mPlayer->HaseKey() || mDrone->HaseKey())
+	{
+		hasKey = true;
 	}
 }
 
@@ -114,6 +128,8 @@ void PlatFormerScene::OnLateUpdate()
 void PlatFormerScene::Draw(sf::RenderWindow& pRenderWindow)
 {
 	mParallaxManager->Draw(pRenderWindow);
+	mButterfly->Draw(pRenderWindow);
+	mButterfly->SetView(GetView());
 }
 
 Player* PlatFormerScene::GetPlayer()
@@ -174,20 +190,44 @@ void PlatFormerScene::GenerateMap()
 		size_t i = 0;
 		while (i < line.size())
 		{
+			/*if (line[i] == 'c')
+			{
+				//std::cout << "c" << std::endl;
+				Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+				pPlateform->SetTexture(3);
+				pPlateform->SetPosition(i * 20, lineNumber * 20 - 4);
+			}*/
+
 			if (line[i] == '-')
 			{
 				i++;
 			}
-			else if (line[i] == 'x')
+			else if (line[i] == 'c' || line[i] == 'x') // Ajouter 'c' ici
 			{
 				int startX = i;
 				size_t count = 1;
 				size_t j = i + 1;
-				while (j < line.size() && line[j] == 'x')
+
+				if (line[i] == 'c') 
 				{
+					//std::cout << "c" << std::endl;
+					Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+					pPlateform->SetTexture(3);
+					pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
+				}
+
+				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
+				{
+					if (line[j] == 'c') {
+						//std::cout << "c" << std::endl;
+						Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+						pPlateform->SetTexture(3);
+						pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
+					}
 					count++;
 					j++;
 				}
+
 
 				ground.push_back(std::make_tuple(startX, count, lineNumber));
 
@@ -242,7 +282,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				std::cout << i << std::endl;
+				//std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'a')
 				{
 					//std::cout << "beug " << j << std::endl;
@@ -259,7 +299,7 @@ void PlatFormerScene::GenerateMap()
 			{
 				size_t count = 1;
 				size_t j = i + 1;
-				std::cout << i << std::endl;
+				//std::cout << i << std::endl;
 				while (j < line.size() && line[j] == 'm')
 				{
 					//std::cout << "beug " << j << std::endl;
@@ -274,7 +314,7 @@ void PlatFormerScene::GenerateMap()
 			}
 			else if (line[i] == 'p')
 			{
-				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(60 / 2, 120 / 2), sf::Color::White);
+				mPlayer = CreateRectangleEntity<Player>(sf::Vector2f(120/2, 120/2), sf::Color::White);
 				mPlayer->SetPosition(i * 20, lineNumber * 20);
 				mPlayer->SetToDraw(true);
 				mPlayer->ActivateInput();
@@ -312,6 +352,13 @@ void PlatFormerScene::GenerateMap()
 				pBoss->SetDroneTarget(mDrone);
 				i++;
 		    }
+			else if (line[i] == 'k')
+			{
+				Entity* pKey = CreateRectangleEntity<DummyEntity>(sf::Vector2f(20, 20), sf::Color::Yellow);
+				pKey->SetPosition(i * 20, lineNumber * 20);
+				pKey->SetTag(Tag::Key);
+				i++;
+				}
 			else
 			{
 				i++;
@@ -343,10 +390,11 @@ void PlatFormerScene::GenerateMap()
 			countLigne++;
 		}
 		
-		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 20 * countLigne), sf::Color::Red);
+		Platform* pGround = CreateRectangleEntity<Platform>(sf::Vector2f(totalLength * 20, 40 * countLigne), sf::Color::Green);
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
+		pGround->SetToDraw(false);
 		pGround->SetTag(Tag::GROUND);
 	}
 

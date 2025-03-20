@@ -2,6 +2,7 @@
 
 class ParallaxLayer;
 class Player;
+class Burrerfly;
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -19,4 +20,3 @@ public:
 	void Update(float dt);
 	void Draw(sf::RenderWindow& pRenderWindow);
 };
-

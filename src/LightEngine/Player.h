@@ -33,7 +33,7 @@ private:
 	PlayerParameter mPlayerParameters;
 	bool mIsMoving = false;
 
-	Animation* mPlayerAnimation;
+	
 	sf::Texture* mCurrentTexture;
 	
 
@@ -43,6 +43,7 @@ private:
 	float imuuneProgresse = 0.f;
 
 	bool isInputActive = false;
+	bool haseKey = false;
 
 public:
 	Player();
@@ -66,16 +67,17 @@ public:
 	void ResetmDepl();
 
 	void ChangeStatic(bool stat);
+	bool HaseKey();
 
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollideWith) override;
 	//void OnFixedUpdate(float deltaTime) override;
+	Animation* mPlayerAnimation;
 
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Moving;
 	friend class PlayerAction_Jump;
 	friend class PlayerAction_Fall;
 };
-
