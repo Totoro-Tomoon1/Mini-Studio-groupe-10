@@ -20,3 +20,14 @@ bool PlayerCondition_IsTouchingGround::OnTest(Player* owner)
 {
     return owner->GetGravitySpeed() == 0;
 }
+
+bool PlayerCondition_IsDeploy::OnTest(Player* owner)
+{
+    if (sf::Joystick::isButtonPressed(0, 3))
+    {
+        owner->IsDeploy();
+        return true;
+    }
+    
+    return false;
+}

@@ -29,3 +29,8 @@ void PlayerAction_Fall::OnStart(Player* pPlayer)
 {
 	std::cout << "Fall" << std::endl;
 }
+
+void PlayerAction_Deploy::OnStart(Player* pPlayer)
+{
+	std::cout << "Deploy" << std::endl;
+}

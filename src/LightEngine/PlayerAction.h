@@ -35,3 +35,11 @@ public:
 	void OnUpdate(Player* pPlayer) override {}
 	void OnEnd(Player* pPlayer) override {}
 };
+
+class PlayerAction_Deploy : public Action<Player>
+{
+public:
+	void OnStart(Player* pPlayer) override;
+	void OnUpdate(Player* pPlayer) override {}
+	void OnEnd(Player* pPlayer) override {}
+};

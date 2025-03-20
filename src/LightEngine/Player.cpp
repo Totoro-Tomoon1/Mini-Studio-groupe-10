@@ -48,6 +48,13 @@ void Player::OnInitialize()
 
 			transition->AddCondition<PlayerCondition_IsTouchingGround>(false);
 		}
+
+		//-> Deploy
+		{
+			auto transition = pIdle->CreateTransition(State::Deploy);
+
+			transition->AddCondition<PlayerCondition_IsDeploy>();
+		}
 	}
 
 	//Moving
@@ -98,6 +105,18 @@ void Player::OnInitialize()
 			auto transition = pFalling->CreateTransition(State::Idle);
 
 			transition->AddCondition<PlayerCondition_IsTouchingGround>();
+		}
+	}
+
+	//Deploy
+	{
+		PlayerAction_Deploy* pDeploy = mStateMachine.CreateAction<PlayerAction_Deploy>(State::Deploy);
+
+		//-> Idle
+		{
+			auto transition = pDeploy->CreateTransition(State::Idle);
+
+			transition->AddCondition<PlayerCondition_IsDeploy>(false);
 		}
 	}
 
@@ -225,6 +244,11 @@ void Player::MoveLeft(float deltaTime)
 void Player::OnFall(float deltaTime)
 {
 	mGravitySpeed += GRAVITY_ACCELERATION * deltaTime * 200.f;
+}
+
+void Player::IsDeploy()
+{
+
 }
 
 void Player::OnJump()

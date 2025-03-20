@@ -24,6 +24,7 @@ public:
 		Moving,
 		Jump,
 		Fall,
+		Deploy,
 
 		Count
 	};
@@ -53,6 +54,7 @@ public:
 	void MoveRight(float deltaTime);
 	void MoveLeft(float deltaTime);
 	void OnFall(float deltaTime);
+	void IsDeploy();
 	void OnJump();
 	bool IsMoving();
 

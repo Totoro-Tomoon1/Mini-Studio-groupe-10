@@ -506,7 +506,7 @@ void PlatFormerScene::GenerateMap()
 		/*pActivating->SetStatic(true);*/
 		pActivating->SetPosition(start * 20, entityLine * 20);
 		pActivating->SetRigidBody(true);
-		pActivating->SetTag(Tag::GROUND);
+		pActivating->SetTag(Tag::ACTIVATE_ZONE);
 	}
 
 	for (const auto& entity : hackingZone)

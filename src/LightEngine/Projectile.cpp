@@ -1,7 +1,7 @@
-#include "Projectile.h"
-#include "PlatFormerScene.h"
-
-Projectile::Projectile()
-{
-	SetTag(PlatFormerScene::Tag::PROJECTILE);
-}
+//#include "Projectile.h"
+//#include "PlatFormerScene.h"
+//
+//Projectile::Projectile()
+//{
+//	SetTag(PlatFormerScene::Tag::PROJECTILE);
+//}
