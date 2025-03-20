@@ -279,12 +279,12 @@ void PlatFormerScene::GenerateMap()
 
 				i = j;
 			}
-			else if (line[i] == 'a')
+			else if (line[i] == 'm')
 			{
 				size_t count = 1;
 				size_t j = i + 1;
 				//std::cout << i << std::endl;
-				while (j < line.size() && line[j] == 'a')
+				while (j < line.size() && line[j] == 'm')
 				{
 					//std::cout << "beug " << j << std::endl;
 					count++;
@@ -296,12 +296,12 @@ void PlatFormerScene::GenerateMap()
 
 				i = j;
 			}
-			else if (line[i] == 'm')
+			else if (line[i] == 'a')
 			{
 				size_t count = 1;
 				size_t j = i + 1;
 				//std::cout << i << std::endl;
-				while (j < line.size() && line[j] == 'm')
+				while (j < line.size() && line[j] == 'a')
 				{
 					//std::cout << "beug " << j << std::endl;
 					count++;
@@ -475,6 +475,7 @@ void PlatFormerScene::GenerateMap()
 
 		Entity* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
 		/*pActivating->SetStatic(true);*/
+		pActivating->SetStaticX(true);
 		pActivating->SetStatic(true);
 		pActivating->SetRigidBody(true);                                       
 		pActivating->SetPosition(start * 20, entityLine * 20);

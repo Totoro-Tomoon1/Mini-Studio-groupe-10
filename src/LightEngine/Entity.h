@@ -35,6 +35,7 @@ protected:
     bool mToDestroy = false;
     int mTag = -1;
 	bool mRigidBody = false;
+	bool mIsStaticX = false;
 	bool mIsStatic = false;
 	bool ToDraw = true;
 
@@ -45,7 +46,8 @@ public:
 	void SetDirection(float x, float y, float speed = -1.f);
 	void SetSpeed(float speed) { mSpeed = speed; }
 	void SetTag(int tag) { mTag = tag; }
-	void SetStatic(bool stati) { mIsStatic = stati; }
+	void SetStaticX(bool _static) { mIsStaticX = _static; }
+	void SetStatic(bool _static) { mIsStatic = _static; }
 
 	sf::Vector2f GetSize() const { return mShape.getSize(); }
 	void SetRigidBody(bool isRigitBody) { mRigidBody = isRigitBody; }
