@@ -1,14 +1,26 @@
 #include "Chest.h"
 #include "PlatFormerScene.h"
+#include "Drone.h"
+#include "AssetManager.h"
 
 void Chest::OnOpen()
 {
-	
+	Destroy();
 }
 
-void Chest::OnCollision(Entity* collidedWith)
+void Chest::OnCollision(Entity* pCollideWith)
 {
-	if (collidedWith->IsTag(PlatFormerScene::Tag::DRONE) && mHaveKey == true)
-		OnOpen();
-	
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::DRONE))
+	{
+		Drone* pDrone = dynamic_cast<Drone*>(pCollideWith);
+
+		if(pDrone->HaseKey())
+			OnOpen();
+	}
+}
+
+void Chest::OnInitialize()
+{
+	mTexture = GameManager::Get()->GetAssetManager()->GetTexture(CHEST_PATH);
+	mShape.setTexture(mTexture);
 }

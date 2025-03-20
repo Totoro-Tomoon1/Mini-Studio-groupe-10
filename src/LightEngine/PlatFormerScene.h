@@ -12,6 +12,7 @@ class Sound;
 class ParallaxManager;
 class Drone;
 class Burrefly;
+class Chest;
 
 namespace sf
 {
@@ -29,6 +30,8 @@ private:
 	Player* mPlayer;
 	Drone* mDrone;
 	FPSCounter fpsCounter;
+	Chest* mChest;
+
 	bool playerSelected = true;
 
 	ParallaxManager* mParallaxManager;
@@ -43,8 +46,6 @@ private:
 
 	Burrefly* mButterfly;
 
-	bool hasKey = false;
-
 public:
 
 	enum Tag
@@ -54,6 +55,7 @@ public:
 		DRONE,
 		ENEMY,
 		BOSS,
+		CHEST,
 		HACKING_ZONE,
 		Damagezone,
 		Fallzone,

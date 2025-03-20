@@ -11,6 +11,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Boss.h"
+#include "Chest.h"
 #include <iostream>
 
 #include <fstream>
@@ -27,6 +28,8 @@ void PlatFormerScene::OnInitialize()
 
 	mMusic->Load("../../../res/blood.wav");
 	//mMusic->Play();
+
+
 
 	mSound = new Sound();
 
@@ -104,11 +107,6 @@ void PlatFormerScene::OnUpdate()
 		GameManager::Get()->DestroyAllEntities();
 		GenerateMap();
 		Reset();
-	}
-
-	if (mPlayer->HaseKey() || mDrone->HaseKey())
-	{
-		hasKey = true;
 	}
 }
 
@@ -316,6 +314,15 @@ void PlatFormerScene::GenerateMap()
 				pKey->SetTag(Tag::Key);
 				i++;
 				}
+
+			else if (line[i] == 't')
+			{
+				Chest* pChest = CreateRectangleEntity<Chest>(sf::Vector2f(20, 20), sf::Color::Blue);
+				pChest->SetPosition(i * 20, lineNumber * 20);
+				pChest->SetTag(Tag::CHEST);
+				i++;
+				}
+
 			else
 			{
 				i++;

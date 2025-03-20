@@ -1,20 +1,22 @@
 #pragma once
 #include "Entity.h"
 
+
 class Animation;
 
 class Chest : public Entity
 {
-	Animation* mAnimation;
-	sf::Texture mTexture;
+private:
 
-	bool mHaveKey = false;
+	Animation* mAnimation;
+	sf::Texture* mTexture;
+
 
 public:
 	void OnOpen();
-
 protected:
-	void OnCollision(Entity* collidedWith) override;
-		
+	void OnCollision(Entity* pCollideWith) override;
+	void OnInitialize() override;
+	
 };
 

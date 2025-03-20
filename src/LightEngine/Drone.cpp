@@ -4,6 +4,7 @@
 #include "DroneAction.h"
 #include "DroneCondition.h"
 #include "Debug.h"
+#include "Chest.h"
 #include "Utils.h"
 #include "Bullet.h"
 
@@ -156,6 +157,14 @@ void Drone::OnCollision(Entity* pCollideWith)
 		imuuneProgresse = 0.f;
 
 		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::CHEST))
+	{
+		if (HaseKey() == true){}
+			
+
+			
 	}
 }
 
