@@ -19,7 +19,7 @@ void Bullet::OnCollision(Entity* other)
 
 	if (IsTag(PlatFormerScene::Tag::PLAYER_BULLET))
 	{
-		if (other->IsTag(PlatFormerScene::Tag::ENEMY))
+		if (other->IsTag(PlatFormerScene::Tag::ENEMY) || other->IsTag(PlatFormerScene::Tag::BOSS))
 		{
 			Destroy();
 			return;

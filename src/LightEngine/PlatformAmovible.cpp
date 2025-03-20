@@ -4,6 +4,11 @@
 #include <iostream>
 #include "Utils.h"
 
+void PlatformAmovible::OnInitialize()
+{
+	SetRigidBody(true);
+}
+
 void PlatformAmovible::OnUpdate()
 {
 	//std::cout << GetPosition().x << " / " << GetPosition().y << std::endl;
@@ -12,7 +17,7 @@ void PlatformAmovible::OnUpdate()
 
 void PlatformAmovible::OnCollision(Entity* other)
 {
-	if (other->IsTag(PlatFormerScene::Tag::PLAYER) && mIsMoving == false)
+	if (other->IsTag(PlatFormerScene::Tag::DRONE) && mIsMoving == false)
 	{
 		IsActive();
 		

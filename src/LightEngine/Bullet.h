@@ -5,7 +5,6 @@
 class Bullet : public Entity
 {
 public:
-
 	void SetTag(int tag);
 
 protected:
