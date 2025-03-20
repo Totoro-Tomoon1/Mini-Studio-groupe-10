@@ -77,6 +77,6 @@ public:
 	Drone* GetDrone();
 	void CreateBackGround();
 	void Reset();
-
+	Camera GetCamera() { return mCamera; }
 	void GenerateMap();
 };

@@ -173,6 +173,18 @@ void Drone::OnCollision(Entity* pCollideWith)
 void Drone::OnFixedUpdate(float deltaTime)
 {
 	mShape.move(mDepl);
+	sf::Vector2f camCenter = GetScene<PlatFormerScene>()->GetCamera().GetView().getCenter();
+	sf::Vector2f myPosition = mShape.getPosition();
+
+	if (myPosition.x > camCenter.x + 640.f)
+		mShape.setPosition(camCenter.x + 640.f, myPosition.y);
+	if (myPosition.x < camCenter.x - 640.f)
+		mShape.setPosition(camCenter.x - 640.f, myPosition.y);
+	if (myPosition.y > camCenter.y + 360.f)
+		mShape.setPosition(myPosition.x, camCenter.y + 360.f);
+	if (myPosition.x > camCenter.y + 360.f)
+		mShape.setPosition(myPosition.x, camCenter.y + 360.f);
+
 	mIsMoving = false;
 	mIsShooting = false;
 }

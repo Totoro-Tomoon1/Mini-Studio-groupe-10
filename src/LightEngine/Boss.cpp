@@ -102,10 +102,10 @@ void Boss::Shoot(float deltaTime)
 
 	if (dronePosition.x - myPosition.x < 0)
 	{
-		deltaX = 700.f;
+		deltaX = 1280.f;
 	}
 
-	Laser* b = CreateEntity<Laser>(sf::Vector2f(700.f, 50.f), sf::Color::Yellow);
+	Laser* b = CreateEntity<Laser>(sf::Vector2f(1280.f, 50.f), sf::Color::Yellow);
 	b->SetPosition(myPosition.x - deltaX, myPosition.y);
 	b->SetTag(PlatFormerScene::Tag::BOSS_BULLET);
 }
