@@ -23,4 +23,5 @@ void Chest::OnInitialize()
 {
 	mTexture = GameManager::Get()->GetAssetManager()->GetTexture(CHEST_PATH);
 	mShape.setTexture(mTexture);
+	mShape.setTextureRect(sf::IntRect(105, 109, 277, 303));
 }

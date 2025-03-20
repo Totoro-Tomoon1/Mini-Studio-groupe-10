@@ -13,7 +13,7 @@
 #include "Boss.h"
 #include "Chest.h"
 #include <iostream>
-
+#include "Key.h"
 #include <fstream>
 #include "ParallaxLayer.h"
 #include "ParallaxManager.h"
@@ -102,7 +102,7 @@ void PlatFormerScene::OnUpdate()
 	sf::Vector2f fpsPos = { mCamera.GetView().getCenter().x - 640.f, mCamera.GetView().getCenter().y - 360.f };
 	fpsCounter.update(fpsPos);
 
-	if (mPlayer->GetHP() <= 0)
+	if (mPlayer->GetHP() <= 0 || mDrone->GetHP() <= 0)
 	{
 		GameManager::Get()->DestroyAllEntities();
 		GenerateMap();
@@ -309,15 +309,15 @@ void PlatFormerScene::GenerateMap()
 		    }
 			else if (line[i] == 'k')
 			{
-				Entity* pKey = CreateRectangleEntity<DummyEntity>(sf::Vector2f(20, 20), sf::Color::Yellow);
+				Key* pKey = CreateRectangleEntity<Key>(sf::Vector2f(31, 79), sf::Color::Yellow);
 				pKey->SetPosition(i * 20, lineNumber * 20);
-				pKey->SetTag(Tag::Key);
+				pKey->SetTag(Tag::KEY);
 				i++;
 				}
 
 			else if (line[i] == 't')
 			{
-				Chest* pChest = CreateRectangleEntity<Chest>(sf::Vector2f(20, 20), sf::Color::Blue);
+				Chest* pChest = CreateRectangleEntity<Chest>(sf::Vector2f(60, 60), sf::Color::White);
 				pChest->SetPosition(i * 20, lineNumber * 20);
 				pChest->SetTag(Tag::CHEST);
 				i++;

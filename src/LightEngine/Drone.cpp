@@ -25,6 +25,7 @@ void Drone::OnInitialize()
 	mShape.setTexture(mCurrentTexture);
 	mDroneAnimation = new Animation(Drone_Path, sf::IntRect(50, 0, 50, 60), 10, true);
 	mDroneAnimation->SetStartSize(20, 0, 50, 60);
+	mDroneAnimation->SetSpaceX(50);
 
 	//Idle
 	{
@@ -89,6 +90,7 @@ void Drone::OnInitialize()
 
 void Drone::OnUpdate()
 {
+	mDroneAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mDroneAnimation->GetTextureRect());
 
 	if (GetHP() <= 0)
@@ -127,7 +129,7 @@ void Drone::OnCollision(Entity* pCollideWith)
 		return;
 	}
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::KEY))
 	{
 		hasKey = true;
 		pCollideWith->Destroy();
@@ -292,8 +294,16 @@ void Drone::ChangeIsUnlocked()
 
 void Drone::Shoot(float deltaTime)
 {		
-	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+	Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::White);
 	b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
-	b->SetDirection(7,0);
+	if (!reverse)
+	{
+		b->SetDirection(7, 0);
+	}
+	else
+	{
+		b->SetDirection(-7, 0);
+	}
 	b->SetTag(PlatFormerScene::Tag::PLAYER_BULLET);
+	b->SetIsPlayer(true);
 }

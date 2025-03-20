@@ -12,6 +12,7 @@ class Animation
 	int mYStart;
 	int mXSize;
 	int mYSize;
+	int spaceX = 0;
 
 	bool mIsReapated = false;
 	bool mReverse = false;
@@ -30,4 +31,5 @@ public:
 	void SetNewXsize(int x) { mXSize = x; }
 	void SetReverseSprite(bool reverse) { reverseSprite = reverse; }
 	void SetNBFrame(int frame) { mNumberFrames = frame; }
+	void SetSpaceX(int space) { spaceX = space; }
 };

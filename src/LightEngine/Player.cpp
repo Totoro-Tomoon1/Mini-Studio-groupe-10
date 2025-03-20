@@ -184,7 +184,7 @@ void Player::OnCollision(Entity* pCollideWith)
 		return;
 	}
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::KEY))
 	{
 		haseKey = true;
 	}

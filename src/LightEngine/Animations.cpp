@@ -44,11 +44,11 @@ void Animation::Update(float deltaTime)
 
 		if (reverseSprite)
 		{
-			mTextureRect = sf::IntRect(mXSize * mCurrentIndex + mXStart + mXSize, mYStart, -mXSize , mYSize);
+			mTextureRect = sf::IntRect(mXSize * mCurrentIndex + mXStart + mXSize + spaceX * mCurrentIndex, mYStart, -mXSize , mYSize);
 		}
 		else if (!reverseSprite)
 		{
-			mTextureRect = sf::IntRect(mXSize * mCurrentIndex + mXStart, mYStart, mXSize, mYSize);
+			mTextureRect = sf::IntRect(mXSize * mCurrentIndex + mXStart + spaceX * mCurrentIndex, mYStart, mXSize, mYSize);
 		}
 		
 		

@@ -105,7 +105,7 @@ void Boss::Shoot(float deltaTime)
 		deltaX = 1280.f;
 	}
 
-	Laser* b = CreateEntity<Laser>(sf::Vector2f(1280.f, 50.f), sf::Color::Yellow);
+	Laser* b = CreateEntity<Laser>(sf::Vector2f(1280.f, 50.f), sf::Color::White);
 	b->SetPosition(myPosition.x - deltaX, myPosition.y);
 	b->SetTag(PlatFormerScene::Tag::BOSS_BULLET);
 }

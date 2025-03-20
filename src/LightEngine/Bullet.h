@@ -4,8 +4,12 @@
 
 class Bullet : public Entity
 {
+	sf::Texture* mTexture;
+	bool isPlayer = false;
+
 public:
-	void SetTag(int tag);
+	//void SetTag(int tag);
+	void SetIsPlayer(bool isP) { isPlayer = isP; }
 
 protected:
 

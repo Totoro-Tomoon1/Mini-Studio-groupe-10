@@ -91,7 +91,7 @@ void Enemy2::Shoot(float deltaTime)
 
 		Utils::Normalize(shotDirection);
 
-		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::White);
 		b->SetPosition(GetPosition().x + GetSize().x, GetPosition().y + GetSize().y / 2);
 		float shootX = shotDirection.x;
 		float shootY = shotDirection.y;

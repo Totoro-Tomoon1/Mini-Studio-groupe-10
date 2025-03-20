@@ -89,7 +89,7 @@ void Enemy1::Shoot(float deltaTime)
 
 		sf::Vector2f shotDirection = { dronePosition.x - myPosition.x, dronePosition.y - myPosition.y };
 
-		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::Yellow);
+		Bullet* b = CreateEntity<Bullet>(sf::Vector2f(10.f, 10.f), sf::Color::White);
 		b->SetPosition(myPosition.x, myPosition.y);
 		float shootX = shotDirection.x;
 		float shootY = shotDirection.y;
