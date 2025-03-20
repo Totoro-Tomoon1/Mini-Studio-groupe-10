@@ -7,6 +7,7 @@
 #include "Chest.h"
 #include "Utils.h"
 #include "Bullet.h"
+#include "PlatformAmovible.h"
 
 #define Drone_Path "../../../res/MODELSHEET_FRED_BULLE.png"
 
@@ -120,22 +121,31 @@ void Drone::OnCollision(Entity* pCollideWith)
 
 	int face = Utils::GetFace(c1, c2);
 
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::CHEST))
 	{
 		mCanHack = true;
+		return;
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::Key))
 	{
 		hasKey = true;
 		pCollideWith->Destroy();
+		return;
 	}
 
 	if (pCollideWith->IsTag(PlatFormerScene::Tag::PLAYER) && !isUnlocked)
 	{
 		isUnlocked = true;
 		Undisplay();
-		
+		return;
+	}
+
+	if (pCollideWith->IsTag(PlatFormerScene::Tag::HACKING_ZONE) && mCanHack)
+	{
+		PlatformAmovible* pPlatform = dynamic_cast<PlatformAmovible*>(pCollideWith);
+		pPlatform->IsGettingHacked();
+		return;
 	}
 
 	if (imuuneProgresse < immuneTime)
@@ -157,14 +167,6 @@ void Drone::OnCollision(Entity* pCollideWith)
 		imuuneProgresse = 0.f;
 
 		return;
-	}
-
-	if (pCollideWith->IsTag(PlatFormerScene::Tag::CHEST))
-	{
-		if (HaseKey() == true){}
-			
-
-			
 	}
 }
 

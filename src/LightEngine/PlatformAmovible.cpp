@@ -28,6 +28,11 @@ bool PlatformAmovible::IsActive()
 	return mActive;
 }
 
+void PlatformAmovible::IsGettingHacked()
+{
+	mIsGettingHacked = true;
+}
+
 void PlatformAmovible::Move(int x, int y, float speed)
 {
 	if (GetPosition().y > 470.f)
@@ -36,12 +41,12 @@ void PlatformAmovible::Move(int x, int y, float speed)
 		return;
 	}
 
-	if (mActive == true && IsTag(PlatFormerScene::Tag::ACTIVATE_ZONE))
+	if (mActive && IsTag(PlatFormerScene::Tag::ACTIVATE_ZONE))
 	{
 	     mIsStatic = false;
 	}
 
-	if (mActive == true && IsTag(PlatFormerScene::Tag::HACKING_ZONE))
+	if (mIsGettingHacked && IsTag(PlatFormerScene::Tag::HACKING_ZONE))
 	{
 		GoToPosition(x, y, 50);
 		mIsMoving = true;
