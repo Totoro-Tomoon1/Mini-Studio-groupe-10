@@ -107,6 +107,9 @@ void PlatFormerScene::OnUpdate()
 	mParallaxManager->Update(GetDeltaTime());
 	mButterfly->Update(GetDeltaTime());
 
+	sf::Vector2f fpsPos = { mCamera.GetView().getCenter().x - 640.f, mCamera.GetView().getCenter().y - 360.f };
+	fpsCounter.update(fpsPos);
+
 	if (mPlayer->GetHP() <= 0)
 	{
 		GameManager::Get()->DestroyAllEntities();

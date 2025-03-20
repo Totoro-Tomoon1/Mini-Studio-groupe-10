@@ -81,7 +81,7 @@ void Debug::DrawText(float x, float y, const std::string& text, float ratioX, fl
 
 	sf::Text sfText;
 
-	sfText.setFont(GameManager::Get()->GetFont());
+	sfText.setFont(*GameManager::Get()->GetFont());
 	sfText.setString(text);
 	sfText.setCharacterSize(20);
 	sfText.setFillColor(color);
