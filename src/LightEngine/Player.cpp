@@ -110,8 +110,6 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 
 	mShape.move(mDepl);
 
-	mIsMoving = false;
-
 	if (GetHP() <= 0)
 	{
 		std::cout << "You're dead" << std::endl;
@@ -274,6 +272,10 @@ void Player::Input()
 
 	mDepl = sf::Vector2f(10 * stickX / 100, 0);
 
+	if (mDepl.x != 0.f)
+		mIsMoving = true;
+	else
+		mIsMoving = false;
 	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		MoveRight(deltaTime);

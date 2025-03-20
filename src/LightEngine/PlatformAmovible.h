@@ -8,6 +8,7 @@ private:
 	bool mIsMoving = false;
 public:
 
+	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* other) override;
 	bool IsActive();

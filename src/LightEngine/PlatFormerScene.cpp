@@ -529,15 +529,44 @@ void PlatFormerScene::GenerateMap()
 		pActivating->SetTag(Tag::GROUND);
 	}
 
-	for (const auto& entity : hackingZone)
+	for (int i = 0; i < hackingZone.size(); i++)
 	{
-		int start = std::get<0>(entity);
-		int totalLenght = std::get<1>(entity);
-		int entityLine = std::get<2>(entity);
+		int start = std::get<0>(hackingZone[i]);
+		int totalLenght = std::get<1>(hackingZone[i]);
+		int entityLine = std::get<2>(hackingZone[i]);
 
-		Entity* pHacking = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
-		pHacking->SetPosition(start * 20, entityLine * 20);
-		//pHacking->SetToDraw(false);
-		pHacking->SetTag(Tag::HACKING_ZONE);
+		if (i > 0)
+		{
+			if (start == std::get<0>(hackingZone[i - 1]) && totalLenght == std::get<1>(hackingZone[i - 1]))
+				continue;
+		}
+		//pas de ligne au dessus identique
+
+		int countLigne = 1;
+		int j = i + 1;
+		while (j < hackingZone.size() && start == std::get<0>(hackingZone[j]) && totalLenght == std::get<1>(hackingZone[j]))
+		{
+			j++;
+			countLigne++;
+		}
+
+		PlatformAmovible* pActivating = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20 * countLigne), sf::Color::Black);
+		/*pActivating->SetStatic(true);*/
+		pActivating->SetPosition(start * 20, entityLine * 20);
+		pActivating->SetRigidBody(true);
+		pActivating->SetStatic(true);
+		pActivating->SetTag(Tag::HACKING_ZONE);
 	}
+
+	//for (const auto& entity : hackingZone)
+	//{
+	//	int start = std::get<0>(entity);
+	//	int totalLenght = std::get<1>(entity);
+	//	int entityLine = std::get<2>(entity);
+
+	//	Entity* pHacking = CreateRectangleEntity<PlatformAmovible>(sf::Vector2f(totalLenght * 20, 20), sf::Color::Black);
+	//	pHacking->SetPosition(start * 20, entityLine * 20);
+	//	//pHacking->SetToDraw(false);
+	//	pHacking->SetTag(Tag::HACKING_ZONE);
+	//}
 }
