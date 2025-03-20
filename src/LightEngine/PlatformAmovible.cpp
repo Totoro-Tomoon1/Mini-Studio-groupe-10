@@ -33,6 +33,12 @@ bool PlatformAmovible::IsActive()
 
 void PlatformAmovible::Move(int x, int y, float speed)
 {
+	if (GetPosition().y > 470.f)
+	{
+		mIsStatic = true;
+		return;
+	}
+
 	if (mActive == true && IsTag(PlatFormerScene::Tag::ACTIVATE_ZONE))
 	{
 	     mIsStatic = false;
