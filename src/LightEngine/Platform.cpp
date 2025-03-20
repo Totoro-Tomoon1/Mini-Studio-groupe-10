@@ -32,12 +32,13 @@ void Platform::OnUpdate()
 	if (dist > 660)
 	{
 		//SetToDraw(false);
-		mShape.setTexture(nullptr);
+		//mShape.setTexture(nullptr);
+		//SetToDraw(false);
 	}
 	else
 	{
 		//SetToDraw(true);
-		mShape.setTexture(mTexture);
+		//mShape.setTexture(mTexture);
 	}
 }
 

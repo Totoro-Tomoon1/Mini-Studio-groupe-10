@@ -122,6 +122,19 @@ void Player::OnUpdate() //Update non physique (pour les timers etc...)
 	mPlayerAnimation->Update(GetDeltaTime());
 	mShape.setTextureRect(*mPlayerAnimation->GetTextureRect());
 
+	if (!reverse && mDepl.x < 0)
+	{
+		reverse = true;
+		//mPlayerAnimation->SetNewY(135);
+		mPlayerAnimation->SetReverseSprite(true);
+	}
+	else if (reverse && mDepl.x > 0)
+	{
+		reverse = false;
+		//mPlayerAnimation->SetNewY(0);
+		mPlayerAnimation->SetReverseSprite(false);
+	}
+
 	mStateMachine.Update();
 	Debug::DrawText(0, 0, std::to_string(mPlayerParameters.mMinSpeed), sf::Color::White);
 	Debug::DrawText(GetPosition().x + 50.f, GetPosition().y + 50.f, GetStateName((Player::State)mStateMachine.GetCurrentState()), sf::Color::Red);

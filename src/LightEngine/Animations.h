@@ -15,6 +15,7 @@ class Animation
 
 	bool mIsReapated = false;
 	bool mReverse = false;
+	bool reverseSprite = false;
 
 public:
 	Animation(const char* path, sf::IntRect rect, int nbFrame, bool isReapated);
@@ -26,4 +27,5 @@ public:
 	sf::IntRect* GetTextureRect();
 
 	void SetNewY(int y) { mYStart = y; };
+	void SetReverseSprite(bool reverse) { reverseSprite = reverse; }
 };

@@ -209,22 +209,22 @@ void PlatFormerScene::GenerateMap()
 				size_t count = 1;
 				size_t j = i + 1;
 
-				if (line[i] == 'c') 
-				{
-					//std::cout << "c" << std::endl;
-					Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-					pPlateform->SetTexture(3);
-					pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
-				}
+				//if (line[i] == 'c') 
+				//{
+				//	//std::cout << "c" << std::endl;
+				//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+				//	pPlateform->SetTexture(3);
+				//	pPlateform->SetPosition(i * 20, lineNumber * 20);  // Ajuster la position Y si nécessaire
+				//}
 
 				while (j < line.size() && (line[j] == 'x' || line[j] == 'c')) 
 				{
-					if (line[j] == 'c') {
-						//std::cout << "c" << std::endl;
-						Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
-						pPlateform->SetTexture(3);
-						pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
-					}
+					//if (line[j] == 'c') {
+					//	//std::cout << "c" << std::endl;
+					//	Platform* pPlateform = CreateRectangleEntity<Platform>(sf::Vector2f(20, 20), sf::Color::White);
+					//	pPlateform->SetTexture(3);
+					//	pPlateform->SetPosition(j * 20, lineNumber * 20);  // Ajuster aussi ici
+					//}
 					count++;
 					j++;
 				}
@@ -394,7 +394,7 @@ void PlatFormerScene::GenerateMap()
 		pGround->SetPosition(startX * 20, entityLine * 20);
 		pGround->SetRigidBody(true);
 		pGround->SetStatic(true);
-		pGround->SetToDraw(false);
+		//pGround->SetToDraw(false);
 		pGround->SetTag(Tag::GROUND);
 	}
 

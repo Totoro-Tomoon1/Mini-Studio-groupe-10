@@ -45,6 +45,7 @@ private:
 	bool isInputActive = false;
 	bool haseKey = false;
 
+	bool reverse = false;
 public:
 	Player();
 	
